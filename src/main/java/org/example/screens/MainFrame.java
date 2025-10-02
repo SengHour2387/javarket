@@ -4,9 +4,6 @@
  */
 package org.example.screens;
 
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-
 /**
  *
  * @author user
@@ -19,9 +16,8 @@ public class MainFrame extends javax.swing.JFrame {
      * Creates new form MainFrame
      */
     public MainFrame() {
-       
-        FlatLaf.setup( new FlatMacDarkLaf() );
         initComponents();
+        setTitle("Javarket — Dashboard");
     }
 
     /**
@@ -42,19 +38,27 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(51, 255, 51));
+        setBackground(new java.awt.Color(245, 245, 245));
 
-        Drawer.setBackground(new java.awt.Color(153, 153, 153));
-        Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
-        Drawer.setPreferredSize(new java.awt.Dimension(100, 600));
+        Drawer.setBackground(new java.awt.Color(240, 240, 240));
+        Drawer.setMinimumSize(new java.awt.Dimension(220, 0));
+        Drawer.setPreferredSize(new java.awt.Dimension(240, 600));
+        Drawer.setBorder(javax.swing.BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
-        jLabel2.setText("Drawer");
+        jLabel2.setFont(new java.awt.Font("SansSerif", 1, 16));
+        jLabel2.setText("Navigation");
 
-        jButton1.setText("jButton1");
+        jButton1.setText("Home");
+        jButton1.setFocusPainted(false);
+        jButton1.putClientProperty("JButton.buttonType", "roundRect");
 
-        jButton2.setText("jButton2");
+        jButton2.setText("Products");
+        jButton2.setFocusPainted(false);
+        jButton2.putClientProperty("JButton.buttonType", "roundRect");
 
-        jButton3.setText("jButton3");
+        jButton3.setText("Settings");
+        jButton3.setFocusPainted(false);
+        jButton3.putClientProperty("JButton.buttonType", "roundRect");
 
         javax.swing.GroupLayout DrawerLayout = new javax.swing.GroupLayout(Drawer);
         Drawer.setLayout(DrawerLayout);
@@ -62,55 +66,48 @@ public class MainFrame extends javax.swing.JFrame {
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
                 .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(DrawerLayout.createSequentialGroup()
-                        .addGap(26, 26, 26)
-                        .addComponent(jLabel2))
-                    .addGroup(DrawerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton1))
-                    .addGroup(DrawerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2))
-                    .addGroup(DrawerLayout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton3)))
-                .addContainerGap(216, Short.MAX_VALUE))
+                    .addComponent(jLabel2)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 200, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DrawerLayout.setVerticalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
-                .addGap(17, 17, 17)
                 .addComponent(jLabel2)
-                .addGap(18, 18, 18)
-                .addComponent(jButton1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton2)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addGap(16, 16, 16)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(8, 8, 8)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(455, Short.MAX_VALUE))
         );
 
         getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
-        Content.setBackground(new java.awt.Color(204, 204, 204));
+        Content.setBackground(new java.awt.Color(255, 255, 255));
+        Content.setBorder(javax.swing.BorderFactory.createEmptyBorder(24, 24, 24, 24));
 
-        jLabel1.setText("Content Panel");
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 20));
+        jLabel1.setText("Welcome to Javarket");
 
         javax.swing.GroupLayout ContentLayout = new javax.swing.GroupLayout(Content);
         Content.setLayout(ContentLayout);
         ContentLayout.setHorizontalGroup(
             ContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContentLayout.createSequentialGroup()
-                .addContainerGap(365, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(382, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         ContentLayout.setVerticalGroup(
             ContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(ContentLayout.createSequentialGroup()
-                .addContainerGap(256, Short.MAX_VALUE)
+                .addGap(0, 0, Short.MAX_VALUE)
                 .addComponent(jLabel1)
-                .addContainerGap(327, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
@@ -118,6 +115,7 @@ public class MainFrame extends javax.swing.JFrame {
         Content.getAccessibleContext().setAccessibleDescription("");
 
         pack();
+        setMinimumSize(new java.awt.Dimension(900, 600));
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
