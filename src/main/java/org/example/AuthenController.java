@@ -10,5 +10,15 @@ package org.example;
  */
 public class AuthenController {
     
-    
+    public boolean signUp() {
+        return false;
+    }
+
+    public boolean signIn() {
+        return false;
+    }
+
+    public boolean resetPassword() {
+        return false;
+    }
 }
