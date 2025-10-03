@@ -4,11 +4,21 @@
  */
 package org.example;
 
+import java.sql.SQLException;
+
 /**
  *
  * @author user
  */
 public class AuthenController {
+
+    public AuthenController( DatabaseConnector connector ) {
+        try {
+            connector.connect();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+    }
     
     public boolean signUp() {
         return false;

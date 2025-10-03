@@ -12,15 +12,17 @@ import java.util.Objects;
  * @author user
  */
 public class DatabaseConnector {
-    String url = "dbc:sqlite:database/javarketdata.db";
+    String url = "jdbc:sqlite:database/javarketdata.db";
     
     Connection connection;
 
     public void connect() throws SQLException {
-        try {
-            connection  = DriverManager.getConnection(url);
-        } catch (SQLException e) {
-            throw new SQLException("Fail connection: " + e.getMessage());
+        if( connection == null || connection.isClosed() ) {
+            try {
+                connection  = DriverManager.getConnection(url);
+            } catch (SQLException e) {
+                throw new SQLException("Fail connection: " + e.getMessage());
+            }
         }
     }
 
