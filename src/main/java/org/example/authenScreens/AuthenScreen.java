@@ -7,6 +7,9 @@ package org.example.authenScreens;
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
+import javax.swing.ImageIcon;
+import java.awt.Image;
+import java.io.InputStream;
 
 /**
  *
@@ -49,6 +52,7 @@ public class AuthenScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        logoLabel = new javax.swing.JLabel();
         LoginLabel = new javax.swing.JLabel();
         EmailField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
@@ -57,6 +61,9 @@ public class AuthenScreen extends javax.swing.JFrame {
         LoginBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        // Setup logo
+        setupLogo();
 
         LoginLabel.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
         LoginLabel.setText("Login");
@@ -98,6 +105,7 @@ public class AuthenScreen extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(0, 0, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(logoLabel)
                     .addComponent(LoginLabel)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(jLabel2)
@@ -110,7 +118,9 @@ public class AuthenScreen extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
+                .addGap(20, 20, 20)
+                .addComponent(logoLabel)
+                .addGap(16, 16, 16)
                 .addComponent(LoginLabel)
                 .addGap(24, 24, 24)
                 .addComponent(jLabel2)
@@ -122,7 +132,7 @@ public class AuthenScreen extends javax.swing.JFrame {
                 .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(24, 24, 24)
                 .addComponent(LoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 36, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(64, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         getContentPane().add(contentPanel);
@@ -167,5 +177,38 @@ public class AuthenScreen extends javax.swing.JFrame {
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel logoLabel;
     // End of variables declaration//GEN-END:variables
+    
+    /**
+     * Setup logo for the login screen
+     */
+    private void setupLogo() {
+        try {
+            // Try to load image from resources
+            InputStream imageStream = getClass().getClassLoader().getResourceAsStream("images/logo.png");
+            if (imageStream != null) {
+                ImageIcon originalIcon = new ImageIcon(javax.imageio.ImageIO.read(imageStream));
+                // Resize image to fit nicely
+                Image originalImage = originalIcon.getImage();
+                Image resizedImage = originalImage.getScaledInstance(120, 120, Image.SCALE_SMOOTH);
+                ImageIcon resizedIcon = new ImageIcon(resizedImage);
+                logoLabel.setIcon(resizedIcon);
+                logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            } else {
+                // If no image found, create a text-based logo
+                logoLabel.setText("🛒 JAVARKET");
+                logoLabel.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 28));
+                logoLabel.setForeground(new java.awt.Color(51, 153, 255));
+                logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            }
+        } catch (Exception e) {
+            // Fallback to text logo if image loading fails
+            logoLabel.setText("🛒 JAVARKET");
+            logoLabel.setFont(new java.awt.Font("SansSerif", java.awt.Font.BOLD, 28));
+            logoLabel.setForeground(new java.awt.Color(51, 153, 255));
+            logoLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+            logger.warning("Could not load logo image, using text logo instead: " + e.getMessage());
+        }
+    }
 }
