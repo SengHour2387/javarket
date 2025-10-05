@@ -6,6 +6,7 @@ package org.example.authenScreens;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -138,6 +139,16 @@ public class AuthenScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_PasswordFieldActionPerformed
 
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
+        String email = EmailField.getText().trim();
+        String password = new String(PasswordField.getPassword());
+        
+        if (email.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter both email and password!", "Login Error", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        // TODO: Implement actual authentication
+        // For now, just open the main frame
         new org.example.screens.MainFrame().setVisible(true);
         dispose();
     }//GEN-LAST:event_LoginBtnActionPerformed

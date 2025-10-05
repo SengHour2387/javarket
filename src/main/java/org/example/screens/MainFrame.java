@@ -6,6 +6,8 @@ package org.example.screens;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -54,14 +56,17 @@ public class MainFrame extends javax.swing.JFrame {
         jButton1.setText("Home");
         jButton1.setFocusPainted(false);
         jButton1.putClientProperty("JButton.buttonType", "roundRect");
+        jButton1.addActionListener(e -> showHomePanel());
 
         jButton2.setText("Products");
         jButton2.setFocusPainted(false);
         jButton2.putClientProperty("JButton.buttonType", "roundRect");
+        jButton2.addActionListener(e -> showProductCatalog());
 
         jButton3.setText("Settings");
         jButton3.setFocusPainted(false);
         jButton3.putClientProperty("JButton.buttonType", "roundRect");
+        jButton3.addActionListener(e -> showSettingsPanel());
 
         javax.swing.GroupLayout DrawerLayout = new javax.swing.GroupLayout(Drawer);
         Drawer.setLayout(DrawerLayout);
@@ -148,4 +153,54 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     // End of variables declaration//GEN-END:variables
+    
+    private void showHomePanel() {
+        Content.removeAll();
+        JLabel homeLabel = new JLabel("Welcome to Javarket - Your Online Store");
+        homeLabel.setFont(new java.awt.Font("SansSerif", 1, 24));
+        homeLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        Content.add(homeLabel, BorderLayout.CENTER);
+        Content.revalidate();
+        Content.repaint();
+    }
+    
+    private void showProductCatalog() {
+        Content.removeAll();
+        JButton catalogButton = new JButton("Open Product Catalog");
+        catalogButton.addActionListener(e -> {
+            new ProductCatalogScreen().setVisible(true);
+        });
+        catalogButton.setPreferredSize(new Dimension(200, 50));
+        Content.add(catalogButton, BorderLayout.CENTER);
+        Content.revalidate();
+        Content.repaint();
+    }
+    
+    private void showSettingsPanel() {
+        Content.removeAll();
+        JPanel settingsPanel = new JPanel(new GridLayout(3, 1, 10, 10));
+        
+        JButton productMgmtButton = new JButton("Product Management");
+        productMgmtButton.addActionListener(e -> {
+            new ProductManagementScreen().setVisible(true);
+        });
+        
+        JButton userMgmtButton = new JButton("User Management");
+        userMgmtButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "User Management feature coming soon!", "Info", JOptionPane.INFORMATION_MESSAGE);
+        });
+        
+        JButton orderMgmtButton = new JButton("Order Management");
+        orderMgmtButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "Order Management feature coming soon!", "Info", JOptionPane.INFORMATION_MESSAGE);
+        });
+        
+        settingsPanel.add(productMgmtButton);
+        settingsPanel.add(userMgmtButton);
+        settingsPanel.add(orderMgmtButton);
+        
+        Content.add(settingsPanel, BorderLayout.CENTER);
+        Content.revalidate();
+        Content.repaint();
+    }
 }
