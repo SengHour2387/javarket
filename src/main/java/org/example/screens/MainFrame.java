@@ -23,6 +23,8 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame() {
         initComponents();
         setTitle("Javarket — Dashboard");
+        // Show dashboard by default
+        showHomePanel();
     }
 
     /**
@@ -156,10 +158,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void showHomePanel() {
         Content.removeAll();
-        JLabel homeLabel = new JLabel("Welcome to Javarket - Your Online Store");
-        homeLabel.setFont(new java.awt.Font("SansSerif", 1, 24));
-        homeLabel.setHorizontalAlignment(SwingConstants.CENTER);
-        Content.add(homeLabel, BorderLayout.CENTER);
+        Content.setLayout(new BorderLayout());
+        Content.add(new DashboardPanel(), BorderLayout.CENTER);
         Content.revalidate();
         Content.repaint();
     }
