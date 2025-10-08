@@ -6,6 +6,7 @@ package org.example.screens;
 
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import org.example.utils.DatabaseInitializer;
 import javax.swing.*;
 import java.awt.*;
 
@@ -141,6 +142,11 @@ public class MainFrame extends javax.swing.JFrame {
             javax.swing.UIManager.put("TextComponent.arc", 12);
             javax.swing.UIManager.put("Component.accentColor", "#2F80ED");
             com.formdev.flatlaf.FlatLaf.setUseNativeWindowDecorations(true);
+        } catch (Exception ignore) {
+        }
+        // Ensure database and sample data are initialized when running this class directly
+        try {
+            DatabaseInitializer.initializeDatabase();
         } catch (Exception ignore) {
         }
         java.awt.EventQueue.invokeLater(() -> new MainFrame().setVisible(true));

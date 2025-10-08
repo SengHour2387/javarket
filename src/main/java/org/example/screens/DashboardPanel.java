@@ -97,9 +97,12 @@ public class DashboardPanel extends JPanel {
         tablesPanel.add(recentPanel);
         tablesPanel.add(lowStockPanel);
 
-        add(header, BorderLayout.NORTH);
-        // Place metrics at the top and tables take the main space
-        add(metricsPanel, BorderLayout.NORTH);
+        // Compose a top panel to hold header and metrics together
+        JPanel topPanel = new JPanel(new BorderLayout(0, 12));
+        topPanel.add(header, BorderLayout.NORTH);
+        topPanel.add(metricsPanel, BorderLayout.CENTER);
+
+        add(topPanel, BorderLayout.NORTH);
         add(tablesPanel, BorderLayout.CENTER);
 
         refreshData();
