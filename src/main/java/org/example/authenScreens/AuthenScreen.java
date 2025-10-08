@@ -312,6 +312,19 @@ public class AuthenScreen extends javax.swing.JFrame {
 
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
         // TODO add your handling code here:
+        if(controller.signIn(EmailField.getText().trim(),PasswordField.getText().trim())) {
+             
+            DatabaseConnector connector = new DatabaseConnector();
+            
+            AppController appController = new AppController(connector, controller.getCurrentUser());
+            
+            MainFrame mainFrame = new MainFrame(appController);
+            mainFrame.setVisible(true);
+            dispose();
+            
+        } else {
+            System.out.println("Login Fail!!");
+        }
     }//GEN-LAST:event_LoginBtnActionPerformed
 
     private void LoginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginBtnMouseClicked
@@ -334,11 +347,18 @@ public class AuthenScreen extends javax.swing.JFrame {
 
     private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpBtnActionPerformed
         // TODO add your handling code here:
-        User newUser = new User(0,"",
-                EmailField.getText().trim(),
-                PasswordHasher.hashPassword(PasswordField.getText().trim()),"");
+        User newUser = new User(0,UserNameField.getText().trim(),
+                EmailField1.getText().trim(),
+                PasswordHasher.hashPassword(PasswordField1.getText().trim()),"");
         if(controller.signUp(newUser,this.LoginPanel)) {
             System.out.println("sign up completed");
+            DatabaseConnector connector = new DatabaseConnector();
+
+            AppController appController = new AppController(connector,newUser );
+
+            MainFrame mainFrame = new MainFrame(appController);
+            mainFrame.setVisible(true);
+            dispose();
         } else {
             System.out.println("sign up fail");
         }

@@ -18,6 +18,8 @@ import java.sql.SQLException;
 public class AuthenController {
     private final DatabaseConnector connector;
 
+    User currentUser = new User();
+
     public AuthenController( DatabaseConnector connector ) {
         try {
             connector.connect();
@@ -25,6 +27,10 @@ public class AuthenController {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public User getCurrentUser() {
+        return currentUser;
     }
     
     public boolean signIn(String email, String password) {
@@ -45,6 +51,13 @@ public class AuthenController {
                 
                 if (passwordMatches) {
                     System.out.println("Sign in successful for user: " + userName);
+                    currentUser = new User(
+                            resultSet.getInt(1),
+                            resultSet.getString(2),
+                            resultSet.getString(3),
+                            resultSet.getString(4),
+                            resultSet.getString(5)
+                    );
                     return true;
                 } else {
                     System.out.println("Invalid password for email: " + email);
@@ -64,16 +77,16 @@ public class AuthenController {
     public boolean signUp(User newUser,JPanel parent) {
         try {
             // Hash the password before storing
-            String hashedPassword = PasswordHasher.hashPassword(newUser.getHash_pass());
+            String hashedPassword = newUser.getHash_pass();
             
-            connector.runCUD("INSERT INTO users_tbl (user_name, email, hash_pass, pfp)\n" +
+            int run = connector.runCUD("INSERT INTO users_tbl (user_name, email, hash_pass, pfp)\n" +
                             "VALUES (?, ?, ?, ?);",
                     newUser.getUser_name(),
                     newUser.getEmail(),
                     hashedPassword, // Store hashed password instead of plain text
                     newUser.getPfp()
             );
-            return true;
+            return run>0;
         } catch (SQLException e) {
             System.out.println("singUp error at int AuthenController" + e.getMessage());
             if(e.getMessage().contains("UNIQUE constraint failed: users_tbl.email")) {

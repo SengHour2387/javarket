@@ -29,7 +29,7 @@ public class AppController {
                 product.getName(), 
                 product.getDescription(), 
                 product.getPrice(), 
-                product.getImage(), 
+                product.getImage(),
                 product.getStock(), 
                 product.getCategory_id(), 
                 product.getSeller_id()
