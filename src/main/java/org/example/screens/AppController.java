@@ -21,8 +21,6 @@ public class AppController {
 
     public boolean addProduct() {
 
-
-
         return false;
     }
     public boolean updateProduct() {
