@@ -22,6 +22,7 @@ public class User {
     }
 
     public String getUser_name() {
+
         return user_name;
     }
 
@@ -30,21 +31,26 @@ public class User {
     }
 
     public String getEmail() {
+
         return email;
     }
     public String getHash_pass() {
+
         return hash_pass;
     }
 
     public void setEmail(String email) {
+
         this.email = email;
     }
 
     public String getPfp() {
+
         return pfp;
     }
 
     public void setPfp(String pfp) {
+
         this.pfp = pfp;
     }
 }
