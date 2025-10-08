@@ -20,7 +20,7 @@ public class MainFrame extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
     private AppController controller;
     /**
-     * Creates new form MainFrame
+     * Creates new form MainFramex
      */
     public MainFrame( AppController controller ) {
         this.controller = controller;
