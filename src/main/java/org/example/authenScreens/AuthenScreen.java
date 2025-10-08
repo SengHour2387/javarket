@@ -4,24 +4,46 @@
  */
 package org.example.authenScreens;
 
+<<<<<<< HEAD
 import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import javax.swing.JOptionPane;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import java.io.InputStream;
+=======
+import com.formdev.flatlaf.FlatDarculaLaf;
+import com.formdev.flatlaf.FlatLaf;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import org.example.AuthenController;
+import org.example.models.User;
+import org.example.tools.PasswordHasher;
+
+import javax.swing.*;
+import java.awt.*;
+>>>>>>> upstream/main
 
 /**
  *
  * @author user
  */
+
+@FunctionalInterface
+
+interface RunSignIn {
+    void run();
+}
+
 public class AuthenScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AuthenScreen.class.getName());
-
+    private final AuthenController controller;
     /**
      * Creates new form AuthenScreen
      */
+<<<<<<< HEAD
     public AuthenScreen() {
         try {
             FlatLaf.setup(new FlatMacLightLaf());
@@ -33,6 +55,19 @@ public class AuthenScreen extends javax.swing.JFrame {
             com.formdev.flatlaf.FlatLaf.setUseNativeWindowDecorations(true);
         } catch (Exception ignore) {
         }
+=======
+
+    @Override
+    public void frameInit() {
+        FlatLaf.setup( new FlatMacLightLaf());
+        UIManager.put("Button.arc",24);
+        UIManager.put("TextField.arc",24);
+        super.frameInit();
+    }
+
+    public AuthenScreen( AuthenController controller )  {
+        this.controller = controller;
+>>>>>>> upstream/main
         initComponents();
         setTitle("Javarket — Login");
         setLocationRelativeTo(null);
@@ -52,22 +87,47 @@ public class AuthenScreen extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+<<<<<<< HEAD
         logoLabel = new javax.swing.JLabel();
+=======
+        LoginPanel = new javax.swing.JPanel();
+>>>>>>> upstream/main
         LoginLabel = new javax.swing.JLabel();
         EmailField = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         PasswordField = new javax.swing.JPasswordField();
         LoginBtn = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        SignUpPanel = new javax.swing.JPanel();
+        LoginLabel1 = new javax.swing.JLabel();
+        EmailField1 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        PasswordField1 = new javax.swing.JTextField();
+        LoginBtn1 = new javax.swing.JButton();
+        jLabel6 = new javax.swing.JLabel();
+        jLabel7 = new javax.swing.JLabel();
+        UserNameField = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        getContentPane().setLayout(new java.awt.CardLayout());
 
+<<<<<<< HEAD
         // Setup logo
         setupLogo();
 
         LoginLabel.setFont(new java.awt.Font("SansSerif", 1, 36)); // NOI18N
+=======
+        LoginLabel.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 36)); // NOI18N
+        LoginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+>>>>>>> upstream/main
         LoginLabel.setText("Login");
 
+        EmailField.setBorder(LoginBtn.getBorder());
         EmailField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 EmailFieldActionPerformed(evt);
@@ -78,6 +138,7 @@ public class AuthenScreen extends javax.swing.JFrame {
 
         jLabel3.setText("Password");
 
+        PasswordField.setBorder(LoginBtn.getBorder());
         PasswordField.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 PasswordFieldActionPerformed(evt);
@@ -87,15 +148,24 @@ public class AuthenScreen extends javax.swing.JFrame {
         LoginBtn.setBackground(new java.awt.Color(51, 153, 255));
         LoginBtn.setForeground(new java.awt.Color(255, 255, 255));
         LoginBtn.setText("Login");
+<<<<<<< HEAD
         LoginBtn.setFocusPainted(false);
         LoginBtn.setBorderPainted(false);
         LoginBtn.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+=======
+        LoginBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LoginBtnMouseClicked(evt);
+            }
+        });
+>>>>>>> upstream/main
         LoginBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 LoginBtnActionPerformed(evt);
             }
         });
 
+<<<<<<< HEAD
         javax.swing.JPanel contentPanel = new javax.swing.JPanel();
         contentPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(32, 32, 32, 32));
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(contentPanel);
@@ -138,6 +208,178 @@ public class AuthenScreen extends javax.swing.JFrame {
         getContentPane().add(contentPanel);
         pack();
         setMinimumSize(new java.awt.Dimension(560, 480));
+=======
+        jTextField1.setBackground(null);
+        jTextField1.setText("You are new here ?");
+        jTextField1.setBorder(null);
+        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jTextField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setForeground(new java.awt.Color(51, 204, 255));
+        jLabel1.setText("Sign up an account");
+        jLabel1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel1MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout LoginPanelLayout = new javax.swing.GroupLayout(LoginPanel);
+        LoginPanel.setLayout(LoginPanelLayout);
+        LoginPanelLayout.setHorizontalGroup(
+            LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LoginPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(LoginLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(EmailField, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(LoginPanelLayout.createSequentialGroup()
+                .addGap(236, 236, 236)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel1)
+                .addContainerGap(245, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(299, 299, 299))
+        );
+        LoginPanelLayout.setVerticalGroup(
+            LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(LoginPanelLayout.createSequentialGroup()
+                .addContainerGap(53, Short.MAX_VALUE)
+                .addComponent(LoginLabel)
+                .addGap(34, 34, 34)
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(EmailField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27)
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addComponent(LoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(152, 152, 152))
+        );
+
+        getContentPane().add(LoginPanel, "card8");
+
+        LoginLabel1.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 36)); // NOI18N
+        LoginLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        LoginLabel1.setText("Sign Up");
+
+        EmailField1.setBorder(LoginBtn.getBorder());
+        EmailField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                EmailField1ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("Email");
+
+        jLabel5.setText("Password");
+
+        PasswordField1.setBorder(LoginBtn.getBorder());
+        PasswordField1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                PasswordField1ActionPerformed(evt);
+            }
+        });
+
+        LoginBtn1.setBackground(new java.awt.Color(102, 204, 255));
+        LoginBtn1.setText("Submit");
+        LoginBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                LoginBtn1MouseClicked(evt);
+            }
+        });
+        LoginBtn1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                LoginBtn1ActionPerformed(evt);
+            }
+        });
+
+        jLabel6.setText("Already has an account?");
+
+        jLabel7.setForeground(new java.awt.Color(102, 204, 255));
+        jLabel7.setText("Log in now");
+        jLabel7.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel7MouseClicked(evt);
+            }
+        });
+
+        UserNameField.setBorder(LoginBtn.getBorder());
+
+        jLabel8.setText("User Name");
+
+        javax.swing.GroupLayout SignUpPanelLayout = new javax.swing.GroupLayout(SignUpPanel);
+        SignUpPanel.setLayout(SignUpPanelLayout);
+        SignUpPanelLayout.setHorizontalGroup(
+            SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SignUpPanelLayout.createSequentialGroup()
+                .addContainerGap(191, Short.MAX_VALUE)
+                .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(PasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(LoginLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
+                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(EmailField1, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(UserNameField)
+                    .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(SignUpPanelLayout.createSequentialGroup()
+                        .addGap(32, 32, 32)
+                        .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(SignUpPanelLayout.createSequentialGroup()
+                        .addGap(110, 110, 110)
+                        .addComponent(LoginBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(191, Short.MAX_VALUE))
+        );
+        SignUpPanelLayout.setVerticalGroup(
+            SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(SignUpPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(LoginLabel1)
+                .addGap(34, 34, 34)
+                .addComponent(jLabel4)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(EmailField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel5)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(PasswordField1, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel8)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(UserNameField, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(jLabel7))
+                .addGap(18, 18, 18)
+                .addComponent(LoginBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(136, 136, 136))
+        );
+
+        getContentPane().add(SignUpPanel, "card8");
+
+        setSize(new java.awt.Dimension(712, 564));
+        setLocationRelativeTo(null);
+>>>>>>> upstream/main
     }// </editor-fold>//GEN-END:initComponents
 
     private void EmailFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailFieldActionPerformed
@@ -163,21 +405,89 @@ public class AuthenScreen extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_LoginBtnActionPerformed
 
+    private void LoginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginBtnMouseClicked
+        // TODO add your handling code here:
+        User newUser = new User(0,"",
+                EmailField.getText().trim(),
+                PasswordHasher.hashPassword(PasswordField.getText().trim()),"");
+        if(controller.signIn(newUser,this.LoginPanel)) {
+            System.out.println("sign up completed");
+        } else {
+            System.out.println("sign up fail");
+        }
+        
+    }//GEN-LAST:event_LoginBtnMouseClicked
+
+    private void EmailField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EmailField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_EmailField1ActionPerformed
+
+    private void PasswordField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasswordField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PasswordField1ActionPerformed
+
+    private void LoginBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginBtn1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LoginBtn1MouseClicked
+
+    private void LoginBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtn1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_LoginBtn1ActionPerformed
+
+    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField1ActionPerformed
+
+    private void jLabel1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel1MouseClicked
+        // TODO add your handling code here:
+        LoginPanel.setVisible(false);
+        SignUpPanel.setVisible(true);
+    }//GEN-LAST:event_jLabel1MouseClicked
+
+    private void jLabel7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel7MouseClicked
+        // TODO add your handling code here:
+        SignUpPanel.setVisible(false);
+        LoginPanel.setVisible(true);
+    }//GEN-LAST:event_jLabel7MouseClicked
+
     /**
      * @param args the command line arguments
      */
+<<<<<<< HEAD
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(() -> new AuthenScreen().setVisible(true));
     }
+=======
+>>>>>>> upstream/main
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JTextField EmailField;
+    private javax.swing.JTextField EmailField1;
     private javax.swing.JButton LoginBtn;
+    private javax.swing.JButton LoginBtn1;
     private javax.swing.JLabel LoginLabel;
+<<<<<<< HEAD
     private javax.swing.JPasswordField PasswordField;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel logoLabel;
+=======
+    private javax.swing.JLabel LoginLabel1;
+    private javax.swing.JPanel LoginPanel;
+    private javax.swing.JTextField PasswordField;
+    private javax.swing.JTextField PasswordField1;
+    private javax.swing.JPanel SignUpPanel;
+    private javax.swing.JTextField UserNameField;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JTextField jTextField1;
+>>>>>>> upstream/main
     // End of variables declaration//GEN-END:variables
     
     /**
