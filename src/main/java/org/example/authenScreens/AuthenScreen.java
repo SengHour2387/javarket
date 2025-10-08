@@ -365,10 +365,11 @@ public class AuthenScreen extends javax.swing.JFrame {
         
         DatabaseConnector connector = new DatabaseConnector();
         
-        AppController appController = new AppController(connector);
+        AppController appController = new AppController(connector, new User() );
         
         MainFrame mainFrame = new MainFrame(appController);
         mainFrame.setVisible(true);
+        dispose();
         
     }//GEN-LAST:event_SkipToMainBtnActionPerformed
 
