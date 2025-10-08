@@ -58,7 +58,6 @@ public class ProductManagementScreen extends JFrame {
         descriptionArea.setLineWrap(true);
         priceField = new JTextField(10);
         stockField = new JTextField(10);
-        categoryField = new JTextField(15);
         categoryComboBox = new JComboBox<>();
 
         // Buttons
@@ -75,8 +74,7 @@ public class ProductManagementScreen extends JFrame {
         clearButton.addActionListener(e -> clearForm());
         refreshButton.addActionListener(e -> loadProducts());
 
-        // Layout
-        setupLayout();
+        // Layout is configured in setupLayout() method called by constructor
     }
 
     private void setupLayout() {
