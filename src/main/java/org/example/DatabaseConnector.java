@@ -35,15 +35,9 @@ public class DatabaseConnector {
     // for Read ( just read from database )
     public ResultSet runSelect(String sql, Object...parameters) throws SQLException {
         connect();
-        try(
-                PreparedStatement preparedStatement = connection.prepareStatement(sql)
-            )
-        {
-                setParameters(preparedStatement,parameters);
-                return preparedStatement.executeQuery();
-        } catch (SQLException e) {
-            throw new SQLException( "Error runSelect:" + e.getMessage() );
-        }
+        PreparedStatement preparedStatement = connection.prepareStatement(sql);
+        setParameters(preparedStatement,parameters);
+        return preparedStatement.executeQuery();
     }
 
     // for Create Update Delete ( database makes changes )

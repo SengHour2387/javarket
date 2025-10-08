@@ -53,4 +53,16 @@ public class User {
 
         this.pfp = pfp;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setHash_pass(String hash_pass) {
+        this.hash_pass = hash_pass;
+    }
 }
