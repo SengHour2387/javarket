@@ -5,8 +5,6 @@ import org.example.services.ProductService;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
@@ -18,6 +16,9 @@ public class ProductCatalogScreen extends JFrame {
     private JComboBox<String> categoryComboBox;
     private JTextField searchField;
     private JLabel statusLabel;
+    private JButton searchButton;
+    private JButton filterButton;
+    private JButton refreshButton;
 
     public ProductCatalogScreen() {
         this.productService = new ProductService();
@@ -38,9 +39,9 @@ public class ProductCatalogScreen extends JFrame {
         categoryComboBox = new JComboBox<>();
         categoryComboBox.addItem("All Categories");
         
-        JButton searchButton = new JButton("Search");
-        JButton filterButton = new JButton("Filter by Category");
-        JButton refreshButton = new JButton("Refresh");
+        searchButton = new JButton("Search");
+        filterButton = new JButton("Filter by Category");
+        refreshButton = new JButton("Refresh");
         
         // Product display panel
         productPanel = new JPanel(new GridLayout(0, 3, 10, 10));
