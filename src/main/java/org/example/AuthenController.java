@@ -26,11 +26,11 @@ public class AuthenController {
         }
     }
     
-    public boolean signUp()  {
+    public boolean signIn()  {
         return false;
     }
 
-    public boolean signIn(User newUser,JPanel parent) {
+    public boolean signUp(User newUser,JPanel parent) {
         try {
             connector.runCUD("INSERT INTO users_tbl (user_name, email, hash_pass, pfp)\n" +
                             "VALUES (?, ?, ?, ?);",

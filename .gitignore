@@ -8,6 +8,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+database/javarketdata.db
 *.iws
 *.iml
 *.ipr

@@ -11,6 +11,8 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import org.example.AuthenController;
 import org.example.models.User;
+import org.example.screens.AppController;
+import org.example.tools.AuthRunner;
 import org.example.tools.PasswordHasher;
 
 import javax.swing.*;
@@ -21,16 +23,12 @@ import java.awt.*;
  * @author user
  */
 
-@FunctionalInterface
-
-interface RunSignIn {
-    void run();
-}
 
 public class AuthenScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AuthenScreen.class.getName());
     private final AuthenController controller;
+    private final AuthRunner authRunner;
     /**
      * Creates new form AuthenScreen
      */
@@ -43,8 +41,9 @@ public class AuthenScreen extends javax.swing.JFrame {
         super.frameInit();
     }
 
-    public AuthenScreen( AuthenController controller )  {
+    public AuthenScreen(AuthenController controller, AuthRunner authRunner)  {
         this.controller = controller;
+        this.authRunner = authRunner;
         initComponents();
     }
 
@@ -72,7 +71,7 @@ public class AuthenScreen extends javax.swing.JFrame {
         jLabel4 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
         PasswordField1 = new javax.swing.JTextField();
-        LoginBtn1 = new javax.swing.JButton();
+        SignUpBtn = new javax.swing.JButton();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         UserNameField = new javax.swing.JTextField();
@@ -117,7 +116,6 @@ public class AuthenScreen extends javax.swing.JFrame {
             }
         });
 
-        jTextField1.setBackground(null);
         jTextField1.setText("You are new here ?");
         jTextField1.setBorder(null);
         jTextField1.addActionListener(new java.awt.event.ActionListener() {
@@ -205,16 +203,16 @@ public class AuthenScreen extends javax.swing.JFrame {
             }
         });
 
-        LoginBtn1.setBackground(new java.awt.Color(102, 204, 255));
-        LoginBtn1.setText("Submit");
-        LoginBtn1.addMouseListener(new java.awt.event.MouseAdapter() {
+        SignUpBtn.setBackground(new java.awt.Color(102, 204, 255));
+        SignUpBtn.setText("Submit");
+        SignUpBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                LoginBtn1MouseClicked(evt);
+                SignUpBtnMouseClicked(evt);
             }
         });
-        LoginBtn1.addActionListener(new java.awt.event.ActionListener() {
+        SignUpBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                LoginBtn1ActionPerformed(evt);
+                SignUpBtnActionPerformed(evt);
             }
         });
 
@@ -241,10 +239,9 @@ public class AuthenScreen extends javax.swing.JFrame {
                 .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(PasswordField1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
                     .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                        .addComponent(LoginLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
-                        .addComponent(jLabel4, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(EmailField1, javax.swing.GroupLayout.Alignment.LEADING))
+                    .addComponent(LoginLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 330, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(EmailField1)
                     .addComponent(UserNameField)
                     .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(SignUpPanelLayout.createSequentialGroup()
@@ -254,7 +251,7 @@ public class AuthenScreen extends javax.swing.JFrame {
                         .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 82, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(SignUpPanelLayout.createSequentialGroup()
                         .addGap(110, 110, 110)
-                        .addComponent(LoginBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(SignUpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(191, Short.MAX_VALUE))
         );
         SignUpPanelLayout.setVerticalGroup(
@@ -279,7 +276,7 @@ public class AuthenScreen extends javax.swing.JFrame {
                     .addComponent(jLabel6)
                     .addComponent(jLabel7))
                 .addGap(18, 18, 18)
-                .addComponent(LoginBtn1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(SignUpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(136, 136, 136))
         );
 
@@ -303,14 +300,7 @@ public class AuthenScreen extends javax.swing.JFrame {
 
     private void LoginBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginBtnMouseClicked
         // TODO add your handling code here:
-        User newUser = new User(0,"",
-                EmailField.getText().trim(),
-                PasswordHasher.hashPassword(PasswordField.getText().trim()),"");
-        if(controller.signIn(newUser,this.LoginPanel)) {
-            System.out.println("sign up completed");
-        } else {
-            System.out.println("sign up fail");
-        }
+        
         
     }//GEN-LAST:event_LoginBtnMouseClicked
 
@@ -322,13 +312,21 @@ public class AuthenScreen extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_PasswordField1ActionPerformed
 
-    private void LoginBtn1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LoginBtn1MouseClicked
+    private void SignUpBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SignUpBtnMouseClicked
         // TODO add your handling code here:
-    }//GEN-LAST:event_LoginBtn1MouseClicked
+    }//GEN-LAST:event_SignUpBtnMouseClicked
 
-    private void LoginBtn1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtn1ActionPerformed
+    private void SignUpBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SignUpBtnActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_LoginBtn1ActionPerformed
+        User newUser = new User(0,"",
+                EmailField.getText().trim(),
+                PasswordHasher.hashPassword(PasswordField.getText().trim()),"");
+        if(controller.signUp(newUser,this.LoginPanel)) {
+            System.out.println("sign up completed");
+        } else {
+            System.out.println("sign up fail");
+        }
+    }//GEN-LAST:event_SignUpBtnActionPerformed
 
     private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
         // TODO add your handling code here:
@@ -354,12 +352,12 @@ public class AuthenScreen extends javax.swing.JFrame {
     private javax.swing.JTextField EmailField;
     private javax.swing.JTextField EmailField1;
     private javax.swing.JButton LoginBtn;
-    private javax.swing.JButton LoginBtn1;
     private javax.swing.JLabel LoginLabel;
     private javax.swing.JLabel LoginLabel1;
     private javax.swing.JPanel LoginPanel;
     private javax.swing.JTextField PasswordField;
     private javax.swing.JTextField PasswordField1;
+    private javax.swing.JButton SignUpBtn;
     private javax.swing.JPanel SignUpPanel;
     private javax.swing.JTextField UserNameField;
     private javax.swing.JLabel jLabel1;
