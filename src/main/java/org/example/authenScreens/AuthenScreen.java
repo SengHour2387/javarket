@@ -17,6 +17,8 @@ import org.example.tools.PasswordHasher;
 
 import javax.swing.*;
 import java.awt.*;
+import org.example.DatabaseConnector;
+import org.example.screens.MainFrame;
 
 /**
  *
@@ -65,6 +67,7 @@ public class AuthenScreen extends javax.swing.JFrame {
         LoginBtn = new javax.swing.JButton();
         jTextField1 = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
+        SkipToMainBtn = new javax.swing.JButton();
         SignUpPanel = new javax.swing.JPanel();
         LoginLabel1 = new javax.swing.JLabel();
         EmailField1 = new javax.swing.JTextField();
@@ -132,6 +135,13 @@ public class AuthenScreen extends javax.swing.JFrame {
             }
         });
 
+        SkipToMainBtn.setText("Skip");
+        SkipToMainBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                SkipToMainBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout LoginPanelLayout = new javax.swing.GroupLayout(LoginPanel);
         LoginPanel.setLayout(LoginPanelLayout);
         LoginPanelLayout.setHorizontalGroup(
@@ -156,6 +166,10 @@ public class AuthenScreen extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(LoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(299, 299, 299))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, LoginPanelLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(SkipToMainBtn)
+                .addGap(30, 30, 30))
         );
         LoginPanelLayout.setVerticalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +190,9 @@ public class AuthenScreen extends javax.swing.JFrame {
                     .addComponent(jLabel1))
                 .addGap(18, 18, 18)
                 .addComponent(LoginBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(152, 152, 152))
+                .addGap(112, 112, 112)
+                .addComponent(SkipToMainBtn)
+                .addGap(17, 17, 17))
         );
 
         getContentPane().add(LoginPanel, "card8");
@@ -344,6 +360,18 @@ public class AuthenScreen extends javax.swing.JFrame {
         LoginPanel.setVisible(true);
     }//GEN-LAST:event_jLabel7MouseClicked
 
+    private void SkipToMainBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SkipToMainBtnActionPerformed
+        // TODO add your handling code here:
+        
+        DatabaseConnector connector = new DatabaseConnector();
+        
+        AppController appController = new AppController(connector);
+        
+        MainFrame mainFrame = new MainFrame(appController);
+        mainFrame.setVisible(true);
+        
+    }//GEN-LAST:event_SkipToMainBtnActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -359,6 +387,7 @@ public class AuthenScreen extends javax.swing.JFrame {
     private javax.swing.JTextField PasswordField1;
     private javax.swing.JButton SignUpBtn;
     private javax.swing.JPanel SignUpPanel;
+    private javax.swing.JButton SkipToMainBtn;
     private javax.swing.JTextField UserNameField;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

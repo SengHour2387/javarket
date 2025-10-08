@@ -1,8 +1,6 @@
 package org.example;
 
 import org.example.authenScreens.AuthenScreen;
-import org.example.screens.AppController;
-import org.example.screens.MainFrame;
 import org.example.tools.AuthRunner;
 
 //TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
