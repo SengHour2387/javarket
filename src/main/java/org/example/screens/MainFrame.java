@@ -10,6 +10,9 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import javax.swing.border.Border;
+import java.awt.BorderLayout;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 
 /**
  *
@@ -19,6 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
     private AppController controller;
+    private JFrame shopWindow;
     /**
      * Creates new form MainFramex
      */
@@ -164,7 +168,29 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
+        if (shopWindow == null || !shopWindow.isDisplayable()) {
+            shopWindow = new JFrame("Shop");
+            shopWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+            shopWindow.setSize(900, 600);
+            shopWindow.setLocationRelativeTo(this);
+            shopWindow.setLayout(new BorderLayout());
+
+            ShopPanel shopPanel = new ShopPanel();
+            shopWindow.add(shopPanel, BorderLayout.CENTER);
+
+            shopWindow.addWindowListener(new WindowAdapter() {
+                @Override
+                public void windowClosed(WindowEvent e) {
+                    shopWindow = null;
+                }
+            });
+        }
+
+        if (!shopWindow.isVisible()) {
+            shopWindow.setVisible(true);
+        }
+        shopWindow.toFront();
+        shopWindow.requestFocus();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
