@@ -44,6 +44,7 @@ public class MainFrame extends javax.swing.JFrame {
             ShopPanel shopPanel = new ShopPanel();
             shopWindow.add(shopPanel, BorderLayout.CENTER);
             Content.add(shopWindow,BorderLayout.CENTER);
+           
             if (!shopWindow.isVisible()) {
                 shopWindow.setVisible(true);
             }
