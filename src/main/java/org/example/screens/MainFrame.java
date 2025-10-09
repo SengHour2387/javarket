@@ -37,6 +37,8 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void loadShopUI() {
 
+        Content.revalidate();
+        Content.repaint();
         if(Content.getComponentCount() < 1) {
             shopWindow = new JPanel( new BorderLayout());
             shopWindow.setSize(900, 600);
@@ -53,6 +55,8 @@ public class MainFrame extends javax.swing.JFrame {
 
 
     }
+
+    private void loadCartUI() {}
 
     @Override
     public void frameInit() {
@@ -192,6 +196,7 @@ public class MainFrame extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        loadCartUI();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
