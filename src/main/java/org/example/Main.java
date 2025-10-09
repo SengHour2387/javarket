@@ -17,5 +17,6 @@ public class Main {
             }
         });
         authenScreen.setVisible(true);
+        
     }
 }
