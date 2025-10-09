@@ -10,7 +10,7 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 
 import javax.swing.*;
 import javax.swing.border.Border;
-import java.awt.BorderLayout;
+import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 
@@ -22,7 +22,7 @@ public class MainFrame extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
     private AppController controller;
-    private JFrame shopWindow;
+    private JPanel shopWindow;
     /**
      * Creates new form MainFramex
      */
@@ -31,9 +31,40 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
+    private void init() {
+        loadShopUI();
+    }
+
+    private void loadShopUI() {
+
+        if(Content.getComponentCount() < 1) {
+            shopWindow = new JPanel( new BorderLayout());
+            shopWindow.setSize(900, 600);
+            shopWindow.setLayout(new BorderLayout());
+            ShopPanel shopPanel = new ShopPanel();
+            shopWindow.add(shopPanel, BorderLayout.CENTER);
+            Content.add(shopWindow,BorderLayout.CENTER);
+           
+            if (!shopWindow.isVisible()) {
+                shopWindow.setVisible(true);
+            }
+            shopWindow.requestFocus();
+        }
+
+
+    }
+
     @Override
     public void frameInit() {
         FlatLaf.setup( new FlatMacLightLaf());
+
+        Content = new JPanel();
+        Content.setLayout(new CardLayout());
+
+        loadShopUI();
+
+        UIManager.put("ButtonArc",24);
+        Content.setVisible(true);
         super.frameInit();
     }
 
@@ -59,6 +90,10 @@ public class MainFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(51, 255, 51));
 
         Content.setBackground(new java.awt.Color(255, 255, 255));
+        Content.setLayout(new java.awt.CardLayout());
+        getContentPane().add(Content, java.awt.BorderLayout.CENTER);
+        Content.getAccessibleContext().setAccessibleName("");
+        Content.getAccessibleContext().setAccessibleDescription("");
 
         Drawer.setBackground(new java.awt.Color(255, 255, 255));
         Drawer.setBorder(jButton2.getBorder());
@@ -105,7 +140,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addComponent(jButton2)
                     .addComponent(jButton3)
                     .addComponent(jButton4))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
         DrawerLayout.setVerticalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,29 +151,12 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 393, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(17, 17, 17))
         );
 
-        javax.swing.GroupLayout ContentLayout = new javax.swing.GroupLayout(Content);
-        Content.setLayout(ContentLayout);
-        ContentLayout.setHorizontalGroup(
-            ContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ContentLayout.createSequentialGroup()
-                .addComponent(Drawer, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 828, Short.MAX_VALUE))
-        );
-        ContentLayout.setVerticalGroup(
-            ContentLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, ContentLayout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(Drawer, javax.swing.GroupLayout.PREFERRED_SIZE, 550, javax.swing.GroupLayout.PREFERRED_SIZE))
-        );
-
-        getContentPane().add(Content, java.awt.BorderLayout.CENTER);
-        Content.getAccessibleContext().setAccessibleName("");
-        Content.getAccessibleContext().setAccessibleDescription("");
+        getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
         jPanel1.setBackground(new java.awt.Color(113, 163, 255));
         jPanel1.setPreferredSize(new java.awt.Dimension(928, 50));
@@ -152,7 +170,7 @@ public class MainFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(434, Short.MAX_VALUE)
+                .addContainerGap(311, Short.MAX_VALUE)
                 .addComponent(jLabel3)
                 .addGap(385, 385, 385))
         );
@@ -162,35 +180,14 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
-
+        init();
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        if (shopWindow == null || !shopWindow.isDisplayable()) {
-            shopWindow = new JFrame("Shop");
-            shopWindow.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-            shopWindow.setSize(900, 600);
-            shopWindow.setLocationRelativeTo(this);
-            shopWindow.setLayout(new BorderLayout());
+        loadShopUI();
 
-            ShopPanel shopPanel = new ShopPanel();
-            shopWindow.add(shopPanel, BorderLayout.CENTER);
-
-            shopWindow.addWindowListener(new WindowAdapter() {
-                @Override
-                public void windowClosed(WindowEvent e) {
-                    shopWindow = null;
-                }
-            });
-        }
-
-        if (!shopWindow.isVisible()) {
-            shopWindow.setVisible(true);
-        }
-        shopWindow.toFront();
-        shopWindow.requestFocus();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
