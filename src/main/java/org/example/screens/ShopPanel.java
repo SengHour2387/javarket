@@ -261,12 +261,7 @@ public class ShopPanel extends JPanel {
                 addToCart(product);
             }
         });
-<<<<<<< HEAD
 
-        card.add(imageLabel);
-        card.add(Box.createVerticalStrut(6));
-=======
->>>>>>> 85412513fb952927d9a8cb487b58dc836e16215a
         card.add(nameLabel);
         card.add(Box.createVerticalStrut(4));
         card.add(productImg);
