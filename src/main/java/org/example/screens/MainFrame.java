@@ -73,14 +73,16 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private void showCartPanel() {
-        cardLayout = (CardLayout) Content.getLayout();
+       
         cartPanel.refreshCart();
+        cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "CART");
     }
     
     private void showHistoryPanel() {
-        cardLayout = (CardLayout) Content.getLayout();
+        
         historyPanel.refreshHistory();
+        cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "HISTORY");
     }
 
