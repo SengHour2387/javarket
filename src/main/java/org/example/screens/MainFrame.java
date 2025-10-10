@@ -137,6 +137,7 @@ public class MainFrame extends javax.swing.JFrame {
         jButton3.setText("History");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
+
                 jButton3ActionPerformed(evt);
             }
         });
@@ -171,9 +172,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)
+                .addComponent(jButton4)                                
                 .addGap(17, 17, 17))
         );
+
 
         getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
