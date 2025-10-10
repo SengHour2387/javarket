@@ -8,6 +8,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 // Custom responsive grid layout that adapts to container width
@@ -15,8 +17,8 @@ class ResponsiveGridLayout implements LayoutManager2 {
     private int hgap, vgap;
     private int minColumns = 1;
     private int maxColumns = 6;
-    private int cardWidth = 200;
-    private int cardHeight = 180;
+    private int cardWidth = 180;
+    private int cardHeight = 210;
 
     public ResponsiveGridLayout(int hgap, int vgap) {
         this.hgap = hgap;
@@ -165,6 +167,18 @@ public class ShopPanel extends JPanel {
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 12f));
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
+
+        JLabel productImg = new JLabel();
+        try {
+            URL imgUrl = new URL(product.getImage());
+            ImageIcon imageIcon = new ImageIcon(imgUrl);
+            Image resizedImg = imageIcon.getImage().getScaledInstance(100,80,Image.SCALE_AREA_AVERAGING);
+            productImg.setIcon( new ImageIcon(resizedImg) );
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JLabel priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
         priceLabel.setForeground(new Color(20, 120, 60));
         priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 11f));
@@ -196,9 +210,9 @@ public class ShopPanel extends JPanel {
                 addToCart(product);
             }
         });
-
         card.add(nameLabel);
         card.add(Box.createVerticalStrut(4));
+        card.add(productImg);
         card.add(priceLabel);
         card.add(Box.createVerticalStrut(4));
         card.add(descArea);
