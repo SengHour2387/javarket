@@ -1,11 +1,13 @@
 package org.example.models;
 
+import java.util.Objects;
+
 public class User {
     private int id  = 0;
     private String user_name = "";
-    private String email = null;
-    private String hash_pass = null;
-    private String pfp = null;
+    private String email = "";
+    private String hash_pass = "";
+    private String pfp = "";
 
     public User() {}
 
@@ -18,7 +20,7 @@ public class User {
     }
 
     public boolean verify( String email,String hash_pass ) {
-        return this.email.equals(email)&&this.hash_pass.equals(hash_pass);
+        return Objects.equals(this.email, email) && Objects.equals(this.hash_pass, hash_pass);
     }
 
     public String getUser_name() {

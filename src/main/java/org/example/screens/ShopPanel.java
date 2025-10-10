@@ -6,8 +6,12 @@ import org.example.models.Prodcut;
 
 import javax.swing.*;
 import java.awt.*;
+import java.net.URL;
+import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.List;
 
 // Custom responsive grid layout that adapts to container width
@@ -15,8 +19,8 @@ class ResponsiveGridLayout implements LayoutManager2 {
     private int hgap, vgap;
     private int minColumns = 1;
     private int maxColumns = 6;
-    private int cardWidth = 200;
-    private int cardHeight = 180;
+    private int cardWidth = 180;
+    private int cardHeight = 210;
 
     public ResponsiveGridLayout(int hgap, int vgap) {
         this.hgap = hgap;
@@ -110,6 +114,7 @@ public class ShopPanel extends JPanel {
     private final JPanel productsGrid;
     private final JScrollPane scrollPane;
     private CartManager cartManager;
+    private final JLabel loadingLabel = new JLabel("Loading products…", SwingConstants.CENTER);
 
     public ShopPanel() {
         setLayout(new BorderLayout());
@@ -135,22 +140,66 @@ public class ShopPanel extends JPanel {
 
         add(scrollPane, BorderLayout.CENTER);
 
-        loadProducts();
+        // Show loading state first, then load products asynchronously
+        showLoadingState();
+        loadProductsAsync();
     }
 
     private void loadProducts() {
+        // Synchronous load (kept for potential reuse) - not used on EDT anymore
         SimpleProductManager manager = new SimpleProductManager();
         List<Prodcut> products = manager.getAllProducts();
+        manager.close();
 
         productsGrid.removeAll();
-
         for (Prodcut product : products) {
             productsGrid.add(createProductCard(product));
         }
-
         productsGrid.revalidate();
         productsGrid.repaint();
-        manager.close();
+    }
+
+    private void showLoadingState() {
+        productsGrid.removeAll();
+        JPanel loadingPanel = new JPanel(new BorderLayout());
+        loadingLabel.setBorder(BorderFactory.createEmptyBorder(24, 24, 24, 24));
+        loadingPanel.add(loadingLabel, BorderLayout.CENTER);
+        productsGrid.add(loadingPanel);
+        productsGrid.revalidate();
+        productsGrid.repaint();
+    }
+
+    private void loadProductsAsync() {
+        SwingWorker<List<Prodcut>, Void> worker = new SwingWorker<>() {
+            @Override
+            protected List<Prodcut> doInBackground() {
+                SimpleProductManager manager = new SimpleProductManager();
+                List<Prodcut> products = manager.getAllProducts();
+                manager.close();
+                return products;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    List<Prodcut> products = get();
+                    productsGrid.removeAll();
+                    for (Prodcut product : products) {
+                        productsGrid.add(createProductCard(product));
+                    }
+                    productsGrid.revalidate();
+                    productsGrid.repaint();
+                } catch (Exception e) {
+                    productsGrid.removeAll();
+                    JLabel error = new JLabel("Failed to load products", SwingConstants.CENTER);
+                    error.setForeground(Color.RED);
+                    productsGrid.add(error);
+                    productsGrid.revalidate();
+                    productsGrid.repaint();
+                }
+            }
+        };
+        worker.execute();
     }
 
     private JComponent createProductCard(Prodcut product) {
@@ -161,9 +210,25 @@ public class ShopPanel extends JPanel {
                 BorderFactory.createEmptyBorder(8, 8, 8, 8)
         ));
 
+        // Image (optional)
+        JLabel imageLabel = createImageLabel(product.getImage());
+        imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
         JLabel nameLabel = new JLabel(product.getName());
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 12f));
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+        JLabel productImg = new JLabel();
+        try {
+            URL imgUrl = new URL(product.getImage());
+            ImageIcon imageIcon = new ImageIcon(imgUrl);
+            Image resizedImg = imageIcon.getImage().getScaledInstance(100,80,Image.SCALE_AREA_AVERAGING);
+            productImg.setIcon( new ImageIcon(resizedImg) );
+        } catch (MalformedURLException e) {
+            throw new RuntimeException(e);
+        }
+        productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
         priceLabel.setForeground(new Color(20, 120, 60));
@@ -196,9 +261,15 @@ public class ShopPanel extends JPanel {
                 addToCart(product);
             }
         });
+<<<<<<< HEAD
 
+        card.add(imageLabel);
+        card.add(Box.createVerticalStrut(6));
+=======
+>>>>>>> 85412513fb952927d9a8cb487b58dc836e16215a
         card.add(nameLabel);
         card.add(Box.createVerticalStrut(4));
+        card.add(productImg);
         card.add(priceLabel);
         card.add(Box.createVerticalStrut(4));
         card.add(descArea);
@@ -207,6 +278,75 @@ public class ShopPanel extends JPanel {
         card.add(addToCart);
 
         return card;
+    }
+
+    private JLabel createImageLabel(String imagePathOrUrl) {
+        int targetW = 180;
+        int targetH = 100;
+
+        JLabel label = new JLabel();
+        label.setPreferredSize(new Dimension(targetW, targetH));
+        label.setOpaque(true);
+        label.setBackground(new Color(245, 245, 245));
+        label.setBorder(BorderFactory.createLineBorder(new Color(235, 235, 235)));
+        label.setHorizontalAlignment(SwingConstants.CENTER);
+        label.setText("No Image");
+        label.setForeground(Color.GRAY);
+        label.setFont(label.getFont().deriveFont(10f));
+
+        if (imagePathOrUrl == null || imagePathOrUrl.trim().isEmpty()) {
+            return label;
+        }
+
+        String path = imagePathOrUrl.trim();
+
+        SwingWorker<ImageIcon, Void> imgWorker = new SwingWorker<>() {
+            @Override
+            protected ImageIcon doInBackground() {
+                try {
+                    ImageIcon icon = null;
+                    // Try URL
+                    try {
+                        URL url = new URL(path);
+                        icon = new ImageIcon(url);
+                    } catch (Exception ignore) {
+                        // Try file
+                        File f = new File(path);
+                        if (f.exists()) {
+                            icon = new ImageIcon(path);
+                        } else {
+                            // Try classpath
+                            URL res = getClass().getResource(path.startsWith("/") ? path : "/" + path);
+                            if (res != null) {
+                                icon = new ImageIcon(res);
+                            }
+                        }
+                    }
+                    if (icon != null && icon.getIconWidth() > 0 && icon.getIconHeight() > 0) {
+                        Image scaled = icon.getImage().getScaledInstance(targetW, targetH, Image.SCALE_SMOOTH);
+                        return new ImageIcon(scaled);
+                    }
+                } catch (Exception ignore) {
+                }
+                return null;
+            }
+
+            @Override
+            protected void done() {
+                try {
+                    ImageIcon scaledIcon = get();
+                    if (scaledIcon != null) {
+                        label.setText("");
+                        label.setIcon(scaledIcon);
+                        label.setBackground(Color.WHITE);
+                    }
+                } catch (Exception ignore) {
+                }
+            }
+        };
+        imgWorker.execute();
+
+        return label;
     }
     
     private void addToCart(Prodcut product) {
