@@ -4,9 +4,12 @@ import org.example.SimpleProductManager;
 import org.example.CartManager;
 import org.example.models.Prodcut;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImagingOpException;
 import java.net.URL;
 import java.io.File;
 import java.awt.event.ActionEvent;
@@ -314,8 +317,9 @@ public class ShopPanel extends JPanel {
                     // Try URL
                     try {
                         URL url = new URL(path);
-                        icon = new ImageIcon(url);
-                    } catch (Exception ignore) {
+                        BufferedImage image = ImageIO.read(url);
+                        icon = new ImageIcon(image);
+                    } catch ( ImagingOpException opException) {
                         // Try file
                         File f = new File(path);
                         if (f.exists()) {
