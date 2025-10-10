@@ -23,6 +23,10 @@ public class MainFrame extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
     private AppController controller;
     private JPanel shopWindow;
+    private JPanel shopPanel;
+    private CartPanel cartPanel;
+    private HistoryPanel historyPanel;
+    private CardLayout cardLayout;
     /**
      * Creates new form MainFramex
      */
@@ -32,31 +36,44 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void init() {
-        loadShopUI();
+        loadPanels();
+        showShopPanel();
     }
 
-    private void loadShopUI() {
-
-        Content.revalidate();
-        Content.repaint();
-        if(Content.getComponentCount() < 1) {
-            shopWindow = new JPanel( new BorderLayout());
-            shopWindow.setSize(900, 600);
-            shopWindow.setLayout(new BorderLayout());
-            ShopPanel shopPanel = new ShopPanel();
-            shopWindow.add(shopPanel, BorderLayout.CENTER);
-            Content.add(shopWindow,BorderLayout.CENTER);
-           
-            if (!shopWindow.isVisible()) {
-                shopWindow.setVisible(true);
-            }
-            shopWindow.requestFocus();
-        }
-
-
+    private void loadPanels() {
+        // Create shop panel
+        shopPanel = new JPanel(new BorderLayout());
+        ShopPanel shopPanelContent = new ShopPanel();
+        shopPanel.add(shopPanelContent, BorderLayout.CENTER);
+        
+        // Create cart panel
+        cartPanel = new CartPanel();
+        
+        // Create history panel
+        historyPanel = new HistoryPanel();
+        
+        // Add panels to content with CardLayout
+        Content.add(shopPanel, "SHOP");
+        Content.add(cartPanel, "CART");
+        Content.add(historyPanel, "HISTORY");
     }
-
-    private void loadCartUI() {}
+    
+    private void showShopPanel() {
+        cardLayout = (CardLayout) Content.getLayout();
+        cardLayout.show(Content, "SHOP");
+    }
+    
+    private void showCartPanel() {
+        cardLayout = (CardLayout) Content.getLayout();
+        cartPanel.refreshCart();
+        cardLayout.show(Content, "CART");
+    }
+    
+    private void showHistoryPanel() {
+        cardLayout = (CardLayout) Content.getLayout();
+        historyPanel.refreshHistory();
+        cardLayout.show(Content, "HISTORY");
+    }
 
     @Override
     public void frameInit() {
@@ -64,8 +81,6 @@ public class MainFrame extends javax.swing.JFrame {
 
         Content = new JPanel();
         Content.setLayout(new CardLayout());
-
-        loadShopUI();
 
         UIManager.put("ButtonArc",24);
         Content.setVisible(true);
@@ -91,7 +106,7 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(51, 255, 51));
+        setBackground(new java.awt.Color(255, 255, 255));
 
         Content.setBackground(new java.awt.Color(255, 255, 255));
         Content.setLayout(new java.awt.CardLayout());
@@ -190,21 +205,19 @@ public class MainFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        loadShopUI();
-
+        showShopPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        loadCartUI();
+        showCartPanel();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        showHistoryPanel();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Account feature coming soon!", "Account", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     /**

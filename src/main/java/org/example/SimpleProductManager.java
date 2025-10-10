@@ -16,7 +16,9 @@ public class SimpleProductManager {
         try {
             connector.connect();
         } catch (SQLException e) {
-            throw new RuntimeException("Failed to connect to database", e);
+            System.err.println("Database connection failed: " + e.getMessage());
+            e.printStackTrace();
+            throw new RuntimeException("Failed to connect to database: " + e.getMessage(), e);
         }
     }
     

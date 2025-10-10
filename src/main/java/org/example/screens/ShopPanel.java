@@ -190,10 +190,18 @@ public class ShopPanel extends JPanel {
                     productsGrid.revalidate();
                     productsGrid.repaint();
                 } catch (Exception e) {
+                    System.err.println("Error loading products: " + e.getMessage());
+                    e.printStackTrace();
                     productsGrid.removeAll();
+                    JPanel errorPanel = new JPanel(new BorderLayout());
                     JLabel error = new JLabel("Failed to load products", SwingConstants.CENTER);
                     error.setForeground(Color.RED);
-                    productsGrid.add(error);
+                    JLabel detail = new JLabel("Error: " + e.getMessage(), SwingConstants.CENTER);
+                    detail.setForeground(Color.GRAY);
+                    detail.setFont(detail.getFont().deriveFont(10f));
+                    errorPanel.add(error, BorderLayout.CENTER);
+                    errorPanel.add(detail, BorderLayout.SOUTH);
+                    productsGrid.add(errorPanel);
                     productsGrid.revalidate();
                     productsGrid.repaint();
                 }
@@ -220,13 +228,50 @@ public class ShopPanel extends JPanel {
 
 
         JLabel productImg = new JLabel();
-        try {
-            URL imgUrl = new URL(product.getImage());
-            ImageIcon imageIcon = new ImageIcon(imgUrl);
-            Image resizedImg = imageIcon.getImage().getScaledInstance(100,80,Image.SCALE_AREA_AVERAGING);
-            productImg.setIcon( new ImageIcon(resizedImg) );
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+        productImg.setPreferredSize(new Dimension(100, 80));
+        productImg.setOpaque(true);
+        productImg.setBackground(new Color(245, 245, 245));
+        productImg.setBorder(BorderFactory.createLineBorder(new Color(235, 235, 235)));
+        productImg.setHorizontalAlignment(SwingConstants.CENTER);
+        productImg.setText("No Image");
+        productImg.setForeground(Color.GRAY);
+        productImg.setFont(productImg.getFont().deriveFont(10f));
+        
+        // Try to load image asynchronously
+        if (product.getImage() != null && !product.getImage().trim().isEmpty()) {
+            SwingWorker<ImageIcon, Void> imgWorker = new SwingWorker<>() {
+                @Override
+                protected ImageIcon doInBackground() {
+                    try {
+                        URL imgUrl = new URL(product.getImage());
+                        ImageIcon imageIcon = new ImageIcon(imgUrl);
+                        if (imageIcon.getIconWidth() > 0 && imageIcon.getIconHeight() > 0) {
+                            Image resizedImg = imageIcon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
+                            return new ImageIcon(resizedImg);
+                        } else {
+                            System.err.println("Invalid image dimensions for: " + product.getImage());
+                        }
+                    } catch (Exception e) {
+                        System.err.println("Failed to load image from: " + product.getImage() + " - " + e.getMessage());
+                    }
+                    return null;
+                }
+
+                @Override
+                protected void done() {
+                    try {
+                        ImageIcon scaledIcon = get();
+                        if (scaledIcon != null) {
+                            productImg.setText("");
+                            productImg.setIcon(scaledIcon);
+                            productImg.setBackground(Color.WHITE);
+                        }
+                    } catch (Exception e) {
+                        // Keep placeholder
+                    }
+                }
+            };
+            imgWorker.execute();
         }
         productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
