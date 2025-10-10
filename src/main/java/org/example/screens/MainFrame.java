@@ -13,6 +13,7 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.Objects;
 
 /**
  *
@@ -30,6 +31,8 @@ public class MainFrame extends javax.swing.JFrame {
         this.controller = controller;
         initComponents();
     }
+    
+    private FlatLaf theme = new FlatMacLightLaf();
 
     private void init() {
         loadShopUI();
@@ -39,6 +42,7 @@ public class MainFrame extends javax.swing.JFrame {
 
         Content.revalidate();
         Content.repaint();
+        
         if(Content.getComponentCount() < 1) {
             shopWindow = new JPanel( new BorderLayout());
             shopWindow.setSize(900, 600);
@@ -60,16 +64,12 @@ public class MainFrame extends javax.swing.JFrame {
 
     @Override
     public void frameInit() {
-        FlatLaf.setup( new FlatMacLightLaf());
-
+        super.frameInit();
         Content = new JPanel();
         Content.setLayout(new CardLayout());
-
         loadShopUI();
-
         UIManager.put("ButtonArc",24);
         Content.setVisible(true);
-        super.frameInit();
     }
 
     /**
@@ -81,6 +81,13 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        theme = new FlatMacLightLaf();
+        try {
+            UIManager.setLookAndFeel( theme );
+        } catch (UnsupportedLookAndFeelException e) {
+            throw new RuntimeException(e);
+        }
+
         Content = new javax.swing.JPanel();
         Drawer = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -89,17 +96,16 @@ public class MainFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
+        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(51, 255, 51));
 
-        Content.setBackground(new java.awt.Color(255, 255, 255));
         Content.setLayout(new java.awt.CardLayout());
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
 
-        Drawer.setBackground(new java.awt.Color(255, 255, 255));
         Drawer.setBorder(jButton2.getBorder());
         Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
         Drawer.setMixingCutoutShape(jButton1.getVisibleRect());
@@ -169,22 +175,34 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("JavarKet");
 
+        jButton5.setText("Theme");
+        jButton5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton5ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(311, Short.MAX_VALUE)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(16, 16, 16)
+                .addComponent(jButton5)
+                .addGap(298, 298, 298)
                 .addComponent(jLabel3)
-                .addGap(385, 385, 385))
+                .addContainerGap(433, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)))
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
-        init();
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -207,6 +225,22 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton4ActionPerformed
 
+    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
+        // TODO add your handling code here:
+        if(theme.isDark()) {
+            theme = new FlatMacLightLaf();
+        } else {
+            theme = new FlatMacDarkLaf();
+        }
+        try {
+            UIManager.setLookAndFeel(theme);
+        } catch (UnsupportedLookAndFeelException e) {
+            throw new RuntimeException(e);
+        }
+        SwingUtilities.updateComponentTreeUI(MainFrame.this);
+      
+    }//GEN-LAST:event_jButton5ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -218,6 +252,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables
