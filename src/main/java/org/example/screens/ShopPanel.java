@@ -4,12 +4,17 @@ import org.example.SimpleProductManager;
 import org.example.CartManager;
 import org.example.models.Prodcut;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.awt.image.ImagingOpException;
 import java.net.URL;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -212,6 +217,8 @@ public class ShopPanel extends JPanel {
 
     private JComponent createProductCard(Prodcut product) {
         JPanel card = new JPanel();
+        Border border =  new JButton().getBorder();
+        card.setBorder( border );
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(220, 220, 220)),
@@ -228,6 +235,7 @@ public class ShopPanel extends JPanel {
 
 
         JLabel productImg = new JLabel();
+<<<<<<< HEAD
         productImg.setPreferredSize(new Dimension(100, 80));
         productImg.setOpaque(true);
         productImg.setBackground(new Color(245, 245, 245));
@@ -272,6 +280,22 @@ public class ShopPanel extends JPanel {
                 }
             };
             imgWorker.execute();
+=======
+        try {
+            URL imgUrl = new URL(product.getImage());
+            ImageIcon imageIcon = new ImageIcon(imgUrl);
+            if(imageIcon.getImage() == null) {
+                throw new IOException("Failed to load image from URL: " + imgUrl);
+            }
+            Image resizedImg = imageIcon.getImage().getScaledInstance(100,80,Image.SCALE_AREA_AVERAGING);
+            productImg.setIcon( new ImageIcon(resizedImg) );
+        } catch (MalformedURLException e) {
+            System.out.println("fail url: " + e.getMessage());
+        }
+        catch (IOException e) {
+            productImg.setText("Empty Image");
+            System.out.println("fail img: " + e.getMessage());
+>>>>>>> 0058cd37f0a2264419613062c7df0cb4b122420b
         }
         productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -348,8 +372,9 @@ public class ShopPanel extends JPanel {
                     // Try URL
                     try {
                         URL url = new URL(path);
-                        icon = new ImageIcon(url);
-                    } catch (Exception ignore) {
+                        BufferedImage image = ImageIO.read(url);
+                        icon = new ImageIcon(image);
+                    } catch ( ImagingOpException opException) {
                         // Try file
                         File f = new File(path);
                         if (f.exists()) {
