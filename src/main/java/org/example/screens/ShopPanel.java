@@ -5,9 +5,11 @@ import org.example.CartManager;
 import org.example.models.Prodcut;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.List;
@@ -157,6 +159,8 @@ public class ShopPanel extends JPanel {
 
     private JComponent createProductCard(Prodcut product) {
         JPanel card = new JPanel();
+        Border border =  new JButton().getBorder();
+        card.setBorder( border );
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(220, 220, 220)),
@@ -172,10 +176,17 @@ public class ShopPanel extends JPanel {
         try {
             URL imgUrl = new URL(product.getImage());
             ImageIcon imageIcon = new ImageIcon(imgUrl);
+            if(imageIcon.getImage() == null) {
+                throw new IOException("Failed to load image from URL: " + imgUrl);
+            }
             Image resizedImg = imageIcon.getImage().getScaledInstance(100,80,Image.SCALE_AREA_AVERAGING);
             productImg.setIcon( new ImageIcon(resizedImg) );
         } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
+            System.out.println("fail url: " + e.getMessage());
+        }
+        catch (IOException e) {
+            productImg.setText("Empty Image");
+            System.out.println("fail img: " + e.getMessage());
         }
         productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
