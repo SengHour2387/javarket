@@ -9,14 +9,12 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.image.ImagingOpException;
 import java.net.URL;
 import java.io.File;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URL;
 import java.util.List;
 
 // Custom responsive grid layout that adapts to container width
@@ -235,7 +233,6 @@ public class ShopPanel extends JPanel {
 
 
         JLabel productImg = new JLabel();
-<<<<<<< HEAD
         productImg.setPreferredSize(new Dimension(100, 80));
         productImg.setOpaque(true);
         productImg.setBackground(new Color(245, 245, 245));
@@ -245,22 +242,26 @@ public class ShopPanel extends JPanel {
         productImg.setForeground(Color.GRAY);
         productImg.setFont(productImg.getFont().deriveFont(10f));
         
-        // Try to load image asynchronously
+        // Try to load image asynchronously with better error handling
         if (product.getImage() != null && !product.getImage().trim().isEmpty()) {
             SwingWorker<ImageIcon, Void> imgWorker = new SwingWorker<>() {
                 @Override
                 protected ImageIcon doInBackground() {
                     try {
                         URL imgUrl = new URL(product.getImage());
-                        ImageIcon imageIcon = new ImageIcon(imgUrl);
-                        if (imageIcon.getIconWidth() > 0 && imageIcon.getIconHeight() > 0) {
-                            Image resizedImg = imageIcon.getImage().getScaledInstance(100, 80, Image.SCALE_SMOOTH);
+                        BufferedImage image = ImageIO.read(imgUrl);
+                        if (image != null) {
+                            Image resizedImg = image.getScaledInstance(100, 80, Image.SCALE_SMOOTH);
                             return new ImageIcon(resizedImg);
                         } else {
-                            System.err.println("Invalid image dimensions for: " + product.getImage());
+                            System.err.println("Failed to load image from URL: " + imgUrl);
                         }
-                    } catch (Exception e) {
+                    } catch (MalformedURLException e) {
+                        System.err.println("Invalid URL for image: " + product.getImage() + " - " + e.getMessage());
+                    } catch (IOException e) {
                         System.err.println("Failed to load image from: " + product.getImage() + " - " + e.getMessage());
+                    } catch (Exception e) {
+                        System.err.println("Unexpected error loading image: " + product.getImage() + " - " + e.getMessage());
                     }
                     return null;
                 }
@@ -273,29 +274,18 @@ public class ShopPanel extends JPanel {
                             productImg.setText("");
                             productImg.setIcon(scaledIcon);
                             productImg.setBackground(Color.WHITE);
+                        } else {
+                            productImg.setText("Failed to load");
+                            productImg.setForeground(Color.RED);
                         }
                     } catch (Exception e) {
-                        // Keep placeholder
+                        productImg.setText("Error loading");
+                        productImg.setForeground(Color.RED);
+                        System.err.println("Error in image loading done(): " + e.getMessage());
                     }
                 }
             };
             imgWorker.execute();
-=======
-        try {
-            URL imgUrl = new URL(product.getImage());
-            ImageIcon imageIcon = new ImageIcon(imgUrl);
-            if(imageIcon.getImage() == null) {
-                throw new IOException("Failed to load image from URL: " + imgUrl);
-            }
-            Image resizedImg = imageIcon.getImage().getScaledInstance(100,80,Image.SCALE_AREA_AVERAGING);
-            productImg.setIcon( new ImageIcon(resizedImg) );
-        } catch (MalformedURLException e) {
-            System.out.println("fail url: " + e.getMessage());
-        }
-        catch (IOException e) {
-            productImg.setText("Empty Image");
-            System.out.println("fail img: " + e.getMessage());
->>>>>>> 0058cd37f0a2264419613062c7df0cb4b122420b
         }
         productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -374,7 +364,7 @@ public class ShopPanel extends JPanel {
                         URL url = new URL(path);
                         BufferedImage image = ImageIO.read(url);
                         icon = new ImageIcon(image);
-                    } catch ( ImagingOpException opException) {
+                    } catch (Exception e) {
                         // Try file
                         File f = new File(path);
                         if (f.exists()) {
