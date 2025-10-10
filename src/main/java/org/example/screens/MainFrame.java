@@ -13,7 +13,6 @@ import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import java.util.Objects;
 
 /**
  *
@@ -24,6 +23,10 @@ public class MainFrame extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
     private AppController controller;
     private JPanel shopWindow;
+    private JPanel shopPanel;
+    private CartPanel cartPanel;
+    private HistoryPanel historyPanel;
+    private CardLayout cardLayout;
     /**
      * Creates new form MainFramex
      */
@@ -31,45 +34,57 @@ public class MainFrame extends javax.swing.JFrame {
         this.controller = controller;
         initComponents();
     }
-    
-    private FlatLaf theme = new FlatMacLightLaf();
 
     private void init() {
-        loadShopUI();
+        loadPanels();
+        showShopPanel();
     }
 
-    private void loadShopUI() {
-
-        Content.revalidate();
-        Content.repaint();
+    private void loadPanels() {
+        // Create shop panel
+        shopPanel = new JPanel(new BorderLayout());
+        ShopPanel shopPanelContent = new ShopPanel();
+        shopPanel.add(shopPanelContent, BorderLayout.CENTER);
         
-        if(Content.getComponentCount() < 1) {
-            shopWindow = new JPanel( new BorderLayout());
-            shopWindow.setSize(900, 600);
-            shopWindow.setLayout(new BorderLayout());
-            ShopPanel shopPanel = new ShopPanel();
-            shopWindow.add(shopPanel, BorderLayout.CENTER);
-            Content.add(shopWindow,BorderLayout.CENTER);
-           
-            if (!shopWindow.isVisible()) {
-                shopWindow.setVisible(true);
-            }
-            shopWindow.requestFocus();
-        }
-
-
+        // Create cart panel
+        cartPanel = new CartPanel();
+        
+        // Create history panel
+        historyPanel = new HistoryPanel();
+        
+        // Add panels to content with CardLayout
+        Content.add(shopPanel, "SHOP");
+        Content.add(cartPanel, "CART");
+        Content.add(historyPanel, "HISTORY");
     }
-
-    private void loadCartUI() {}
+    
+    private void showShopPanel() {
+        cardLayout = (CardLayout) Content.getLayout();
+        cardLayout.show(Content, "SHOP");
+    }
+    
+    private void showCartPanel() {
+        cardLayout = (CardLayout) Content.getLayout();
+        cartPanel.refreshCart();
+        cardLayout.show(Content, "CART");
+    }
+    
+    private void showHistoryPanel() {
+        cardLayout = (CardLayout) Content.getLayout();
+        historyPanel.refreshHistory();
+        cardLayout.show(Content, "HISTORY");
+    }
 
     @Override
     public void frameInit() {
-        super.frameInit();
+        FlatLaf.setup( new FlatMacLightLaf());
+
         Content = new JPanel();
         Content.setLayout(new CardLayout());
-        loadShopUI();
+
         UIManager.put("ButtonArc",24);
         Content.setVisible(true);
+        super.frameInit();
     }
 
     /**
@@ -81,13 +96,6 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        theme = new FlatMacLightLaf();
-        try {
-            UIManager.setLookAndFeel( theme );
-        } catch (UnsupportedLookAndFeelException e) {
-            throw new RuntimeException(e);
-        }
-
         Content = new javax.swing.JPanel();
         Drawer = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -96,16 +104,17 @@ public class MainFrame extends javax.swing.JFrame {
         jButton4 = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
-        jButton5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(51, 255, 51));
+        setBackground(new java.awt.Color(255, 255, 255));
 
+        Content.setBackground(new java.awt.Color(255, 255, 255));
         Content.setLayout(new java.awt.CardLayout());
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
 
+        Drawer.setBackground(new java.awt.Color(255, 255, 255));
         Drawer.setBorder(jButton2.getBorder());
         Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
         Drawer.setMixingCutoutShape(jButton1.getVisibleRect());
@@ -175,71 +184,41 @@ public class MainFrame extends javax.swing.JFrame {
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
         jLabel3.setText("JavarKet");
 
-        jButton5.setText("Theme");
-        jButton5.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton5ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(16, 16, 16)
-                .addComponent(jButton5)
-                .addGap(298, 298, 298)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(311, Short.MAX_VALUE)
                 .addComponent(jLabel3)
-                .addContainerGap(433, Short.MAX_VALUE))
+                .addGap(385, 385, 385))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jButton5, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)))
+            .addComponent(jLabel3, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
+        init();
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        loadShopUI();
-
+        showShopPanel();
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        // TODO add your handling code here:
-        loadCartUI();
+        showCartPanel();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        // TODO add your handling code here:
+        showHistoryPanel();
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        // TODO add your handling code here:
+        JOptionPane.showMessageDialog(this, "Account feature coming soon!", "Account", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton4ActionPerformed
-
-    private void jButton5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton5ActionPerformed
-        // TODO add your handling code here:
-        if(theme.isDark()) {
-            theme = new FlatMacLightLaf();
-        } else {
-            theme = new FlatMacDarkLaf();
-        }
-        try {
-            UIManager.setLookAndFeel(theme);
-        } catch (UnsupportedLookAndFeelException e) {
-            throw new RuntimeException(e);
-        }
-        SwingUtilities.updateComponentTreeUI(MainFrame.this);
-      
-    }//GEN-LAST:event_jButton5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -252,7 +231,6 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
-    private javax.swing.JButton jButton5;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
     // End of variables declaration//GEN-END:variables

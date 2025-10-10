@@ -19,9 +19,13 @@ public class DatabaseConnector {
     public void connect() throws SQLException {
         if( connection == null || connection.isClosed() ) {
             try {
+                System.out.println("Connecting to database: " + url);
                 connection  = DriverManager.getConnection(url);
+                System.out.println("Database connection successful");
             } catch (SQLException e) {
-                throw new SQLException("Fail connection: " + e.getMessage());
+                System.err.println("Database connection failed: " + e.getMessage());
+                e.printStackTrace();
+                throw new SQLException("Failed to connect to database at " + url + ": " + e.getMessage(), e);
             }
         }
     }
@@ -35,9 +39,17 @@ public class DatabaseConnector {
     // for Read ( just read from database )
     public ResultSet runSelect(String sql, Object...parameters) throws SQLException {
         connect();
-        PreparedStatement preparedStatement = connection.prepareStatement(sql);
-        setParameters(preparedStatement,parameters);
-        return preparedStatement.executeQuery();
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            setParameters(preparedStatement,parameters);
+            System.out.println("SQL query executed: " + sql.substring(0, Math.min(sql.length(), 50)) + "...");
+            return preparedStatement.executeQuery();
+        } catch (SQLException e) {
+            System.err.println("SQL query failed: " + sql);
+            System.err.println("Parameters: " + java.util.Arrays.toString(parameters));
+            e.printStackTrace();
+            throw new SQLException("Error executing query: " + e.getMessage(), e);
+        }
     }
 
     // for Create Update Delete ( database makes changes )
@@ -48,9 +60,14 @@ public class DatabaseConnector {
         )
         {
             setParameters(preparedStatement,parameters);
-            return preparedStatement.executeUpdate();
+            int result = preparedStatement.executeUpdate();
+            System.out.println("SQL executed successfully: " + sql.substring(0, Math.min(sql.length(), 50)) + "...");
+            return result;
         } catch (SQLException e) {
-            throw new SQLException( "Error runCUD" + e.getMessage() );
+            System.err.println("SQL execution failed: " + sql);
+            System.err.println("Parameters: " + java.util.Arrays.toString(parameters));
+            e.printStackTrace();
+            throw new SQLException("Error executing SQL: " + e.getMessage(), e);
         }
     }
     
