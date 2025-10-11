@@ -107,6 +107,10 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        cartPanel = new CartPanel();
+        historyPanel = new HistoryPanel();
+
+
         Content = new javax.swing.JPanel();
         Drawer = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();

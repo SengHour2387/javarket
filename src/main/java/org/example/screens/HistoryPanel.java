@@ -23,6 +23,7 @@ public class HistoryPanel extends JPanel {
     private List<Order> orders;
     
     public HistoryPanel() {
+        super();
         setLayout(new BorderLayout());
         connector = new DatabaseConnector();
         orders = new ArrayList<>();

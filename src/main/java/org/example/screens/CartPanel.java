@@ -18,6 +18,7 @@ public class CartPanel extends JPanel {
     private CartManager cartManager;
     
     public CartPanel() {
+        super();
         setLayout(new BorderLayout());
         cartManager = CartManager.getInstance();
         initComponents();
