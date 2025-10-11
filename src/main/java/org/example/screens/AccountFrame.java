@@ -11,6 +11,8 @@ import org.example.models.UserShop;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -48,6 +50,18 @@ public class AccountFrame extends javax.swing.JFrame {
     private void initData() {
         UserNameLabel.setText(currentUser.getUser_name());
         UserEmailLabel.setText(currentUser.getEmail());
+
+        List<UserShop> myshops = controller.getMyShops();
+
+        if(myshops.isEmpty()) {
+            System.out.println("Empty shops");
+        } else {
+            DefaultListModel<String> listModel = new DefaultListModel<>();
+            myshops.forEach( e->{
+                listModel.addElement(e.getName());
+            });
+            MyShopeListView.setModel(listModel);
+        }
     }
 
     /**
@@ -61,10 +75,11 @@ public class AccountFrame extends javax.swing.JFrame {
 
         UserNameLabel = new javax.swing.JLabel();
         UserEmailLabel = new javax.swing.JLabel();
-        NoShopLabel = new javax.swing.JLabel();
         OpenAShopBtn = new javax.swing.JLabel();
         ViewShopPanel = new javax.swing.JPanel();
         ShopDetailForm = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        MyShopeListView = new javax.swing.JList<>();
         AddShopForm = new javax.swing.JPanel();
         ShopNameLabel = new javax.swing.JTextField();
         ShopTypeLabel = new javax.swing.JTextField();
@@ -87,11 +102,9 @@ public class AccountFrame extends javax.swing.JFrame {
 
         UserEmailLabel.setText("user@gmail.com");
 
-        NoShopLabel.setText("You don't have a shop yet.");
-
         OpenAShopBtn.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
         OpenAShopBtn.setForeground(new java.awt.Color(51, 204, 255));
-        OpenAShopBtn.setText("Open one ?");
+        OpenAShopBtn.setText("Create a new shop");
         OpenAShopBtn.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 OpenAShopBtnMouseClicked(evt);
@@ -100,15 +113,23 @@ public class AccountFrame extends javax.swing.JFrame {
 
         ViewShopPanel.setLayout(new java.awt.CardLayout());
 
+        jScrollPane1.setViewportView(MyShopeListView);
+
         javax.swing.GroupLayout ShopDetailFormLayout = new javax.swing.GroupLayout(ShopDetailForm);
         ShopDetailForm.setLayout(ShopDetailFormLayout);
         ShopDetailFormLayout.setHorizontalGroup(
             ShopDetailFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 349, Short.MAX_VALUE)
+            .addGroup(ShopDetailFormLayout.createSequentialGroup()
+                .addGap(22, 22, 22)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 259, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(68, Short.MAX_VALUE))
         );
         ShopDetailFormLayout.setVerticalGroup(
             ShopDetailFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 303, Short.MAX_VALUE)
+            .addGroup(ShopDetailFormLayout.createSequentialGroup()
+                .addGap(15, 15, 15)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(158, Short.MAX_VALUE))
         );
 
         ViewShopPanel.add(ShopDetailForm, "card3");
@@ -205,14 +226,11 @@ public class AccountFrame extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(OpenAShopBtn)
                     .addComponent(ViewShopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                         .addComponent(UserNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(UserEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(NoShopLabel)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(OpenAShopBtn)))
+                        .addComponent(UserEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE)))
                 .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -223,9 +241,7 @@ public class AccountFrame extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(UserEmailLabel)
                 .addGap(249, 249, 249)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(NoShopLabel)
-                    .addComponent(OpenAShopBtn))
+                .addComponent(OpenAShopBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(ViewShopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(20, Short.MAX_VALUE))
@@ -290,7 +306,7 @@ public class AccountFrame extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton AddShopBtn;
     private javax.swing.JPanel AddShopForm;
-    private javax.swing.JLabel NoShopLabel;
+    private javax.swing.JList<String> MyShopeListView;
     private javax.swing.JLabel OpenAShopBtn;
     private javax.swing.JTextField ShopAdrsLabel;
     private javax.swing.JPanel ShopDetailForm;
@@ -308,5 +324,6 @@ public class AccountFrame extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

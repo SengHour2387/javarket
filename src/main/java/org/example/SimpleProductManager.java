@@ -1,6 +1,7 @@
 package org.example;
 
 import org.example.models.Prodcut;
+import org.example.models.UserShop;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -25,7 +26,7 @@ public class SimpleProductManager {
     /**
      * Add a new product to the database
      */
-    public boolean addProduct(Prodcut product) {
+    public boolean addProduct(Prodcut product, UserShop shop) {
         try {
             int rowsAffected = connector.runCUD(
                 "INSERT INTO products_tbl (name, description, price, image, stock, category_id, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?)",
@@ -37,7 +38,13 @@ public class SimpleProductManager {
                 product.getCategory_id(),
                 product.getSeller_id()
             );
-            return rowsAffected > 0;
+
+            int pairingShopToProduct = connector.runCUD("INSERT INTO shop_product_mapping (shop_id, product_id)\n" +
+                        "VALUES (?, ?)",
+                        shop.getId(),
+                        product.getId()
+                        );
+            return rowsAffected > 0 && pairingShopToProduct > 0;
         } catch (SQLException e) {
             System.err.println("Error adding product: " + e.getMessage());
             return false;
