@@ -248,7 +248,10 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JOptionPane.showMessageDialog(this, "Account feature coming soon!", "Account", JOptionPane.INFORMATION_MESSAGE);
+        AccountFrame accountFrame = new AccountFrame( this.controller.currentUser,theme );
+        accountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        accountFrame.setVisible(true);
+       
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void themeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themeBtnActionPerformed
