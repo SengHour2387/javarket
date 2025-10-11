@@ -248,7 +248,7 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        AccountFrame accountFrame = new AccountFrame( this.controller.currentUser,theme );
+        AccountFrame accountFrame = new AccountFrame( this.controller.currentUser,theme,controller.getConnector());
         accountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         accountFrame.setVisible(true);
        

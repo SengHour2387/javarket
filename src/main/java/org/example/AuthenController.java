@@ -29,6 +29,10 @@ public class AuthenController {
         }
     }
 
+    public DatabaseConnector getConnector() {
+        return connector;
+    }
+
     public User getCurrentUser() {
         return currentUser;
     }

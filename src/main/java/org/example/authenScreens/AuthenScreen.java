@@ -313,10 +313,8 @@ public class AuthenScreen extends javax.swing.JFrame {
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
         // TODO add your handling code here:
         if(controller.signIn(EmailField.getText().trim(),PasswordField.getText().trim())) {
-             
-            DatabaseConnector connector = new DatabaseConnector();
             
-            AppController appController = new AppController(connector, controller.getCurrentUser());
+            AppController appController = new AppController(controller.getConnector(), controller.getCurrentUser());
             
             MainFrame mainFrame = new MainFrame(appController);
             mainFrame.setVisible(true);
@@ -352,9 +350,7 @@ public class AuthenScreen extends javax.swing.JFrame {
                 PasswordHasher.hashPassword(PasswordField1.getText().trim()),"");
         if(controller.signUp(newUser,this.LoginPanel)) {
             System.out.println("sign up completed");
-            DatabaseConnector connector = new DatabaseConnector();
-
-            AppController appController = new AppController(connector,newUser );
+            AppController appController = new AppController(controller.getConnector(),newUser );
 
             MainFrame mainFrame = new MainFrame(appController);
             mainFrame.setVisible(true);
@@ -383,9 +379,7 @@ public class AuthenScreen extends javax.swing.JFrame {
     private void SkipToMainBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SkipToMainBtnActionPerformed
         // TODO add your handling code here:
         
-        DatabaseConnector connector = new DatabaseConnector();
-        
-        AppController appController = new AppController(connector, new User() );
+        AppController appController = new AppController(controller.getConnector(), new User() );
         
         MainFrame mainFrame = new MainFrame(appController);
         mainFrame.setVisible(true);

@@ -25,6 +25,7 @@ public class DatabaseConnector {
             } catch (SQLException e) {
                 System.err.println("Database connection failed: " + e.getMessage());
                 e.printStackTrace();
+                connection.rollback();
                 throw new SQLException("Failed to connect to database at " + url + ": " + e.getMessage(), e);
             }
         }
@@ -48,6 +49,7 @@ public class DatabaseConnector {
             System.err.println("SQL query failed: " + sql);
             System.err.println("Parameters: " + java.util.Arrays.toString(parameters));
             e.printStackTrace();
+            connection.rollback();
             throw new SQLException("Error executing query: " + e.getMessage(), e);
         }
     }
@@ -67,8 +69,8 @@ public class DatabaseConnector {
             System.err.println("SQL execution failed: " + sql);
             System.err.println("Parameters: " + java.util.Arrays.toString(parameters));
             e.printStackTrace();
+            connection.rollback();
             throw new SQLException("Error executing SQL: " + e.getMessage(), e);
         }
     }
-    
 }

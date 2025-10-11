@@ -22,6 +22,10 @@ public class AppController {
         }
     }
 
+    public DatabaseConnector getConnector() {
+        return connector;
+    }
+
     public boolean addProduct(Prodcut product) {
         try {
             String sql = "INSERT INTO products_tbl (name, description, price, image, stock, category_id, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?)";

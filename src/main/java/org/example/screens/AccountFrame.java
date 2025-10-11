@@ -5,9 +5,12 @@
 package org.example.screens;
 
 import com.formdev.flatlaf.FlatLaf;
+import org.example.DatabaseConnector;
 import org.example.models.User;
+import org.example.models.UserShop;
 
 import javax.swing.*;
+import java.awt.*;
 
 /**
  *
@@ -19,13 +22,27 @@ public class AccountFrame extends javax.swing.JFrame {
 
     private User currentUser ;
     private FlatLaf theme;
+    private final DatabaseConnector connector;
+    private AccountController controller ;
     /**
      * Creates new form AccountFrame
      */
-    public AccountFrame( User currentUser , FlatLaf theme ) {
+    public AccountFrame(User currentUser , FlatLaf theme, DatabaseConnector connector) {
+        this.connector = connector;
+        controller = new AccountController( connector, currentUser );
         this.theme = theme;
         this.currentUser = currentUser;
         initComponents();
+        initData();
+    }
+
+    private void clearShopInputForm() {
+                ShopNameLabel.setText("");
+                ShopTypeLabel.setText("");
+                ShopAdrsLabel.setText("");
+                ShopPhoneLabel.setText("");
+                ShopEmailLabel.setText("");
+                ShopStatusLabel.setText("");
     }
 
     private void initData() {
@@ -44,6 +61,24 @@ public class AccountFrame extends javax.swing.JFrame {
 
         UserNameLabel = new javax.swing.JLabel();
         UserEmailLabel = new javax.swing.JLabel();
+        NoShopLabel = new javax.swing.JLabel();
+        OpenAShopBtn = new javax.swing.JLabel();
+        ViewShopPanel = new javax.swing.JPanel();
+        ShopDetailForm = new javax.swing.JPanel();
+        AddShopForm = new javax.swing.JPanel();
+        ShopNameLabel = new javax.swing.JTextField();
+        ShopTypeLabel = new javax.swing.JTextField();
+        ShopAdrsLabel = new javax.swing.JTextField();
+        ShopPhoneLabel = new javax.swing.JTextField();
+        ShopEmailLabel = new javax.swing.JTextField();
+        ShopStatusLabel = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        AddShopBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -52,16 +87,133 @@ public class AccountFrame extends javax.swing.JFrame {
 
         UserEmailLabel.setText("user@gmail.com");
 
+        NoShopLabel.setText("You don't have a shop yet.");
+
+        OpenAShopBtn.setFont(new java.awt.Font("Helvetica Neue", 1, 13)); // NOI18N
+        OpenAShopBtn.setForeground(new java.awt.Color(51, 204, 255));
+        OpenAShopBtn.setText("Open one ?");
+        OpenAShopBtn.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                OpenAShopBtnMouseClicked(evt);
+            }
+        });
+
+        ViewShopPanel.setLayout(new java.awt.CardLayout());
+
+        javax.swing.GroupLayout ShopDetailFormLayout = new javax.swing.GroupLayout(ShopDetailForm);
+        ShopDetailForm.setLayout(ShopDetailFormLayout);
+        ShopDetailFormLayout.setHorizontalGroup(
+            ShopDetailFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 349, Short.MAX_VALUE)
+        );
+        ShopDetailFormLayout.setVerticalGroup(
+            ShopDetailFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 303, Short.MAX_VALUE)
+        );
+
+        ViewShopPanel.add(ShopDetailForm, "card3");
+        ShopDetailForm.getAccessibleContext().setAccessibleName("");
+
+        jLabel1.setText("Shop Name:");
+
+        jLabel2.setText("Shop Type");
+
+        jLabel3.setText("Address");
+
+        jLabel4.setText("Phone Number");
+
+        jLabel5.setText("Business Email");
+
+        jLabel6.setText("Status");
+
+        AddShopBtn.setBackground(new java.awt.Color(102, 204, 255));
+        AddShopBtn.setText("Done");
+        AddShopBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AddShopBtnActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout AddShopFormLayout = new javax.swing.GroupLayout(AddShopForm);
+        AddShopForm.setLayout(AddShopFormLayout);
+        AddShopFormLayout.setHorizontalGroup(
+            AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddShopFormLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jLabel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(AddShopFormLayout.createSequentialGroup()
+                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(0, 28, Short.MAX_VALUE))
+                    .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(ShopNameLabel)
+                    .addComponent(ShopTypeLabel)
+                    .addComponent(ShopAdrsLabel)
+                    .addComponent(ShopPhoneLabel)
+                    .addComponent(ShopEmailLabel)
+                    .addComponent(ShopStatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(56, 56, 56))
+            .addGroup(AddShopFormLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(AddShopBtn)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        AddShopFormLayout.setVerticalGroup(
+            AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, AddShopFormLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ShopNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1))
+                .addGap(18, 18, 18)
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ShopTypeLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel2))
+                .addGap(18, 18, 18)
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ShopAdrsLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel3))
+                .addGap(18, 18, 18)
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ShopPhoneLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addGap(18, 18, 18)
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ShopEmailLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addGap(18, 18, 18)
+                .addGroup(AddShopFormLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(ShopStatusLabel, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel6))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addComponent(AddShopBtn)
+                .addGap(20, 20, 20))
+        );
+
+        ViewShopPanel.add(AddShopForm, "ADDSHOPCARD");
+        AddShopForm.getAccessibleContext().setAccessibleName("ADDSHOPCARD");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(26, 26, 26)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(UserNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(UserEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
-                .addContainerGap(206, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(ViewShopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 349, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(UserNameLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(UserEmailLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 168, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(NoShopLabel)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(OpenAShopBtn)))
+                .addContainerGap(25, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -70,13 +222,45 @@ public class AccountFrame extends javax.swing.JFrame {
                 .addComponent(UserNameLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 38, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(UserEmailLabel)
-                .addContainerGap(595, Short.MAX_VALUE))
+                .addGap(249, 249, 249)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(NoShopLabel)
+                    .addComponent(OpenAShopBtn))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(ViewShopPanel, javax.swing.GroupLayout.PREFERRED_SIZE, 303, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(20, Short.MAX_VALUE))
         );
 
-        initData();
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void OpenAShopBtnMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OpenAShopBtnMouseClicked
+        // TODO add your handling code here:
+         CardLayout cardLayout = (CardLayout) ViewShopPanel.getLayout();
+         cardLayout.show(ViewShopPanel,"ADDSHOPCARD");
+
+        
+    }//GEN-LAST:event_OpenAShopBtnMouseClicked
+
+    private void AddShopBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AddShopBtnActionPerformed
+        // TODO add your handling code here:
+        UserShop newShop = new UserShop(0,ShopNameLabel.getText().trim(),
+                currentUser.getId(),
+                ShopTypeLabel.getText().trim(),
+                ShopAdrsLabel.getText().trim(),
+                ShopPhoneLabel.getText().trim(),
+                ShopEmailLabel.getText().trim(),
+                ShopStatusLabel.getText().trim()
+        );
+        if(controller.addShop(newShop)) {
+            System.out.println("Opened a shop");
+            clearShopInputForm();
+        } else {
+            System.out.println("Fail opening a shop");
+        }
+
+    }//GEN-LAST:event_AddShopBtnActionPerformed
 
     /**
      * @param args the command line arguments
@@ -104,7 +288,25 @@ public class AccountFrame extends javax.swing.JFrame {
 //    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton AddShopBtn;
+    private javax.swing.JPanel AddShopForm;
+    private javax.swing.JLabel NoShopLabel;
+    private javax.swing.JLabel OpenAShopBtn;
+    private javax.swing.JTextField ShopAdrsLabel;
+    private javax.swing.JPanel ShopDetailForm;
+    private javax.swing.JTextField ShopEmailLabel;
+    private javax.swing.JTextField ShopNameLabel;
+    private javax.swing.JTextField ShopPhoneLabel;
+    private javax.swing.JTextField ShopStatusLabel;
+    private javax.swing.JTextField ShopTypeLabel;
     private javax.swing.JLabel UserEmailLabel;
     private javax.swing.JLabel UserNameLabel;
+    private javax.swing.JPanel ViewShopPanel;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     // End of variables declaration//GEN-END:variables
 }
