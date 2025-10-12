@@ -121,11 +121,13 @@ public class ShopPanel extends JPanel {
 
     public ShopPanel() {
         setLayout(new BorderLayout());
+        setBackground(new Color(248, 249, 250));
         cartManager = CartManager.getInstance();
 
         // Use responsive grid layout that adapts to container width
         productsGrid = new JPanel(new ResponsiveGridLayout(8, 8));
-        productsGrid.setBorder(BorderFactory.createEmptyBorder(8, 8, 8, 8));
+        productsGrid.setBackground(new Color(248, 249, 250));
+        productsGrid.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
         scrollPane = new JScrollPane(productsGrid);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
@@ -215,13 +217,15 @@ public class ShopPanel extends JPanel {
 
     private JComponent createProductCard(Prodcut product) {
         JPanel card = new JPanel();
-        Border border =  new JButton().getBorder();
-        card.setBorder( border );
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
+        card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(220, 220, 220)),
-                BorderFactory.createEmptyBorder(8, 8, 8, 8)
+                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
+                BorderFactory.createEmptyBorder(12, 12, 12, 12)
         ));
+        card.setPreferredSize(new Dimension(200, 280));
+        card.setMaximumSize(new Dimension(200, 280));
+        card.setMinimumSize(new Dimension(200, 280));
 
         // Image (optional)
         JLabel imageLabel = createImageLabel(product.getImage());
@@ -243,7 +247,7 @@ public class ShopPanel extends JPanel {
         productImg.setFont(productImg.getFont().deriveFont(10f));
         
         // Try to load image asynchronously with better error handling
-        if (product.getImage() != null && !product.getImage().trim().isEmpty()) {
+        if (product.getImage() != null && !product.getImage().trim().isEmpty() && !product.getImage().equals("No Image")) {
             SwingWorker<ImageIcon, Void> imgWorker = new SwingWorker<>() {
                 @Override
                 protected ImageIcon doInBackground() {
@@ -307,11 +311,17 @@ public class ShopPanel extends JPanel {
         descArea.setFont(descArea.getFont().deriveFont(10f));
         descArea.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton addToCart = new JButton("Add to cart");
-        addToCart.setFont(addToCart.getFont().deriveFont(10f));
+        JButton addToCart = new JButton("Add to Cart");
+        addToCart.setFont(addToCart.getFont().deriveFont(Font.BOLD, 12f));
         addToCart.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addToCart.setBackground(new Color(20, 120, 60));
+        addToCart.setBackground(new Color(0, 123, 255));
         addToCart.setForeground(Color.WHITE);
+        addToCart.setFocusPainted(false);
+        addToCart.setBorderPainted(false);
+        addToCart.setPreferredSize(new Dimension(140, 35));
+        addToCart.setMinimumSize(new Dimension(140, 35));
+        addToCart.setMaximumSize(new Dimension(140, 35));
+        addToCart.setOpaque(true);
         
         // Add action listener to the button
         addToCart.addActionListener(new ActionListener() {
@@ -324,12 +334,13 @@ public class ShopPanel extends JPanel {
         card.add(nameLabel);
         card.add(Box.createVerticalStrut(4));
         card.add(productImg);
+        card.add(Box.createVerticalStrut(4));
         card.add(priceLabel);
         card.add(Box.createVerticalStrut(4));
         card.add(descArea);
-        card.add(Box.createVerticalGlue());
-        card.add(Box.createVerticalStrut(6));
+        card.add(Box.createVerticalStrut(8));
         card.add(addToCart);
+        card.add(Box.createVerticalStrut(8));
 
         return card;
     }

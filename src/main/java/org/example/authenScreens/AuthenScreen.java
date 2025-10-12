@@ -4,11 +4,6 @@
  */
 package org.example.authenScreens;
 
-import com.formdev.flatlaf.FlatDarculaLaf;
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import org.example.AuthenController;
 import org.example.models.User;
 import org.example.screens.AppController;
@@ -37,9 +32,6 @@ public class AuthenScreen extends javax.swing.JFrame {
 
     @Override
     public void frameInit() {
-        FlatLaf.setup( new FlatMacLightLaf());
-        UIManager.put("Button.arc",24);
-        UIManager.put("TextField.arc",24);
         super.frameInit();
     }
 

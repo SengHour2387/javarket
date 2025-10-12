@@ -16,6 +16,7 @@ public class Main {
             public void run() {
             }
         });
+
         authenScreen.setVisible(true);
         
     }

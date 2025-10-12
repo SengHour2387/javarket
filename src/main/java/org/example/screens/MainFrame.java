@@ -4,15 +4,8 @@
  */
 package org.example.screens;
 
-import com.formdev.flatlaf.FlatLaf;
-import com.formdev.flatlaf.themes.FlatMacDarkLaf;
-import com.formdev.flatlaf.themes.FlatMacLightLaf;
-
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 
 /**
  *
@@ -23,7 +16,7 @@ public class MainFrame extends javax.swing.JFrame {
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(MainFrame.class.getName());
     private AppController controller;
     private JPanel shopWindow;
-    private JPanel shopPanel;
+    private ShopPanel shopPanel;
     private CartPanel cartPanel;
     private HistoryPanel historyPanel;
     private CardLayout cardLayout;
@@ -35,25 +28,14 @@ public class MainFrame extends javax.swing.JFrame {
         initComponents();
     }
 
-    private FlatLaf theme = new FlatMacLightLaf();
-
     private void init() {
-
-        try {
-            UIManager.setLookAndFeel( theme );
-        } catch (UnsupportedLookAndFeelException e) {
-            throw new RuntimeException(e);
-        }
-
         loadPanels();
         showShopPanel();
     }
 
     private void loadPanels() {
-        // Create shop panel
-        shopPanel = new JPanel(new BorderLayout());
-        ShopPanel shopPanelContent = new ShopPanel();
-        shopPanel.add(shopPanelContent, BorderLayout.CENTER);
+        // Create shop panel directly
+        shopPanel = new ShopPanel();
         
         // Create cart panel
         cartPanel = new CartPanel();
@@ -70,31 +52,28 @@ public class MainFrame extends javax.swing.JFrame {
     private void showShopPanel() {
         cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "SHOP");
+        Content.revalidate();
+        Content.repaint();
     }
     
     private void showCartPanel() {
-       
         cartPanel.refreshCart();
         cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "CART");
+        Content.revalidate();
+        Content.repaint();
     }
     
     private void showHistoryPanel() {
-        
         historyPanel.refreshHistory();
         cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "HISTORY");
+        Content.revalidate();
+        Content.repaint();
     }
 
     @Override
     public void frameInit() {
-        FlatLaf.setup( new FlatMacLightLaf());
-
-        Content = new JPanel();
-        Content.setLayout(new CardLayout());
-
-        UIManager.put("ButtonArc",24);
-        Content.setVisible(true);
         super.frameInit();
     }
 
@@ -107,10 +86,6 @@ public class MainFrame extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        cartPanel = new CartPanel();
-        historyPanel = new HistoryPanel();
-
-
         Content = new javax.swing.JPanel();
         Drawer = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
@@ -122,9 +97,10 @@ public class MainFrame extends javax.swing.JFrame {
         themeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(51, 255, 51));
+        setBackground(new java.awt.Color(255, 255, 255));
 
         Content.setLayout(new java.awt.CardLayout());
+        Content.setBackground(Color.WHITE);
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
@@ -230,7 +206,10 @@ public class MainFrame extends javax.swing.JFrame {
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
-
+        
+        // Initialize panels and show shop panel
+        init();
+        
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -248,28 +227,11 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        AccountFrame accountFrame = new AccountFrame( this.controller.currentUser,theme,controller.getConnector());
-        accountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-        accountFrame.setVisible(true);
-       
+        JOptionPane.showMessageDialog(this, "Account feature coming soon!", "Account", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void themeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themeBtnActionPerformed
-        // TODO add your handling code here:
-
-        if(theme.isDark()) {
-            theme = new FlatMacLightLaf();
-        } else {
-            theme = new FlatMacDarkLaf();
-        }
-        try {
-            UIManager.setLookAndFeel( theme);
-        } catch (UnsupportedLookAndFeelException e) {
-            throw new RuntimeException(e);
-        }
-        SwingUtilities.updateComponentTreeUI(this);
-
-
+        JOptionPane.showMessageDialog(this, "Theme switching not available without FlatLaf library", "Theme", JOptionPane.INFORMATION_MESSAGE);
     }//GEN-LAST:event_themeBtnActionPerformed
 
     /**
