@@ -7,6 +7,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.formdev.flatlaf.FlatClientProperties;
 
 public class CartPanel extends JPanel {
     
@@ -28,8 +29,11 @@ public class CartPanel extends JPanel {
     private void initComponents() {
         // Header panel
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
-        JLabel titleLabel = new JLabel("Shopping Cart");
-        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 18f));
+        headerPanel.setBackground(new Color(248, 249, 250));
+        headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
+        JLabel titleLabel = new JLabel("🛒 Shopping Cart");
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 24f));
+        titleLabel.setForeground(new Color(52, 58, 64));
         headerPanel.add(titleLabel);
         
         // Cart items panel
@@ -43,24 +47,29 @@ public class CartPanel extends JPanel {
         
         // Bottom panel with total and buttons
         JPanel bottomPanel = new JPanel(new BorderLayout());
-        bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        bottomPanel.setBackground(new Color(255, 255, 255));
+        bottomPanel.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(1, 0, 0, 0, new Color(230, 230, 230)),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
         
         // Total and buttons panel
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        totalPanel.setBackground(new Color(255, 255, 255));
         totalLabel = new JLabel("Total: $0.00");
-        totalLabel.setFont(totalLabel.getFont().deriveFont(Font.BOLD, 16f));
-        totalLabel.setForeground(new Color(20, 120, 60));
+        totalLabel.setFont(totalLabel.getFont().deriveFont(Font.BOLD, 20f));
+        totalLabel.setForeground(new Color(40, 167, 69));
         
-        checkoutButton = new JButton("Checkout");
-        checkoutButton.setBackground(new Color(20, 120, 60));
+        checkoutButton = new JButton("💳 Checkout");
+        checkoutButton.setFont(checkoutButton.getFont().deriveFont(Font.BOLD, 14f));
+        checkoutButton.setBackground(new Color(40, 167, 69));
         checkoutButton.setForeground(Color.WHITE);
-        checkoutButton.setFont(checkoutButton.getFont().deriveFont(Font.BOLD, 12f));
         checkoutButton.setFocusPainted(false);
         checkoutButton.setBorderPainted(false);
         checkoutButton.setOpaque(true);
-        checkoutButton.setPreferredSize(new Dimension(100, 35));
-        checkoutButton.setMinimumSize(new Dimension(100, 35));
-        checkoutButton.setMaximumSize(new Dimension(100, 35));
+        checkoutButton.setPreferredSize(new Dimension(120, 45));
+        checkoutButton.setMinimumSize(new Dimension(120, 45));
+        checkoutButton.setMaximumSize(new Dimension(120, 45));
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,16 +77,16 @@ public class CartPanel extends JPanel {
             }
         });
         
-        clearCartButton = new JButton("Clear Cart");
+        clearCartButton = new JButton("🗑️ Clear Cart");
+        clearCartButton.setFont(clearCartButton.getFont().deriveFont(Font.BOLD, 14f));
         clearCartButton.setBackground(new Color(220, 53, 69));
         clearCartButton.setForeground(Color.WHITE);
-        clearCartButton.setFont(clearCartButton.getFont().deriveFont(Font.BOLD, 12f));
         clearCartButton.setFocusPainted(false);
         clearCartButton.setBorderPainted(false);
         clearCartButton.setOpaque(true);
-        clearCartButton.setPreferredSize(new Dimension(100, 35));
-        clearCartButton.setMinimumSize(new Dimension(100, 35));
-        clearCartButton.setMaximumSize(new Dimension(100, 35));
+        clearCartButton.setPreferredSize(new Dimension(120, 45));
+        clearCartButton.setMinimumSize(new Dimension(120, 45));
+        clearCartButton.setMaximumSize(new Dimension(120, 45));
         clearCartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -132,22 +141,24 @@ public class CartPanel extends JPanel {
         double price = product.getPrice();
         String productName = product.getName();
         JPanel itemPanel = new JPanel(new BorderLayout());
+        itemPanel.setBackground(Color.WHITE);
         itemPanel.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(220, 220, 220)),
-            BorderFactory.createEmptyBorder(8, 8, 8, 8)
+            BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+            BorderFactory.createEmptyBorder(15, 15, 15, 15)
         ));
-        itemPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 80));
+        itemPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
         // Product info panel
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         
         JLabel nameLabel = new JLabel(productName);
-        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 12f));
+        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 14f));
+        nameLabel.setForeground(new Color(52, 58, 64));
         
         JLabel priceLabel = new JLabel(String.format("$%.2f", price));
-        priceLabel.setForeground(new Color(20, 120, 60));
-        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 11f));
+        priceLabel.setForeground(new Color(40, 167, 69));
+        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 13f));
         
         infoPanel.add(nameLabel);
         infoPanel.add(Box.createVerticalStrut(2));
@@ -260,5 +271,18 @@ public class CartPanel extends JPanel {
             cartManager.clearCart();
             refreshCart();
         }
+    }
+    
+    public void updateTheme() {
+        // Update the main panel background
+        if (UIManager.getLookAndFeel().getName().contains("Dark")) {
+            setBackground(new Color(45, 45, 45));
+        } else {
+            setBackground(new Color(248, 249, 250));
+        }
+        
+        // Revalidate and repaint
+        revalidate();
+        repaint();
     }
 }

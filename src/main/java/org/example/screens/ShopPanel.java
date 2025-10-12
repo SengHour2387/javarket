@@ -16,6 +16,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.List;
+import com.formdev.flatlaf.FlatClientProperties;
 
 // Custom responsive grid layout that adapts to container width
 class ResponsiveGridLayout implements LayoutManager2 {
@@ -220,20 +221,21 @@ public class ShopPanel extends JPanel {
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
         card.setBackground(Color.WHITE);
         card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(200, 200, 200), 1),
-                BorderFactory.createEmptyBorder(12, 12, 12, 12)
+                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)
         ));
-        card.setPreferredSize(new Dimension(200, 280));
-        card.setMaximumSize(new Dimension(200, 280));
-        card.setMinimumSize(new Dimension(200, 280));
+        card.setPreferredSize(new Dimension(220, 320));
+        card.setMaximumSize(new Dimension(220, 320));
+        card.setMinimumSize(new Dimension(220, 320));
 
         // Image (optional)
         JLabel imageLabel = createImageLabel(product.getImage());
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel nameLabel = new JLabel(product.getName());
-        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 12f));
+        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 16f));
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        nameLabel.setForeground(new Color(52, 58, 64));
 
 
         JLabel productImg = new JLabel();
@@ -294,8 +296,8 @@ public class ShopPanel extends JPanel {
         productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
-        priceLabel.setForeground(new Color(20, 120, 60));
-        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 11f));
+        priceLabel.setForeground(new Color(40, 167, 69));
+        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 18f));
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Truncate description for smaller cards
@@ -308,20 +310,21 @@ public class ShopPanel extends JPanel {
         descArea.setLineWrap(true);
         descArea.setWrapStyleWord(true);
         descArea.setOpaque(false);
-        descArea.setFont(descArea.getFont().deriveFont(10f));
+        descArea.setFont(descArea.getFont().deriveFont(11f));
+        descArea.setForeground(new Color(108, 117, 125));
         descArea.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        JButton addToCart = new JButton("Add to Cart");
-        addToCart.setFont(addToCart.getFont().deriveFont(Font.BOLD, 12f));
+        JButton addToCart = new JButton("🛒 Add to Cart");
+        addToCart.setFont(addToCart.getFont().deriveFont(Font.BOLD, 13f));
         addToCart.setAlignmentX(Component.CENTER_ALIGNMENT);
-        addToCart.setBackground(new Color(0, 123, 255));
+        addToCart.setBackground(new Color(40, 167, 69));
         addToCart.setForeground(Color.WHITE);
         addToCart.setFocusPainted(false);
         addToCart.setBorderPainted(false);
-        addToCart.setPreferredSize(new Dimension(140, 35));
-        addToCart.setMinimumSize(new Dimension(140, 35));
-        addToCart.setMaximumSize(new Dimension(140, 35));
         addToCart.setOpaque(true);
+        addToCart.setPreferredSize(new Dimension(160, 40));
+        addToCart.setMinimumSize(new Dimension(160, 40));
+        addToCart.setMaximumSize(new Dimension(160, 40));
         
         // Add action listener to the button
         addToCart.addActionListener(new ActionListener() {
@@ -452,6 +455,19 @@ public class ShopPanel extends JPanel {
                 );
             }
         }
+    }
+    
+    public void updateTheme() {
+        // Update the main panel background
+        if (UIManager.getLookAndFeel().getName().contains("Dark")) {
+            setBackground(new Color(45, 45, 45));
+        } else {
+            setBackground(new Color(248, 249, 250));
+        }
+        
+        // Revalidate and repaint
+        revalidate();
+        repaint();
     }
 }
 

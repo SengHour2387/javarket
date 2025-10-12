@@ -6,6 +6,10 @@ package org.example.screens;
 
 import javax.swing.*;
 import java.awt.*;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
 /**
  *
@@ -20,6 +24,7 @@ public class MainFrame extends javax.swing.JFrame {
     private CartPanel cartPanel;
     private HistoryPanel historyPanel;
     private CardLayout cardLayout;
+    private boolean isDarkTheme = false;
     /**
      * Creates new form MainFramex
      */
@@ -85,6 +90,12 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        // Set up FlatLaf theme
+        try {
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (Exception e) {
+            System.err.println("Failed to set FlatLaf theme: " + e.getMessage());
+        }
 
         Content = new javax.swing.JPanel();
         Drawer = new javax.swing.JPanel();
@@ -97,42 +108,49 @@ public class MainFrame extends javax.swing.JFrame {
         themeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
+        setTitle("JavaMarket - Modern E-commerce Platform");
+        setBackground(new java.awt.Color(248, 249, 250));
+        setSize(1200, 800);
+        setResizable(true);
 
         Content.setLayout(new java.awt.CardLayout());
-        Content.setBackground(Color.WHITE);
+        Content.setBackground(new Color(248, 249, 250));
+        Content.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
 
-        Drawer.setBorder(jButton2.getBorder());
-        Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
-        Drawer.setMixingCutoutShape(jButton1.getVisibleRect());
-        Drawer.setPreferredSize(new java.awt.Dimension(100, 600));
+        Drawer.setBackground(new Color(255, 255, 255));
+        Drawer.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(230, 230, 230)),
+            BorderFactory.createEmptyBorder(20, 20, 20, 20)
+        ));
+        Drawer.setMinimumSize(new java.awt.Dimension(200, 0));
+        Drawer.setPreferredSize(new java.awt.Dimension(200, 600));
 
-        jButton1.setText("Shop");
+        // Style navigation buttons
+        styleNavigationButton(jButton1, "🛍️ Shop");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Cart");
+        styleNavigationButton(jButton2, "🛒 Cart");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        jButton3.setText("History");
+        styleNavigationButton(jButton3, "📋 History");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-
                 jButton3ActionPerformed(evt);
             }
         });
 
-        jButton4.setText("Account");
+        styleNavigationButton(jButton4, "👤 Account");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -169,14 +187,22 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
-        jPanel1.setBackground(new java.awt.Color(113, 163, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(928, 50));
+        jPanel1.setBackground(new java.awt.Color(52, 58, 64));
+        jPanel1.setPreferredSize(new java.awt.Dimension(928, 60));
+        jPanel1.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
 
-        jLabel3.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 24)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 28));
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("JavarKet");
+        jLabel3.setText("🛍️ JavaMarket");
 
-        themeBtn.setText("Theme");
+        themeBtn.setText("🌙 Dark");
+        themeBtn.setBackground(new Color(108, 117, 125));
+        themeBtn.setForeground(Color.WHITE);
+        themeBtn.setFont(themeBtn.getFont().deriveFont(Font.BOLD, 12f));
+        themeBtn.setFocusPainted(false);
+        themeBtn.setBorderPainted(false);
+        themeBtn.setOpaque(true);
+        themeBtn.setPreferredSize(new Dimension(100, 35));
         themeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 themeBtnActionPerformed(evt);
@@ -231,8 +257,111 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void themeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themeBtnActionPerformed
-        JOptionPane.showMessageDialog(this, "Theme switching not available without FlatLaf library", "Theme", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            if (isDarkTheme) {
+                UIManager.setLookAndFeel(new FlatMacLightLaf());
+                themeBtn.setText("🌙 Dark");
+                isDarkTheme = false;
+            } else {
+                UIManager.setLookAndFeel(new FlatMacDarkLaf());
+                themeBtn.setText("☀️ Light");
+                isDarkTheme = true;
+            }
+            
+            // Update all components in the frame
+            SwingUtilities.updateComponentTreeUI(this);
+            
+            // Update all panels
+            if (shopPanel != null) {
+                SwingUtilities.updateComponentTreeUI(shopPanel);
+                shopPanel.updateTheme();
+            }
+            if (cartPanel != null) {
+                SwingUtilities.updateComponentTreeUI(cartPanel);
+                cartPanel.updateTheme();
+            }
+            if (historyPanel != null) {
+                SwingUtilities.updateComponentTreeUI(historyPanel);
+            }
+            
+            // Reapply custom styling that needs to be theme-aware
+            updateThemeAwareStyling();
+            
+            pack();
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Failed to switch theme: " + e.getMessage(), "Theme Error", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_themeBtnActionPerformed
+    
+    private void updateThemeAwareStyling() {
+        // Update navigation buttons styling based on theme
+        if (jButton1 != null) updateNavigationButtonStyle(jButton1, "🛍️ Shop");
+        if (jButton2 != null) updateNavigationButtonStyle(jButton2, "🛒 Cart");
+        if (jButton3 != null) updateNavigationButtonStyle(jButton3, "📋 History");
+        if (jButton4 != null) updateNavigationButtonStyle(jButton4, "👤 Account");
+    }
+    
+    private void updateNavigationButtonStyle(JButton button, String text) {
+        button.setText(text);
+        button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
+        
+        if (isDarkTheme) {
+            button.setBackground(new Color(45, 45, 45));
+            button.setForeground(new Color(255, 255, 255));
+            button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(60, 60, 60), 1),
+                BorderFactory.createEmptyBorder(10, 15, 10, 15)
+            ));
+        } else {
+            button.setBackground(new Color(248, 249, 250));
+            button.setForeground(new Color(52, 58, 64));
+            button.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+                BorderFactory.createEmptyBorder(10, 15, 10, 15)
+            ));
+        }
+        
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setOpaque(true);
+        button.setPreferredSize(new Dimension(160, 45));
+        button.setMinimumSize(new Dimension(160, 45));
+        button.setMaximumSize(new Dimension(160, 45));
+    }
+    
+    private void styleNavigationButton(JButton button, String text) {
+        button.setText(text);
+        button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
+        button.setBackground(new Color(248, 249, 250));
+        button.setForeground(new Color(52, 58, 64));
+        button.setFocusPainted(false);
+        button.setBorderPainted(false);
+        button.setOpaque(true);
+        button.setPreferredSize(new Dimension(160, 45));
+        button.setMinimumSize(new Dimension(160, 45));
+        button.setMaximumSize(new Dimension(160, 45));
+        button.setBorder(BorderFactory.createCompoundBorder(
+            BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+            BorderFactory.createEmptyBorder(10, 15, 10, 15)
+        ));
+        
+        // Add hover effect
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(0, 123, 255));
+                button.setForeground(Color.WHITE);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                if (isDarkTheme) {
+                    button.setBackground(new Color(45, 45, 45));
+                    button.setForeground(new Color(255, 255, 255));
+                } else {
+                    button.setBackground(new Color(248, 249, 250));
+                    button.setForeground(new Color(52, 58, 64));
+                }
+            }
+        });
+    }
 
     /**
      * @param args the command line arguments

@@ -12,6 +12,10 @@ import org.example.tools.PasswordHasher;
 
 import javax.swing.*;
 import java.awt.*;
+import com.formdev.flatlaf.FlatLightLaf;
+import com.formdev.flatlaf.FlatDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import org.example.DatabaseConnector;
 import org.example.screens.MainFrame;
 
@@ -49,6 +53,12 @@ public class AuthenScreen extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        // Set up FlatLaf theme
+        try {
+            UIManager.setLookAndFeel(new FlatMacLightLaf());
+        } catch (Exception e) {
+            System.err.println("Failed to set FlatLaf theme: " + e.getMessage());
+        }
 
         LoginPanel = new javax.swing.JPanel();
         LoginLabel = new javax.swing.JLabel();
@@ -73,12 +83,16 @@ public class AuthenScreen extends javax.swing.JFrame {
         jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setBackground(new java.awt.Color(255, 255, 255));
+        setTitle("JavaMarket - Welcome");
+        setSize(450, 600);
+        setLocationRelativeTo(null);
+        setBackground(new java.awt.Color(248, 249, 250));
         getContentPane().setLayout(new java.awt.CardLayout());
 
-        LoginLabel.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 36)); // NOI18N
+        LoginLabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 32));
         LoginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LoginLabel.setText("Login");
+        LoginLabel.setText("🛍️ Welcome to JavaMarket");
+        LoginLabel.setForeground(new Color(52, 58, 64));
 
         EmailField.setBorder(LoginBtn.getBorder());
         EmailField.addActionListener(new java.awt.event.ActionListener() {
