@@ -271,13 +271,18 @@ public class MainFrame extends javax.swing.JFrame {
             // Update all components in the frame
             SwingUtilities.updateComponentTreeUI(this);
             
-            // Update all panels
+            // Update main frame background AFTER UI update using invokeLater
+            SwingUtilities.invokeLater(() -> {
+                updateMainFrameBackground();
+            });
+            
+            // Update panels manually without resetting their styling
             if (shopPanel != null) {
-                SwingUtilities.updateComponentTreeUI(shopPanel);
+                System.out.println("Updating shop panel theme");
                 shopPanel.updateTheme();
             }
             if (cartPanel != null) {
-                SwingUtilities.updateComponentTreeUI(cartPanel);
+                System.out.println("Updating cart panel theme");
                 cartPanel.updateTheme();
             }
             if (historyPanel != null) {
@@ -292,6 +297,59 @@ public class MainFrame extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Failed to switch theme: " + e.getMessage(), "Theme Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_themeBtnActionPerformed
+    
+    private void updateMainFrameBackground() {
+        // Update the main frame background based on theme
+        if (isDarkTheme) {
+            getContentPane().setBackground(new Color(45, 45, 45));
+            setBackground(new Color(45, 45, 45));
+            // Also update the Content panel specifically
+            if (Content != null) {
+                Content.setBackground(new Color(45, 45, 45));
+            }
+            // Update the Drawer (sidebar) background
+            if (Drawer != null) {
+                Drawer.setBackground(new Color(60, 60, 60));
+            }
+            // Update the header panel background
+            if (jPanel1 != null) {
+                jPanel1.setBackground(new Color(60, 60, 60));
+            }
+            System.out.println("Set main frame dark background");
+        } else {
+            getContentPane().setBackground(new Color(248, 249, 250));
+            setBackground(new Color(248, 249, 250));
+            // Also update the Content panel specifically
+            if (Content != null) {
+                Content.setBackground(new Color(248, 249, 250));
+            }
+            // Update the Drawer (sidebar) background
+            if (Drawer != null) {
+                Drawer.setBackground(new Color(255, 255, 255));
+            }
+            // Update the header panel background
+            if (jPanel1 != null) {
+                jPanel1.setBackground(new Color(52, 58, 64));
+            }
+            System.out.println("Set main frame light background");
+        }
+        
+        // Force repaint
+        getContentPane().revalidate();
+        getContentPane().repaint();
+        if (Content != null) {
+            Content.revalidate();
+            Content.repaint();
+        }
+        if (Drawer != null) {
+            Drawer.revalidate();
+            Drawer.repaint();
+        }
+        if (jPanel1 != null) {
+            jPanel1.revalidate();
+            jPanel1.repaint();
+        }
+    }
     
     private void updateThemeAwareStyling() {
         // Update navigation buttons styling based on theme

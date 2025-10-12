@@ -281,8 +281,69 @@ public class CartPanel extends JPanel {
             setBackground(new Color(248, 249, 250));
         }
         
+        // Reapply button styling after theme change
+        reapplyButtonStyling();
+        
         // Revalidate and repaint
         revalidate();
         repaint();
+    }
+    
+    private void reapplyButtonStyling() {
+        // Restyle main buttons
+        if (checkoutButton != null) {
+            checkoutButton.setBackground(new Color(40, 167, 69));
+            checkoutButton.setForeground(Color.WHITE);
+            checkoutButton.setFocusPainted(false);
+            checkoutButton.setBorderPainted(false);
+            checkoutButton.setOpaque(true);
+        }
+        
+        if (clearCartButton != null) {
+            clearCartButton.setBackground(new Color(220, 53, 69));
+            clearCartButton.setForeground(Color.WHITE);
+            clearCartButton.setFocusPainted(false);
+            clearCartButton.setBorderPainted(false);
+            clearCartButton.setOpaque(true);
+        }
+        
+        // Restyle buttons in cart items
+        Component[] components = cartItemsPanel.getComponents();
+        for (Component component : components) {
+            if (component instanceof JPanel) {
+                restyleButtonsInCartItem((JPanel) component);
+            }
+        }
+    }
+    
+    private void restyleButtonsInCartItem(JPanel itemPanel) {
+        Component[] components = itemPanel.getComponents();
+        for (Component component : components) {
+            if (component instanceof JButton) {
+                JButton button = (JButton) component;
+                String text = button.getText();
+                if ("-".equals(text)) {
+                    button.setBackground(new Color(108, 117, 125));
+                    button.setForeground(Color.WHITE);
+                    button.setFocusPainted(false);
+                    button.setBorderPainted(false);
+                    button.setOpaque(true);
+                } else if ("+".equals(text)) {
+                    button.setBackground(new Color(40, 167, 69));
+                    button.setForeground(Color.WHITE);
+                    button.setFocusPainted(false);
+                    button.setBorderPainted(false);
+                    button.setOpaque(true);
+                } else if ("Remove".equals(text)) {
+                    button.setBackground(new Color(220, 53, 69));
+                    button.setForeground(Color.WHITE);
+                    button.setFocusPainted(false);
+                    button.setBorderPainted(false);
+                    button.setOpaque(true);
+                }
+            } else if (component instanceof JPanel) {
+                restyleButtonsInCartItem((JPanel) component);
+            }
+        }
     }
 }

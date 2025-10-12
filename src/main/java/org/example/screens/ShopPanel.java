@@ -119,6 +119,7 @@ public class ShopPanel extends JPanel {
     private final JScrollPane scrollPane;
     private CartManager cartManager;
     private final JLabel loadingLabel = new JLabel("Loading products…", SwingConstants.CENTER);
+    private java.util.List<JButton> addToCartButtons = new java.util.ArrayList<>();
 
     public ShopPanel() {
         setLayout(new BorderLayout());
@@ -190,6 +191,7 @@ public class ShopPanel extends JPanel {
                 try {
                     List<Prodcut> products = get();
                     productsGrid.removeAll();
+                    addToCartButtons.clear(); // Clear old button references
                     for (Prodcut product : products) {
                         productsGrid.add(createProductCard(product));
                     }
@@ -219,11 +221,23 @@ public class ShopPanel extends JPanel {
     private JComponent createProductCard(Prodcut product) {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        card.setBackground(Color.WHITE);
-        card.setBorder(BorderFactory.createCompoundBorder(
+        
+        // Theme-aware card styling
+        boolean isDark = UIManager.getLookAndFeel().getName().contains("Dark");
+        if (isDark) {
+            card.setBackground(new Color(60, 60, 60));
+            card.setBorder(BorderFactory.createCompoundBorder(
+                BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
+                BorderFactory.createEmptyBorder(20, 20, 20, 20)
+            ));
+        } else {
+            card.setBackground(Color.WHITE);
+            card.setBorder(BorderFactory.createCompoundBorder(
                 BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
                 BorderFactory.createEmptyBorder(20, 20, 20, 20)
-        ));
+            ));
+        }
+        
         card.setPreferredSize(new Dimension(220, 320));
         card.setMaximumSize(new Dimension(220, 320));
         card.setMinimumSize(new Dimension(220, 320));
@@ -235,7 +249,11 @@ public class ShopPanel extends JPanel {
         JLabel nameLabel = new JLabel(product.getName());
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 16f));
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-        nameLabel.setForeground(new Color(52, 58, 64));
+        if (isDark) {
+            nameLabel.setForeground(Color.WHITE);
+        } else {
+            nameLabel.setForeground(new Color(52, 58, 64));
+        }
 
 
         JLabel productImg = new JLabel();
@@ -296,9 +314,13 @@ public class ShopPanel extends JPanel {
         productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
-        priceLabel.setForeground(new Color(40, 167, 69));
         priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 18f));
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        if (isDark) {
+            priceLabel.setForeground(new Color(76, 175, 80)); // Lighter green for dark theme
+        } else {
+            priceLabel.setForeground(new Color(40, 167, 69));
+        }
 
         // Truncate description for smaller cards
         String description = product.getDescription();
@@ -311,12 +333,18 @@ public class ShopPanel extends JPanel {
         descArea.setWrapStyleWord(true);
         descArea.setOpaque(false);
         descArea.setFont(descArea.getFont().deriveFont(11f));
-        descArea.setForeground(new Color(108, 117, 125));
         descArea.setAlignmentX(Component.CENTER_ALIGNMENT);
+        if (isDark) {
+            descArea.setForeground(new Color(180, 180, 180)); // Light gray for dark theme
+        } else {
+            descArea.setForeground(new Color(108, 117, 125));
+        }
 
         JButton addToCart = new JButton("🛒 Add to Cart");
         addToCart.setFont(addToCart.getFont().deriveFont(Font.BOLD, 13f));
         addToCart.setAlignmentX(Component.CENTER_ALIGNMENT);
+        
+        // Direct styling to ensure button is always green and visible
         addToCart.setBackground(new Color(40, 167, 69));
         addToCart.setForeground(Color.WHITE);
         addToCart.setFocusPainted(false);
@@ -333,6 +361,9 @@ public class ShopPanel extends JPanel {
                 addToCart(product);
             }
         });
+
+        // Store button reference for theme updates
+        addToCartButtons.add(addToCart);
 
         card.add(nameLabel);
         card.add(Box.createVerticalStrut(4));
@@ -458,16 +489,118 @@ public class ShopPanel extends JPanel {
     }
     
     public void updateTheme() {
+        System.out.println("ShopPanel updateTheme called. Button count: " + addToCartButtons.size());
+        
         // Update the main panel background
         if (UIManager.getLookAndFeel().getName().contains("Dark")) {
             setBackground(new Color(45, 45, 45));
+            System.out.println("Set dark background");
         } else {
             setBackground(new Color(248, 249, 250));
+            System.out.println("Set light background");
         }
+        
+        // Refresh all product cards to update their theme
+        refreshProductCards();
+        
+        // Reapply button styling after theme change
+        reapplyButtonStyling();
         
         // Revalidate and repaint
         revalidate();
         repaint();
+    }
+    
+    private void refreshProductCards() {
+        // Recreate all product cards with new theme
+        Component[] components = productsGrid.getComponents();
+        for (Component component : components) {
+            if (component instanceof JPanel) {
+                JPanel card = (JPanel) component;
+                boolean isDark = UIManager.getLookAndFeel().getName().contains("Dark");
+                
+                // Update card background
+                if (isDark) {
+                    card.setBackground(new Color(60, 60, 60));
+                    card.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
+                        BorderFactory.createEmptyBorder(20, 20, 20, 20)
+                    ));
+                } else {
+                    card.setBackground(Color.WHITE);
+                    card.setBorder(BorderFactory.createCompoundBorder(
+                        BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
+                        BorderFactory.createEmptyBorder(20, 20, 20, 20)
+                    ));
+                }
+                
+                // Update text colors in the card
+                updateCardTextColors(card, isDark);
+            }
+        }
+    }
+    
+    private void updateCardTextColors(JPanel card, boolean isDark) {
+        Component[] components = card.getComponents();
+        for (Component component : components) {
+            if (component instanceof JLabel) {
+                JLabel label = (JLabel) component;
+                String text = label.getText();
+                if (text != null && text.startsWith("$")) {
+                    // Price label
+                    if (isDark) {
+                        label.setForeground(new Color(76, 175, 80));
+                    } else {
+                        label.setForeground(new Color(40, 167, 69));
+                    }
+                } else if (text != null && !text.startsWith("🛒")) {
+                    // Name label (not button)
+                    if (isDark) {
+                        label.setForeground(Color.WHITE);
+                    } else {
+                        label.setForeground(new Color(52, 58, 64));
+                    }
+                }
+            } else if (component instanceof JTextArea) {
+                JTextArea textArea = (JTextArea) component;
+                if (isDark) {
+                    textArea.setForeground(new Color(180, 180, 180));
+                } else {
+                    textArea.setForeground(new Color(108, 117, 125));
+                }
+            }
+        }
+    }
+    
+    private void reapplyButtonStyling() {
+        System.out.println("Reapplying button styling. Found " + addToCartButtons.size() + " buttons");
+        
+        // Restyle all stored Add to Cart buttons with direct styling
+        for (JButton button : addToCartButtons) {
+            if (button != null && button.isVisible()) {
+                System.out.println("Restyling button: " + button.getText());
+                
+                // Direct styling to ensure button is always green and visible
+                button.setBackground(new Color(40, 167, 69));
+                button.setForeground(Color.WHITE);
+                button.setFocusPainted(false);
+                button.setBorderPainted(false);
+                button.setOpaque(true);
+                button.setPreferredSize(new Dimension(160, 40));
+                button.setMinimumSize(new Dimension(160, 40));
+                button.setMaximumSize(new Dimension(160, 40));
+                
+                // Force repaint
+                button.revalidate();
+                button.repaint();
+            } else {
+                System.out.println("Button is null or not visible: " + (button != null ? button.getText() : "null"));
+            }
+        }
+        
+        // Also force repaint of the entire panel
+        productsGrid.revalidate();
+        productsGrid.repaint();
     }
 }
 
