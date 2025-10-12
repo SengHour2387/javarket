@@ -55,6 +55,12 @@ public class CartPanel extends JPanel {
         checkoutButton.setBackground(new Color(20, 120, 60));
         checkoutButton.setForeground(Color.WHITE);
         checkoutButton.setFont(checkoutButton.getFont().deriveFont(Font.BOLD, 12f));
+        checkoutButton.setFocusPainted(false);
+        checkoutButton.setBorderPainted(false);
+        checkoutButton.setOpaque(true);
+        checkoutButton.setPreferredSize(new Dimension(100, 35));
+        checkoutButton.setMinimumSize(new Dimension(100, 35));
+        checkoutButton.setMaximumSize(new Dimension(100, 35));
         checkoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -66,6 +72,12 @@ public class CartPanel extends JPanel {
         clearCartButton.setBackground(new Color(220, 53, 69));
         clearCartButton.setForeground(Color.WHITE);
         clearCartButton.setFont(clearCartButton.getFont().deriveFont(Font.BOLD, 12f));
+        clearCartButton.setFocusPainted(false);
+        clearCartButton.setBorderPainted(false);
+        clearCartButton.setOpaque(true);
+        clearCartButton.setPreferredSize(new Dimension(100, 35));
+        clearCartButton.setMinimumSize(new Dimension(100, 35));
+        clearCartButton.setMaximumSize(new Dimension(100, 35));
         clearCartButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -145,8 +157,13 @@ public class CartPanel extends JPanel {
         JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         
         JButton minusButton = new JButton("-");
-        minusButton.setPreferredSize(new Dimension(25, 25));
-        minusButton.setFont(minusButton.getFont().deriveFont(Font.BOLD, 10f));
+        minusButton.setPreferredSize(new Dimension(30, 30));
+        minusButton.setFont(minusButton.getFont().deriveFont(Font.BOLD, 12f));
+        minusButton.setBackground(new Color(108, 117, 125));
+        minusButton.setForeground(Color.WHITE);
+        minusButton.setFocusPainted(false);
+        minusButton.setBorderPainted(false);
+        minusButton.setOpaque(true);
         minusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -157,12 +174,18 @@ public class CartPanel extends JPanel {
         
         JLabel quantityLabel = new JLabel(String.valueOf(quantity));
         quantityLabel.setFont(quantityLabel.getFont().deriveFont(Font.BOLD, 12f));
-        quantityLabel.setPreferredSize(new Dimension(30, 20));
+        quantityLabel.setPreferredSize(new Dimension(40, 30));
         quantityLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        quantityLabel.setBorder(BorderFactory.createLineBorder(new Color(200, 200, 200)));
         
         JButton plusButton = new JButton("+");
-        plusButton.setPreferredSize(new Dimension(25, 25));
-        plusButton.setFont(plusButton.getFont().deriveFont(Font.BOLD, 10f));
+        plusButton.setPreferredSize(new Dimension(30, 30));
+        plusButton.setFont(plusButton.getFont().deriveFont(Font.BOLD, 12f));
+        plusButton.setBackground(new Color(40, 167, 69));
+        plusButton.setForeground(Color.WHITE);
+        plusButton.setFocusPainted(false);
+        plusButton.setBorderPainted(false);
+        plusButton.setOpaque(true);
         plusButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -175,6 +198,10 @@ public class CartPanel extends JPanel {
         removeButton.setBackground(new Color(220, 53, 69));
         removeButton.setForeground(Color.WHITE);
         removeButton.setFont(removeButton.getFont().deriveFont(Font.BOLD, 10f));
+        removeButton.setFocusPainted(false);
+        removeButton.setBorderPainted(false);
+        removeButton.setOpaque(true);
+        removeButton.setPreferredSize(new Dimension(70, 30));
         removeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
