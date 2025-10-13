@@ -272,15 +272,11 @@ public class ShopPanel extends JPanel {
 
         // FlatLaf rounded styling (Panel does not support borderColor via STYLE)
         if (isDark) {
-            card.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                    "arc:14; background:#3C3C3C" );
             card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createLineBorder(new java.awt.Color(80,80,80), 1),
                     javax.swing.BorderFactory.createEmptyBorder(20,20,20,20)
             ));
         } else {
-            card.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                    "arc:14; background:#FFFFFF" );
             card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230,230,230), 1),
                     javax.swing.BorderFactory.createEmptyBorder(20,20,20,20)
@@ -409,8 +405,6 @@ public class ShopPanel extends JPanel {
         // FlatLaf rounded green button styling
         addToCart.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
                 com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-        addToCart.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                "arc:18; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;" );
         addToCart.setPreferredSize(new Dimension(160, 40));
         addToCart.setMinimumSize(new Dimension(160, 40));
         addToCart.setMaximumSize(new Dimension(160, 40));
