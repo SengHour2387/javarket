@@ -159,7 +159,7 @@ public class AuthenScreen extends javax.swing.JFrame {
                     .addGroup(LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(LoginLabel, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, 326, Short.MAX_VALUE)
                         .addComponent(jLabel2, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(EmailField, javax.swing.GroupLayout.Alignment.LEADING))
+                        .addComponent(EmailField, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(PasswordField, javax.swing.GroupLayout.PREFERRED_SIZE, 330, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(LoginPanelLayout.createSequentialGroup()
@@ -177,6 +177,9 @@ public class AuthenScreen extends javax.swing.JFrame {
                 .addComponent(SkipToMainBtn)
                 .addGap(30, 30, 30))
         );
+        // Ensure Email and Password fields have equal width
+        LoginPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] { EmailField, PasswordField });
+
         LoginPanelLayout.setVerticalGroup(
             LoginPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(LoginPanelLayout.createSequentialGroup()
@@ -276,6 +279,9 @@ public class AuthenScreen extends javax.swing.JFrame {
                         .addComponent(SignUpBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 108, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(191, Short.MAX_VALUE))
         );
+        // Ensure signup text fields have equal width
+        SignUpPanelLayout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] { EmailField1, PasswordField1, UserNameField });
+
         SignUpPanelLayout.setVerticalGroup(
             SignUpPanelLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(SignUpPanelLayout.createSequentialGroup()

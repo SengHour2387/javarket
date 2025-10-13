@@ -367,7 +367,7 @@ public class MainFrame extends javax.swing.JFrame {
     }
     
     private void updateNavigationButtonStyle(JButton button, String text) {
-        button.setText(text);
+        if (text != null) button.setText(text);
         button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
         
         if (isDarkTheme) {
