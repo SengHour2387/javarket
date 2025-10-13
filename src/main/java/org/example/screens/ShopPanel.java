@@ -23,8 +23,9 @@ class ResponsiveGridLayout implements LayoutManager2 {
     private int hgap, vgap;
     private int minColumns = 1;
     private int maxColumns = 6;
-    private int cardWidth = 180;
-    private int cardHeight = 210;
+    // Match the actual card size used below to avoid clipping and misalignment
+    private int cardWidth = 220;
+    private int cardHeight = 320;
 
     public ResponsiveGridLayout(int hgap, int vgap) {
         this.hgap = hgap;
@@ -97,15 +98,18 @@ class ResponsiveGridLayout implements LayoutManager2 {
         
         int columns = calculateColumns(availableWidth);
         
-        int cardWidth = (availableWidth - (columns - 1) * hgap) / columns;
+        // Keep cards at their designed width; reduce number of columns instead of shrinking cards
+        int cardWidth = this.cardWidth;
         int cardHeight = this.cardHeight;
+        int totalRowWidth = columns * cardWidth + (columns - 1) * hgap;
+        int startX = insets.left + Math.max(0, (availableWidth - totalRowWidth) / 2);
         
         for (int i = 0; i < parent.getComponentCount(); i++) {
             Component comp = parent.getComponent(i);
             int row = i / columns;
             int col = i % columns;
             
-            int x = insets.left + col * (cardWidth + hgap);
+            int x = startX + col * (cardWidth + hgap);
             int y = insets.top + row * (cardHeight + vgap);
             
             comp.setBounds(x, y, cardWidth, cardHeight);
@@ -128,7 +132,7 @@ class ResponsiveGridLayout implements LayoutManager2 {
         int columns = calculateColumns(availableWidth);
         int rows = (int) Math.ceil((double) parent.getComponentCount() / columns);
         
-        int width = columns * cardWidth + (columns - 1) * hgap + insets.left + insets.right;
+        int width = columns * this.cardWidth + (columns - 1) * hgap + insets.left + insets.right;
         int height = rows * cardHeight + (rows - 1) * vgap + insets.top + insets.bottom;
         
         return new Dimension(width, height);
@@ -286,6 +290,7 @@ public class ShopPanel extends JPanel {
         card.setPreferredSize(new Dimension(220, 320));
         card.setMaximumSize(new Dimension(220, 320));
         card.setMinimumSize(new Dimension(220, 320));
+        card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         // Image (optional)
         JLabel imageLabel = createImageLabel(product.getImage());
