@@ -545,15 +545,15 @@ public class ShopPanel extends JPanel {
     }
     
     public void updateTheme() {
-        System.out.println("ShopPanel updateTheme called. Button count: " + addToCartButtons.size());
+        
         
         // Update the main panel background
         if (UIManager.getLookAndFeel().getName().contains("Dark")) {
             setBackground(new Color(45, 45, 45));
-            System.out.println("Set dark background");
+            
         } else {
             setBackground(new Color(248, 249, 250));
-            System.out.println("Set light background");
+            
         }
         
         // Refresh all product cards to update their theme
@@ -629,12 +629,12 @@ public class ShopPanel extends JPanel {
     }
     
     private void reapplyButtonStyling() {
-        System.out.println("Reapplying button styling. Found " + addToCartButtons.size() + " buttons");
+        
         
         // Restyle all stored Add to Cart buttons with direct styling
         for (JButton button : addToCartButtons) {
             if (button != null && button.isVisible()) {
-                System.out.println("Restyling button: " + button.getText());
+                
                 
                 // Direct styling to ensure button is always green and visible
                 button.setBackground(new Color(40, 167, 69));
@@ -649,9 +649,7 @@ public class ShopPanel extends JPanel {
                 // Force repaint
                 button.revalidate();
                 button.repaint();
-            } else {
-                System.out.println("Button is null or not visible: " + (button != null ? button.getText() : "null"));
-            }
+            } 
         }
         
         // Also force repaint of the entire panel

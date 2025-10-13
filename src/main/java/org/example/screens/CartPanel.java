@@ -61,9 +61,8 @@ public class CartPanel extends JPanel {
         totalLabel.setForeground(new Color(40, 167, 69));
         checkoutButton = new JButton("💳 Checkout");
         checkoutButton.setFont(checkoutButton.getFont().deriveFont(Font.BOLD, 14f));
-                checkoutButton.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
-                        com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-                checkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
+        checkoutButton.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+        checkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
         checkoutButton.setPreferredSize(new Dimension(120, 45));
         checkoutButton.setMinimumSize(new Dimension(120, 45));
         checkoutButton.setMaximumSize(new Dimension(120, 45));
@@ -249,11 +248,7 @@ public class CartPanel extends JPanel {
         );
         
         if (result == JOptionPane.YES_OPTION) {
-<<<<<<< Updated upstream
-
-=======
             // Here you would integrate with your order system
->>>>>>> Stashed changes
             JOptionPane.showMessageDialog(this, "Order placed successfully!", "Checkout Complete", JOptionPane.INFORMATION_MESSAGE);
             cartManager.clearCart();
             refreshCart();
@@ -291,8 +286,6 @@ public class CartPanel extends JPanel {
     }
     
     private void reapplyButtonStyling() {
-<<<<<<< Updated upstream
-=======
         // Restyle main buttons
         if (checkoutButton != null) {
             checkoutButton.setBackground(new Color(40, 167, 69));
@@ -310,7 +303,6 @@ public class CartPanel extends JPanel {
             clearCartButton.setOpaque(true);
         }
         
->>>>>>> Stashed changes
         // Restyle buttons in cart items
         Component[] components = cartItemsPanel.getComponents();
         for (Component component : components) {
@@ -327,23 +319,17 @@ public class CartPanel extends JPanel {
                 JButton button = (JButton) component;
                 String text = button.getText();
                 if ("-".equals(text)) {
-                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
-                                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                                "arc:14; background:#6C757D; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
-                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
+                    button.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                    button.putClientProperty(FlatClientProperties.STYLE, "arc:14; background:#6C757D; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                    button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 } else if ("+".equals(text)) {
-                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
-                                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                                "arc:14; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
-                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
+                    button.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                    button.putClientProperty(FlatClientProperties.STYLE, "arc:14; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                    button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 } else if ("Remove".equals(text)) {
-                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
-                                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                                "arc:14; background:#DC3545; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
-                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
+                    button.putClientProperty(FlatClientProperties.BUTTON_TYPE, FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                    button.putClientProperty(FlatClientProperties.STYLE, "arc:14; background:#DC3545; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                    button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 }
             } else if (component instanceof JPanel) {
                 restyleButtonsInCartItem((JPanel) component);

@@ -114,21 +114,12 @@ public class MainFrame extends javax.swing.JFrame {
         setResizable(true);
 
         Content.setLayout(new java.awt.CardLayout());
-<<<<<<< Updated upstream
-=======
         Content.setBackground(new Color(248, 249, 250));
         Content.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
->>>>>>> Stashed changes
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
 
-<<<<<<< Updated upstream
-        Drawer.setBorder(jButton2.getBorder());
-        Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
-        Drawer.setMixingCutoutShape(jButton1.getVisibleRect());
-        Drawer.setPreferredSize(new java.awt.Dimension(100, 600));
-=======
         Drawer.setBackground(new Color(255, 255, 255));
         Drawer.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(230, 230, 230)),
@@ -136,7 +127,6 @@ public class MainFrame extends javax.swing.JFrame {
         ));
         Drawer.setMinimumSize(new java.awt.Dimension(200, 0));
         Drawer.setPreferredSize(new java.awt.Dimension(200, 600));
->>>>>>> Stashed changes
 
         // Style navigation buttons
         styleNavigationButton(jButton1, "🛍️ Shop");
@@ -197,14 +187,9 @@ public class MainFrame extends javax.swing.JFrame {
 
         getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
-<<<<<<< Updated upstream
-        jPanel1.setBackground(new java.awt.Color(113, 163, 255));
-        jPanel1.setPreferredSize(new java.awt.Dimension(928, 50));
-=======
         jPanel1.setBackground(new java.awt.Color(52, 58, 64));
         jPanel1.setPreferredSize(new java.awt.Dimension(928, 60));
         jPanel1.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
->>>>>>> Stashed changes
 
         jLabel3.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 28));
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
@@ -300,11 +285,9 @@ public class MainFrame extends javax.swing.JFrame {
             
             // Update panels manually without resetting their styling
             if (shopPanel != null) {
-                System.out.println("Updating shop panel theme");
                 shopPanel.updateTheme();
             }
             if (cartPanel != null) {
-                System.out.println("Updating cart panel theme");
                 cartPanel.updateTheme();
             }
             if (historyPanel != null) {
@@ -337,7 +320,7 @@ public class MainFrame extends javax.swing.JFrame {
             if (jPanel1 != null) {
                 jPanel1.setBackground(new Color(60, 60, 60));
             }
-            System.out.println("Set main frame dark background");
+            
         } else {
             getContentPane().setBackground(new Color(248, 249, 250));
             setBackground(new Color(248, 249, 250));
@@ -353,7 +336,7 @@ public class MainFrame extends javax.swing.JFrame {
             if (jPanel1 != null) {
                 jPanel1.setBackground(new Color(52, 58, 64));
             }
-            System.out.println("Set main frame light background");
+            
         }
         
         // Force repaint
