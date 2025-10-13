@@ -62,11 +62,11 @@ public class CartPanel extends JPanel {
         
         checkoutButton = new JButton("💳 Checkout");
         checkoutButton.setFont(checkoutButton.getFont().deriveFont(Font.BOLD, 14f));
-        checkoutButton.setBackground(new Color(40, 167, 69));
-        checkoutButton.setForeground(Color.WHITE);
-        checkoutButton.setFocusPainted(false);
-        checkoutButton.setBorderPainted(false);
-        checkoutButton.setOpaque(true);
+                checkoutButton.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
+                        com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                checkoutButton.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                        "arc:18; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                checkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
         checkoutButton.setPreferredSize(new Dimension(120, 45));
         checkoutButton.setMinimumSize(new Dimension(120, 45));
         checkoutButton.setMaximumSize(new Dimension(120, 45));
@@ -323,23 +323,23 @@ public class CartPanel extends JPanel {
                 JButton button = (JButton) component;
                 String text = button.getText();
                 if ("-".equals(text)) {
-                    button.setBackground(new Color(108, 117, 125));
-                    button.setForeground(Color.WHITE);
-                    button.setFocusPainted(false);
-                    button.setBorderPainted(false);
-                    button.setOpaque(true);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
+                                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                                "arc:14; background:#6C757D; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 } else if ("+".equals(text)) {
-                    button.setBackground(new Color(40, 167, 69));
-                    button.setForeground(Color.WHITE);
-                    button.setFocusPainted(false);
-                    button.setBorderPainted(false);
-                    button.setOpaque(true);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
+                                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                                "arc:14; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 } else if ("Remove".equals(text)) {
-                    button.setBackground(new Color(220, 53, 69));
-                    button.setForeground(Color.WHITE);
-                    button.setFocusPainted(false);
-                    button.setBorderPainted(false);
-                    button.setOpaque(true);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
+                                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                                "arc:14; background:#DC3545; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 }
             } else if (component instanceof JPanel) {
                 restyleButtonsInCartItem((JPanel) component);

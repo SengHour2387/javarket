@@ -219,22 +219,24 @@ public class ShopPanel extends JPanel {
     }
 
     private JComponent createProductCard(Prodcut product) {
+        boolean isDark = UIManager.getLookAndFeel().getName().contains("Dark");
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
-        
-        // Theme-aware card styling
-        boolean isDark = UIManager.getLookAndFeel().getName().contains("Dark");
+
+        // FlatLaf rounded styling (Panel does not support borderColor via STYLE)
         if (isDark) {
-            card.setBackground(new Color(60, 60, 60));
-            card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
-                BorderFactory.createEmptyBorder(20, 20, 20, 20)
+            card.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                    "arc:14; background:#3C3C3C" );
+            card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                    javax.swing.BorderFactory.createLineBorder(new java.awt.Color(80,80,80), 1),
+                    javax.swing.BorderFactory.createEmptyBorder(20,20,20,20)
             ));
         } else {
-            card.setBackground(Color.WHITE);
-            card.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-                BorderFactory.createEmptyBorder(20, 20, 20, 20)
+            card.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                    "arc:14; background:#FFFFFF" );
+            card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
+                    javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230,230,230), 1),
+                    javax.swing.BorderFactory.createEmptyBorder(20,20,20,20)
             ));
         }
         
@@ -344,15 +346,15 @@ public class ShopPanel extends JPanel {
         addToCart.setFont(addToCart.getFont().deriveFont(Font.BOLD, 13f));
         addToCart.setAlignmentX(Component.CENTER_ALIGNMENT);
         
-        // Direct styling to ensure button is always green and visible
-        addToCart.setBackground(new Color(40, 167, 69));
-        addToCart.setForeground(Color.WHITE);
-        addToCart.setFocusPainted(false);
-        addToCart.setBorderPainted(false);
-        addToCart.setOpaque(true);
+        // FlatLaf rounded green button styling
+        addToCart.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
+                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+        addToCart.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                "arc:18; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;" );
         addToCart.setPreferredSize(new Dimension(160, 40));
         addToCart.setMinimumSize(new Dimension(160, 40));
         addToCart.setMaximumSize(new Dimension(160, 40));
+        addToCart.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
         
         // Add action listener to the button
         addToCart.addActionListener(new ActionListener() {

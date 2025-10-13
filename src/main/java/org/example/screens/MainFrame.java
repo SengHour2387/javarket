@@ -160,27 +160,27 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout DrawerLayout = new javax.swing.GroupLayout(Drawer);
         Drawer.setLayout(DrawerLayout);
         DrawerLayout.setHorizontalGroup(
-            DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
             .addGroup(DrawerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
-                    .addComponent(jButton3)
-                    .addComponent(jButton4))
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
         );
         DrawerLayout.setVerticalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jButton1)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(12, 12, 12)
-                .addComponent(jButton2)
+                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3)
+                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4)                                
+                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)                                
                 .addGap(17, 17, 17))
         );
 
@@ -395,13 +395,15 @@ public class MainFrame extends javax.swing.JFrame {
         button.setFocusPainted(false);
         button.setBorderPainted(false);
         button.setOpaque(true);
-        button.setPreferredSize(new Dimension(160, 45));
-        button.setMinimumSize(new Dimension(160, 45));
-        button.setMaximumSize(new Dimension(160, 45));
-        button.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-            BorderFactory.createEmptyBorder(10, 15, 10, 15)
-        ));
+        button.setPreferredSize(new Dimension(170, 46));
+        button.setMinimumSize(new Dimension(170, 46));
+        button.setMaximumSize(new Dimension(170, 46));
+        // FlatLaf rounded style for nav buttons
+        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
+                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                "arc:18; focusWidth:0; innerFocusWidth:0; borderWidth:1; borderColor:#E6E6E6");
+        button.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
         
         // Add hover effect
         button.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -411,7 +413,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
                 if (isDarkTheme) {
-                    button.setBackground(new Color(45, 45, 45));
+                    button.setBackground(new Color(55, 55, 55));
                     button.setForeground(new Color(255, 255, 255));
                 } else {
                     button.setBackground(new Color(248, 249, 250));
