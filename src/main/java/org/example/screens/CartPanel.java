@@ -59,13 +59,10 @@ public class CartPanel extends JPanel {
         totalLabel = new JLabel("Total: $0.00");
         totalLabel.setFont(totalLabel.getFont().deriveFont(Font.BOLD, 20f));
         totalLabel.setForeground(new Color(40, 167, 69));
-        
         checkoutButton = new JButton("💳 Checkout");
         checkoutButton.setFont(checkoutButton.getFont().deriveFont(Font.BOLD, 14f));
                 checkoutButton.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
                         com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-                checkoutButton.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                        "arc:18; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
                 checkoutButton.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
         checkoutButton.setPreferredSize(new Dimension(120, 45));
         checkoutButton.setMinimumSize(new Dimension(120, 45));
@@ -252,7 +249,7 @@ public class CartPanel extends JPanel {
         );
         
         if (result == JOptionPane.YES_OPTION) {
-           
+
             JOptionPane.showMessageDialog(this, "Order placed successfully!", "Checkout Complete", JOptionPane.INFORMATION_MESSAGE);
             cartManager.clearCart();
             refreshCart();
@@ -290,23 +287,6 @@ public class CartPanel extends JPanel {
     }
     
     private void reapplyButtonStyling() {
-        // Restyle main buttons
-//        if (checkoutButton != null) {
-//            checkoutButton.setBackground(new Color(40, 167, 69));
-//            checkoutButton.setForeground(Color.WHITE);
-//            checkoutButton.setFocusPainted(false);
-//            checkoutButton.setBorderPainted(false);
-//            checkoutButton.setOpaque(true);
-//        }
-//
-//        if (clearCartButton != null) {
-//            clearCartButton.setBackground(new Color(220, 53, 69));
-//            clearCartButton.setForeground(Color.WHITE);
-//            clearCartButton.setFocusPainted(false);
-//            clearCartButton.setBorderPainted(false);
-//            clearCartButton.setOpaque(true);
-//        }
-        
         // Restyle buttons in cart items
         Component[] components = cartItemsPanel.getComponents();
         for (Component component : components) {
