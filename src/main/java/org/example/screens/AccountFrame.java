@@ -113,7 +113,7 @@ public class AccountFrame extends javax.swing.JFrame {
 
         ViewShopPanel.setLayout(new java.awt.CardLayout());
 
-        MyShopeListView.setBackground(null);
+        MyShopeListView.setBorder(null);
         jScrollPane1.setViewportView(MyShopeListView);
 
         javax.swing.GroupLayout ShopDetailFormLayout = new javax.swing.GroupLayout(ShopDetailForm);
