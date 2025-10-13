@@ -95,7 +95,8 @@ public class AccountFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         AddShopBtn = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        // Do not close the whole app when closing Account window
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         UserNameLabel.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 24)); // NOI18N
         UserNameLabel.setText("Name");

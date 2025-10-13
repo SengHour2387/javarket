@@ -31,6 +31,28 @@ class ResponsiveGridLayout implements LayoutManager2 {
         this.vgap = vgap;
     }
 
+    private boolean isValidUrl(String s) {
+        try {
+            new java.net.URL(s);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    // Build a simple product-image URL from product name using dummyimage service
+    private String inferImageUrl(Prodcut product) {
+        try {
+            String name = product.getName();
+            if (name == null || name.isBlank()) return null;
+            String text = java.net.URLEncoder.encode(name, java.nio.charset.StandardCharsets.UTF_8.name());
+            // 300x240 placeholder with product name text
+            return "https://dummyimage.com/300x240/eeeeee/555555.png&text=" + text;
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {}
 
@@ -120,6 +142,27 @@ public class ShopPanel extends JPanel {
     private CartManager cartManager;
     private final JLabel loadingLabel = new JLabel("Loading products…", SwingConstants.CENTER);
     private java.util.List<JButton> addToCartButtons = new java.util.ArrayList<>();
+
+    // Helpers for remote product images
+    private boolean isValidUrl(String s) {
+        try {
+            new java.net.URL(s);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    private String inferImageUrl(Prodcut product) {
+        try {
+            String name = product.getName();
+            if (name == null || name.isBlank()) return null;
+            String text = java.net.URLEncoder.encode(name, java.nio.charset.StandardCharsets.UTF_8.name());
+            return "https://dummyimage.com/300x240/eeeeee/555555.png&text=" + text;
+        } catch (Exception e) {
+            return null;
+        }
+    }
 
     public ShopPanel() {
         setLayout(new BorderLayout());
@@ -269,19 +312,31 @@ public class ShopPanel extends JPanel {
         productImg.setFont(productImg.getFont().deriveFont(10f));
         
         // Try to load image asynchronously with better error handling
-        if (product.getImage() != null && !product.getImage().trim().isEmpty() && !product.getImage().equals("No Image")) {
+        if (true) {
             SwingWorker<ImageIcon, Void> imgWorker = new SwingWorker<>() {
                 @Override
                 protected ImageIcon doInBackground() {
                     try {
-                        URL imgUrl = new URL(product.getImage());
-                        BufferedImage image = ImageIO.read(imgUrl);
-                        if (image != null) {
-                            Image resizedImg = image.getScaledInstance(100, 80, Image.SCALE_SMOOTH);
-                            return new ImageIcon(resizedImg);
-                        } else {
-                            System.err.println("Failed to load image from URL: " + imgUrl);
+                        String imageStr = product.getImage();
+                        if (imageStr == null || imageStr.trim().isEmpty() || imageStr.equals("No Image") || !isValidUrl(imageStr)) {
+                            imageStr = inferImageUrl(product);
                         }
+                        if (imageStr == null) {
+                            return null;
+                        }
+                        URL imgUrl = new URL(imageStr);
+                        java.net.URLConnection conn = imgUrl.openConnection();
+                        conn.setConnectTimeout(4000);
+                        conn.setReadTimeout(6000);
+                        conn.setRequestProperty("User-Agent", "Mozilla/5.0");
+                        try (java.io.InputStream in = conn.getInputStream()) {
+                            BufferedImage image = ImageIO.read(in);
+                            if (image != null) {
+                                Image resizedImg = image.getScaledInstance(100, 80, Image.SCALE_SMOOTH);
+                                return new ImageIcon(resizedImg);
+                            }
+                        }
+                        System.err.println("Failed to load image from URL: " + imgUrl);
                     } catch (MalformedURLException e) {
                         System.err.println("Invalid URL for image: " + product.getImage() + " - " + e.getMessage());
                     } catch (IOException e) {
