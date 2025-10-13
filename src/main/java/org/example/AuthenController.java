@@ -39,6 +39,9 @@ public class AuthenController {
     
     public boolean signIn(String email, String password) {
         try {
+            if (email == null || email.isBlank() || password == null || password.isBlank()) {
+                return false;
+            }
             // Query the database for user with the given email
             var resultSet = connector.runSelect(
                 "SELECT id, user_name, email, hash_pass, pfp FROM users_tbl WHERE email = ?",

@@ -20,6 +20,7 @@ public class HistoryPanel extends JPanel {
     private JButton refreshButton;
     private JComboBox<String> statusFilter;
     private DatabaseConnector connector;
+    private AppController appController;
     private List<Order> orders;
     
     public HistoryPanel() {
@@ -34,6 +35,14 @@ public class HistoryPanel extends JPanel {
         }
         initComponents();
         loadOrderHistory();
+    }
+
+    public HistoryPanel(AppController appController) {
+        this();
+        this.appController = appController;
+        if (this.appController != null) {
+            this.connector = this.appController.getConnector();
+        }
     }
     
     private void initComponents() {
@@ -99,11 +108,24 @@ public class HistoryPanel extends JPanel {
         historyItemsPanel.removeAll();
         
         try {
-            String sql = "SELECT o.*, p.name as product_name FROM orders_tbl o " +
-                        "LEFT JOIN products_tbl p ON o.product_id = p.id " +
-                        "ORDER BY o.created_at DESC";
-            
-            ResultSet resultSet = connector.runSelect(sql);
+            // Require a logged-in user for accurate per-user history
+            if (appController == null || appController.getCurrentUser() == null || appController.getCurrentUser().getId() <= 0) {
+                JLabel loginLabel = new JLabel("Sign in to view your order history");
+                loginLabel.setFont(loginLabel.getFont().deriveFont(Font.ITALIC, 14f));
+                loginLabel.setHorizontalAlignment(SwingConstants.CENTER);
+                loginLabel.setForeground(Color.GRAY);
+                historyItemsPanel.add(loginLabel);
+                historyItemsPanel.revalidate();
+                historyItemsPanel.repaint();
+                updateTotalOrders();
+                return;
+            }
+            int buyerId = appController.getCurrentUser().getId();
+            String base = "SELECT o.*, p.name as product_name FROM orders_tbl o " +
+                        "LEFT JOIN products_tbl p ON o.product_id = p.id WHERE o.buyer_id = ?";
+            base += " ORDER BY o.created_at DESC";
+
+            ResultSet resultSet = connector.runSelect(base, buyerId);
             
             while (resultSet.next()) {
                 Order order = new Order(

@@ -22,6 +22,10 @@ public class AppController {
         }
     }
 
+    public User getCurrentUser() {
+        return currentUser;
+    }
+
     public DatabaseConnector getConnector() {
         return connector;
     }

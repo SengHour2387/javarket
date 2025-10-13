@@ -317,8 +317,14 @@ public class AuthenScreen extends javax.swing.JFrame {
     }//GEN-LAST:event_PasswordFieldActionPerformed
 
     private void LoginBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_LoginBtnActionPerformed
-        // TODO add your handling code here:
-        if(controller.signIn(EmailField.getText().trim(),PasswordField.getText().trim())) {
+        // Validate input
+        String email = EmailField.getText().trim();
+        String pass = PasswordField.getText().trim();
+        if (email.isEmpty() || pass.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please enter both email and password.", "Missing Information", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+        if(controller.signIn(email, pass)) {
             
             AppController appController = new AppController(controller.getConnector(), controller.getCurrentUser());
             
@@ -328,6 +334,7 @@ public class AuthenScreen extends javax.swing.JFrame {
             
         } else {
             System.out.println("Login Fail!!");
+            JOptionPane.showMessageDialog(this, "Invalid email or password.", "Login Failed", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_LoginBtnActionPerformed
 

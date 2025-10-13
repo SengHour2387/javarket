@@ -27,6 +27,42 @@ public class AccountController {
         this.connector = connector;
     }
 
+    public boolean updateProfile(String newUserName, String newEmail) {
+        try {
+            int rows = connector.runCUD(
+                    "UPDATE users_tbl SET user_name = ?, email = ? WHERE id = ?",
+                    newUserName,
+                    newEmail,
+                    currentUser.getId()
+            );
+            if (rows > 0) {
+                currentUser.setUser_name(newUserName);
+                currentUser.setEmail(newEmail);
+            }
+            return rows > 0;
+        } catch (SQLException e) {
+            System.out.println("Error updating profile: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean changePassword(String oldPassword, String newPassword) {
+        try {
+            // Verify old password
+            var rs = connector.runSelect("SELECT hash_pass FROM users_tbl WHERE id = ?", currentUser.getId());
+            if (!rs.next()) return false;
+            String currentHash = rs.getString(1);
+            if (!org.example.tools.PasswordHasher.checkPassword(oldPassword, currentHash)) return false;
+
+            String newHash = org.example.tools.PasswordHasher.hashPassword(newPassword);
+            int rows = connector.runCUD("UPDATE users_tbl SET hash_pass = ? WHERE id = ?", newHash, currentUser.getId());
+            return rows > 0;
+        } catch (SQLException e) {
+            System.out.println("Error changing password: " + e.getMessage());
+            return false;
+        }
+    }
+
     public List<UserShop> getMyShops() {
         List <UserShop> myShops = new ArrayList<>();
 

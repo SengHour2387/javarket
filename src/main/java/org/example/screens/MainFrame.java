@@ -45,8 +45,8 @@ public class MainFrame extends javax.swing.JFrame {
         // Create cart panel
         cartPanel = new CartPanel();
         
-        // Create history panel
-        historyPanel = new HistoryPanel();
+        // Create history panel with controller to filter by current user
+        historyPanel = new HistoryPanel(controller);
         
         // Add panels to content with CardLayout
         Content.add(shopPanel, "SHOP");
@@ -253,7 +253,13 @@ public class MainFrame extends javax.swing.JFrame {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
-        JOptionPane.showMessageDialog(this, "Account feature coming soon!", "Account", JOptionPane.INFORMATION_MESSAGE);
+        try {
+            com.formdev.flatlaf.FlatLaf laf = (com.formdev.flatlaf.FlatLaf) javax.swing.UIManager.getLookAndFeel();
+            AccountFrame accountFrame = new AccountFrame(controller.getCurrentUser(), laf, controller.getConnector());
+            accountFrame.setVisible(true);
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Unable to open Account window: " + ex.getMessage(), "Account", JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton4ActionPerformed
 
     private void themeBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_themeBtnActionPerformed
