@@ -6,8 +6,7 @@ package org.example.screens;
 
 import javax.swing.*;
 import java.awt.*;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.FlatDarkLaf;
+
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
@@ -334,10 +333,10 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void updateThemeAwareStyling() {
         // Update navigation buttons styling based on theme
-        if (jButton1 != null) updateNavigationButtonStyle(jButton1, "🛍️ Shop");
-        if (jButton2 != null) updateNavigationButtonStyle(jButton2, "🛒 Cart");
-        if (jButton3 != null) updateNavigationButtonStyle(jButton3, "📋 History");
-        if (jButton4 != null) updateNavigationButtonStyle(jButton4, "👤 Account");
+        if (jButton1 != null) updateNavigationButtonStyle(jButton1, "Shop");
+        if (jButton2 != null) updateNavigationButtonStyle(jButton2, "Cart");
+        if (jButton3 != null) updateNavigationButtonStyle(jButton3, "History");
+        if (jButton4 != null) updateNavigationButtonStyle(jButton4, "Account");
     }
     
     private void updateNavigationButtonStyle(JButton button, String text) {
@@ -347,61 +346,10 @@ public class MainFrame extends javax.swing.JFrame {
         if (isDarkTheme) {
             button.setBackground(new Color(45, 45, 45));
             button.setForeground(new Color(255, 255, 255));
-            button.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(60, 60, 60), 1),
-                BorderFactory.createEmptyBorder(10, 15, 10, 15)
-            ));
         } else {
             button.setBackground(new Color(248, 249, 250));
             button.setForeground(new Color(52, 58, 64));
-            button.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-                BorderFactory.createEmptyBorder(10, 15, 10, 15)
-            ));
         }
-        
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
-        button.setOpaque(true);
-        button.setPreferredSize(new Dimension(160, 45));
-        button.setMinimumSize(new Dimension(160, 45));
-        button.setMaximumSize(new Dimension(160, 45));
-    }
-    
-    private void styleNavigationButton(JButton button, String text) {
-        button.setText(text);
-        button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
-        button.setBackground(new Color(248, 249, 250));
-        button.setForeground(new Color(52, 58, 64));
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
-        button.setOpaque(true);
-        button.setPreferredSize(new Dimension(170, 46));
-        button.setMinimumSize(new Dimension(170, 46));
-        button.setMaximumSize(new Dimension(170, 46));
-        // FlatLaf rounded style for nav buttons
-        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
-                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                "focusWidth:0; innerFocusWidth:0; borderWidth:1; borderColor:#E6E6E6");
-        button.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
-        
-        // Add hover effect
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(0, 123, 255));
-                button.setForeground(Color.WHITE);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                if (isDarkTheme) {
-                    button.setBackground(new Color(55, 55, 55));
-                    button.setForeground(new Color(255, 255, 255));
-                } else {
-                    button.setBackground(new Color(248, 249, 250));
-                    button.setForeground(new Color(52, 58, 64));
-                }
-            }
-        });
     }
 
     /**

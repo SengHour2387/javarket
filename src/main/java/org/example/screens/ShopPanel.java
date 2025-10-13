@@ -645,12 +645,12 @@ public class ShopPanel extends JPanel {
                 // Direct styling to ensure button is always green and visible
                 button.setBackground(new Color(40, 167, 69));
                 button.setForeground(Color.WHITE);
-                button.setFocusPainted(false);
-                button.setBorderPainted(false);
-                button.setOpaque(true);
-                button.setPreferredSize(new Dimension(160, 40));
-                button.setMinimumSize(new Dimension(160, 40));
-                button.setMaximumSize(new Dimension(160, 40));
+//                button.setFocusPainted(false);
+//                button.setBorderPainted(false);
+//                button.setOpaque(true);
+//                button.setPreferredSize(new Dimension(160, 40));
+//                button.setMinimumSize(new Dimension(160, 40));
+//                button.setMaximumSize(new Dimension(160, 40));
                 
                 // Force repaint
                 button.revalidate();
