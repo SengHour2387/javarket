@@ -90,12 +90,6 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        // Set up FlatLaf theme
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (Exception e) {
-            System.err.println("Failed to set FlatLaf theme: " + e.getMessage());
-        }
 
         Content = new javax.swing.JPanel();
         Drawer = new javax.swing.JPanel();
@@ -108,49 +102,40 @@ public class MainFrame extends javax.swing.JFrame {
         themeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("JavaMarket - Modern E-commerce Platform");
-        setBackground(new java.awt.Color(248, 249, 250));
-        setSize(1200, 800);
-        setResizable(true);
+        setBackground(new java.awt.Color(51, 255, 51));
 
         Content.setLayout(new java.awt.CardLayout());
-        Content.setBackground(new Color(248, 249, 250));
-        Content.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
 
-        Drawer.setBackground(new Color(255, 255, 255));
-        Drawer.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(230, 230, 230)),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
-        ));
-        Drawer.setMinimumSize(new java.awt.Dimension(200, 0));
-        Drawer.setPreferredSize(new java.awt.Dimension(200, 600));
+        Drawer.setBorder(jButton2.getBorder());
+        Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
+        Drawer.setMixingCutoutShape(jButton1.getVisibleRect());
+        Drawer.setPreferredSize(new java.awt.Dimension(100, 600));
 
-        // Style navigation buttons
-        styleNavigationButton(jButton1, "🛍️ Shop");
+        jButton1.setText("Shop");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        styleNavigationButton(jButton2, "🛒 Cart");
+        jButton2.setText("Cart");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
             }
         });
 
-        styleNavigationButton(jButton3, "📋 History");
+        jButton3.setText("History");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton3ActionPerformed(evt);
             }
         });
 
-        styleNavigationButton(jButton4, "👤 Account");
+        jButton4.setText("Account");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
@@ -160,49 +145,40 @@ public class MainFrame extends javax.swing.JFrame {
         javax.swing.GroupLayout DrawerLayout = new javax.swing.GroupLayout(Drawer);
         Drawer.setLayout(DrawerLayout);
         DrawerLayout.setHorizontalGroup(
-            DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+            DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
+                    .addComponent(jButton3)
+                    .addComponent(jButton4))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
         DrawerLayout.setVerticalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
                 .addGap(22, 22, 22)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton1)
                 .addGap(12, 12, 12)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jButton3)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)                                
+                .addComponent(jButton4)
                 .addGap(17, 17, 17))
         );
 
-
         getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
-        jPanel1.setBackground(new java.awt.Color(52, 58, 64));
-        jPanel1.setPreferredSize(new java.awt.Dimension(928, 60));
-        jPanel1.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        jPanel1.setBackground(new java.awt.Color(113, 163, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(928, 50));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 28));
+        jLabel3.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("🛍️ JavaMarket");
+        jLabel3.setText("JavarKet");
 
-        themeBtn.setText("🌙 Dark");
-        themeBtn.setBackground(new Color(108, 117, 125));
-        themeBtn.setForeground(Color.WHITE);
-        themeBtn.setFont(themeBtn.getFont().deriveFont(Font.BOLD, 12f));
-        themeBtn.setFocusPainted(false);
-        themeBtn.setBorderPainted(false);
-        themeBtn.setOpaque(true);
-        themeBtn.setPreferredSize(new Dimension(100, 35));
+        themeBtn.setText("Theme");
         themeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 themeBtnActionPerformed(evt);
@@ -216,26 +192,23 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(themeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(330, 330, 330)
-                .addComponent(jLabel3)
-                .addContainerGap(388, Short.MAX_VALUE))
+                .addGap(264, 264, 264)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(419, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(3, 3, 3)
                 .addComponent(themeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
-        
-        // Initialize panels and show shop panel
-        init();
-        
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
@@ -409,7 +382,7 @@ public class MainFrame extends javax.swing.JFrame {
         button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
                 com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
         button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                "arc:18; focusWidth:0; innerFocusWidth:0; borderWidth:1; borderColor:#E6E6E6");
+                "focusWidth:0; innerFocusWidth:0; borderWidth:1; borderColor:#E6E6E6");
         button.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
         
         // Add hover effect
