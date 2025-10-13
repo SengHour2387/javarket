@@ -249,7 +249,11 @@ public class CartPanel extends JPanel {
         );
         
         if (result == JOptionPane.YES_OPTION) {
+<<<<<<< Updated upstream
 
+=======
+            // Here you would integrate with your order system
+>>>>>>> Stashed changes
             JOptionPane.showMessageDialog(this, "Order placed successfully!", "Checkout Complete", JOptionPane.INFORMATION_MESSAGE);
             cartManager.clearCart();
             refreshCart();
@@ -279,7 +283,7 @@ public class CartPanel extends JPanel {
         }
         
         // Reapply button styling after theme change
-//        reapplyButtonStyling();
+        reapplyButtonStyling();
         
         // Revalidate and repaint
         revalidate();
@@ -287,11 +291,31 @@ public class CartPanel extends JPanel {
     }
     
     private void reapplyButtonStyling() {
+<<<<<<< Updated upstream
+=======
+        // Restyle main buttons
+        if (checkoutButton != null) {
+            checkoutButton.setBackground(new Color(40, 167, 69));
+            checkoutButton.setForeground(Color.WHITE);
+            checkoutButton.setFocusPainted(false);
+            checkoutButton.setBorderPainted(false);
+            checkoutButton.setOpaque(true);
+        }
+        
+        if (clearCartButton != null) {
+            clearCartButton.setBackground(new Color(220, 53, 69));
+            clearCartButton.setForeground(Color.WHITE);
+            clearCartButton.setFocusPainted(false);
+            clearCartButton.setBorderPainted(false);
+            clearCartButton.setOpaque(true);
+        }
+        
+>>>>>>> Stashed changes
         // Restyle buttons in cart items
         Component[] components = cartItemsPanel.getComponents();
         for (Component component : components) {
             if (component instanceof JPanel) {
-//                restyleButtonsInCartItem((JPanel) component);
+                restyleButtonsInCartItem((JPanel) component);
             }
         }
     }
@@ -304,16 +328,25 @@ public class CartPanel extends JPanel {
                 String text = button.getText();
                 if ("-".equals(text)) {
                         button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
-                                FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                                "arc:14; background:#6C757D; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 } else if ("+".equals(text)) {
                         button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
                                 com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                                "arc:14; background:#28A745; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 } else if ("Remove".equals(text)) {
                         button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
                                 com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
+                        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
+                                "arc:14; background:#DC3545; foreground:#FFFFFF; focusWidth:0; innerFocusWidth:0; borderWidth:0;");
+                        button.setBorder(BorderFactory.createEmptyBorder(6, 12, 6, 12));
                 }
             } else if (component instanceof JPanel) {
-//                restyleButtonsInCartItem((JPanel) component);
+                restyleButtonsInCartItem((JPanel) component);
             }
         }
     }
