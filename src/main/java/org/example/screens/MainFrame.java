@@ -270,7 +270,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             
             // Reapply custom styling that needs to be theme-aware
-//            updateThemeAwareStyling();
+            updateThemeAwareStyling();
             
             pack();
         } catch (Exception e) {
@@ -328,6 +328,27 @@ public class MainFrame extends javax.swing.JFrame {
         if (jPanel1 != null) {
             jPanel1.revalidate();
             jPanel1.repaint();
+        }
+    }
+    
+    private void updateThemeAwareStyling() {
+        // Update navigation buttons styling based on theme
+        if (jButton1 != null) updateNavigationButtonStyle(jButton1, "Shop");
+        if (jButton2 != null) updateNavigationButtonStyle(jButton2, "Cart");
+        if (jButton3 != null) updateNavigationButtonStyle(jButton3, "History");
+        if (jButton4 != null) updateNavigationButtonStyle(jButton4, "Account");
+    }
+    
+    private void updateNavigationButtonStyle(JButton button, String text) {
+        if (text != null) button.setText(text);
+        button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
+        
+        if (isDarkTheme) {
+            button.setBackground(new Color(45, 45, 45));
+            button.setForeground(new Color(255, 255, 255));
+        } else {
+            button.setBackground(new Color(248, 249, 250));
+            button.setForeground(new Color(52, 58, 64));
         }
     }
 
