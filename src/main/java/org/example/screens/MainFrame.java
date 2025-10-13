@@ -256,6 +256,7 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             com.formdev.flatlaf.FlatLaf laf = (com.formdev.flatlaf.FlatLaf) javax.swing.UIManager.getLookAndFeel();
             AccountFrame accountFrame = new AccountFrame(controller.getCurrentUser(), laf, controller.getConnector());
+            accountFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
             accountFrame.setVisible(true);
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(this, "Unable to open Account window: " + ex.getMessage(), "Account", JOptionPane.ERROR_MESSAGE);
