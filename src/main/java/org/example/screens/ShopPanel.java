@@ -9,6 +9,7 @@ import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
 import java.awt.image.BufferedImage;
+import java.io.InputStream;
 import java.net.URL;
 import java.io.File;
 import java.awt.event.ActionEvent;
@@ -331,7 +332,7 @@ public class ShopPanel extends JPanel {
                         conn.setConnectTimeout(4000);
                         conn.setReadTimeout(6000);
                         conn.setRequestProperty("User-Agent", "Mozilla/5.0");
-                        try (java.io.InputStream in = conn.getInputStream()) {
+                        try (InputStream in = conn.getInputStream()) {
                             BufferedImage image = ImageIO.read(in);
                             if (image != null) {
                                 Image resizedImg = image.getScaledInstance(100, 80, Image.SCALE_SMOOTH);
