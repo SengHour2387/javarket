@@ -15,6 +15,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import com.formdev.flatlaf.FlatClientProperties;
 
@@ -34,7 +36,7 @@ class ResponsiveGridLayout implements LayoutManager2 {
 
     private boolean isValidUrl(String s) {
         try {
-            new java.net.URL(s);
+            new URL(s);
             return true;
         } catch (Exception e) {
             return false;
@@ -46,8 +48,7 @@ class ResponsiveGridLayout implements LayoutManager2 {
         try {
             String name = product.getName();
             if (name == null || name.isBlank()) return null;
-            String text = java.net.URLEncoder.encode(name, java.nio.charset.StandardCharsets.UTF_8.name());
-            // 300x240 placeholder with product name text
+            String text = URLEncoder.encode(name, StandardCharsets.UTF_8);
             return "https://dummyimage.com/300x240/eeeeee/555555.png&text=" + text;
         } catch (Exception e) {
             return null;
@@ -150,7 +151,7 @@ public class ShopPanel extends JPanel {
     // Helpers for remote product images
     private boolean isValidUrl(String s) {
         try {
-            new java.net.URL(s);
+            new URL(s);
             return true;
         } catch (Exception e) {
             return false;
