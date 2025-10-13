@@ -106,14 +106,14 @@ public class MainFrame extends javax.swing.JFrame {
         setBackground(new java.awt.Color(51, 255, 51));
 
         Content.setLayout(new java.awt.CardLayout());
+        Content.setOpaque(true);
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
 
-        Drawer.setBorder(jButton2.getBorder());
-        Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
-        Drawer.setMixingCutoutShape(jButton1.getVisibleRect());
-        Drawer.setPreferredSize(new java.awt.Dimension(100, 600));
+        Drawer.setMinimumSize(new java.awt.Dimension(200, 0));
+        Drawer.setPreferredSize(new java.awt.Dimension(200, 600));
+        Drawer.setOpaque(true);
 
         jButton1.setText("Shop");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -173,6 +173,7 @@ public class MainFrame extends javax.swing.JFrame {
         getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
         jPanel1.setBackground(new java.awt.Color(113, 163, 255));
+        jPanel1.setOpaque(true);
         jPanel1.setPreferredSize(new java.awt.Dimension(928, 50));
 
         jLabel3.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 24)); // NOI18N
@@ -249,15 +250,13 @@ public class MainFrame extends javax.swing.JFrame {
                 isDarkTheme = true;
             }
             
-            // Update all components in the frame
+            // 1) Refresh LAF for this frame
             SwingUtilities.updateComponentTreeUI(this);
-            
-            // Update main frame background AFTER UI update using invokeLater
-            SwingUtilities.invokeLater(() -> {
-                updateMainFrameBackground();
-            });
-            
-            // Update panels manually without resetting their styling
+
+            // 2) Re-apply container backgrounds immediately after LAF switch
+            updateMainFrameBackground();
+
+            // 3) Update panels manually without resetting their styling
             if (shopPanel != null) {
                 System.out.println("Updating shop panel theme");
                 shopPanel.updateTheme();
@@ -270,7 +269,7 @@ public class MainFrame extends javax.swing.JFrame {
                 SwingUtilities.updateComponentTreeUI(historyPanel);
             }
             
-            // Reapply custom styling that needs to be theme-aware
+            // 4) Reapply custom styling that needs to be theme-aware
             updateThemeAwareStyling();
             
             pack();
