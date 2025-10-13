@@ -31,6 +31,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame( AppController controller ) {
         this.controller = controller;
         initComponents();
+        init();
     }
 
     private void init() {
