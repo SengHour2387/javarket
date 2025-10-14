@@ -21,6 +21,7 @@ public class MainFrame extends javax.swing.JFrame {
     private ShopPanel shopPanel;
     private CartPanel cartPanel;
     private HistoryPanel historyPanel;
+    private MyShopPanel myShopPanel;
     private CardLayout cardLayout;
     private boolean isDarkTheme = false;
     /**
@@ -33,8 +34,62 @@ public class MainFrame extends javax.swing.JFrame {
     }
 
     private void init() {
+        // Change Drawer to BoxLayout for easier button management
+        Drawer.setLayout(new BoxLayout(Drawer, BoxLayout.Y_AXIS));
+        
+        // Re-add existing buttons in order
+        Drawer.removeAll();
+        Drawer.add(Box.createVerticalStrut(14));
+        Drawer.add(ShopBtn);
+        Drawer.add(Box.createVerticalStrut(12));
+        Drawer.add(CartBtn);
+        Drawer.add(Box.createVerticalStrut(12));
+        Drawer.add(HistoryBtn);
+        
+        // Add "My Shop" button to drawer
+        addMyShopButton();
+        
+        // Add spacer
+        Drawer.add(Box.createVerticalStrut(12));
+        Drawer.add(jButton4); // Account button
+        
+        Drawer.revalidate();
+        Drawer.repaint();
+        
         loadPanels();
         showShopPanel();
+    }
+    
+    private void addMyShopButton() {
+        // Create My Shop button with consistent styling
+        JButton myShopBtn = new JButton("🏪 My Shop");
+        myShopBtn.setFont(myShopBtn.getFont().deriveFont(Font.BOLD, 14f));
+        myShopBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
+        myShopBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, ShopBtn.getPreferredSize().height));
+        myShopBtn.addActionListener(e -> showMyShopPanel());
+        
+        // Apply FlatLaf styling to match other buttons
+        myShopBtn.putClientProperty("FlatLaf.style", "arc: 12");
+        myShopBtn.setFocusPainted(false);
+        myShopBtn.setBorderPainted(false);
+        myShopBtn.setContentAreaFilled(true);
+        myShopBtn.setOpaque(true);
+        
+        // Set colors to match drawer theme
+        boolean isDark = UIManager.getLookAndFeel().getName().contains("Dark");
+        if (isDark) {
+            myShopBtn.setBackground(new Color(60, 60, 60));
+            myShopBtn.setForeground(Color.WHITE);
+        } else {
+            myShopBtn.setBackground(new Color(240, 240, 240));
+            myShopBtn.setForeground(Color.BLACK);
+        }
+        
+        // Add to drawer with spacing (BoxLayout respects order)
+        Drawer.add(Box.createVerticalStrut(12));
+        Drawer.add(myShopBtn);
+        
+        System.out.println("✅ My Shop button added to drawer");
     }
 
     private void loadPanels() {
@@ -47,10 +102,14 @@ public class MainFrame extends javax.swing.JFrame {
         // Create history panel with controller to filter by current user
         historyPanel = new HistoryPanel(controller);
         
+        // Create my shop panel for sellers
+        myShopPanel = new MyShopPanel(controller.getCurrentUser());
+        
         // Add panels to content with CardLayout
         Content.add(shopPanel, "SHOP");
         Content.add(cartPanel, "CART");
         Content.add(historyPanel, "HISTORY");
+        Content.add(myShopPanel, "MYSHOP");
     }
     
     private void showShopPanel() {
@@ -74,6 +133,36 @@ public class MainFrame extends javax.swing.JFrame {
         cardLayout.show(Content, "HISTORY");
         Content.revalidate();
         Content.repaint();
+    }
+    
+    private void showMyShopPanel() {
+        cardLayout = (CardLayout) Content.getLayout();
+        cardLayout.show(Content, "MYSHOP");
+        Content.revalidate();
+        Content.repaint();
+    }
+    
+    private void updateMyShopButtonTheme(boolean isDark) {
+        // Find and update the My Shop button in the drawer
+        if (Drawer != null) {
+            Component[] components = Drawer.getComponents();
+            for (Component comp : components) {
+                if (comp instanceof JButton) {
+                    JButton btn = (JButton) comp;
+                    if (btn.getText() != null && btn.getText().contains("My Shop")) {
+                        if (isDark) {
+                            btn.setBackground(new Color(60, 60, 60));
+                            btn.setForeground(Color.WHITE);
+                        } else {
+                            btn.setBackground(new Color(240, 240, 240));
+                            btn.setForeground(Color.BLACK);
+                        }
+                        btn.repaint();
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     @Override
@@ -252,7 +341,9 @@ public class MainFrame extends javax.swing.JFrame {
             if (historyPanel != null) {
                 SwingUtilities.updateComponentTreeUI(historyPanel);
             }
-
+            if (myShopPanel != null) {
+                myShopPanel.updateTheme();
+            }
 
             pack();
         } catch (Exception e) {
@@ -287,6 +378,9 @@ public class MainFrame extends javax.swing.JFrame {
             // Update the Drawer (sidebar) background
             if (Drawer != null) {
                 Drawer.setBackground(new Color(60, 60, 60));
+                
+                // Update My Shop button colors
+                updateMyShopButtonTheme(true);
             }
             // Update the header panel background
             if (jPanel1 != null) {
@@ -303,6 +397,9 @@ public class MainFrame extends javax.swing.JFrame {
             // Update the Drawer (sidebar) background
             if (Drawer != null) {
                 Drawer.setBackground(new Color(255, 255, 255));
+                
+                // Update My Shop button colors
+                updateMyShopButtonTheme(false);
             }
             // Update the header panel background
             if (jPanel1 != null) {

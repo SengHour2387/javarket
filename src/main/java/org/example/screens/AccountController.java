@@ -92,6 +92,18 @@ public class AccountController {
 
     public boolean addShop(UserShop newShop) {
         try {
+            // Validate and map status to allowed values
+            String status = newShop.getStatus();
+            if (status == null || status.trim().isEmpty()) {
+                status = "active";
+            } else {
+                status = status.trim().toLowerCase();
+                // Map any invalid status to "active"
+                if (!status.equals("active") && !status.equals("inactive") && !status.equals("suspended")) {
+                    status = "active";
+                }
+            }
+            
             int result = connector.runCUD("INSERT INTO shop_tbl (name, owner_ID, type, address, phone, email, status)\n" +
                     "VALUES (?, ?, ?, ?, ?, ?, ?)",
                     newShop.getName(),
@@ -100,7 +112,7 @@ public class AccountController {
                     newShop.getAddress(),
                     newShop.getPhone(),
                     newShop.getEmail(),
-                    newShop.getStatus()
+                    status
                     );
             return result > 0;
         } catch (SQLException e) {

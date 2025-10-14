@@ -20,12 +20,18 @@ public class DatabaseConnector {
         if( connection == null || connection.isClosed() ) {
             try {
                 System.out.println("Connecting to database: " + url);
-                connection  = DriverManager.getConnection(url);
-                System.out.println("Database connection successful");
+                connection = DriverManager.getConnection(url);
+                
+                // Enable WAL mode for better concurrent access
+                try (Statement stmt = connection.createStatement()) {
+                    stmt.execute("PRAGMA journal_mode=WAL;");
+                    stmt.execute("PRAGMA busy_timeout=5000;"); // Wait up to 5 seconds if locked
+                }
+                
+                System.out.println("Database connection successful (WAL mode enabled)");
             } catch (SQLException e) {
                 System.err.println("Database connection failed: " + e.getMessage());
                 e.printStackTrace();
-                connection.rollback();
                 throw new SQLException("Failed to connect to database at " + url + ": " + e.getMessage(), e);
             }
         }
@@ -49,7 +55,6 @@ public class DatabaseConnector {
             System.err.println("SQL query failed: " + sql);
             System.err.println("Parameters: " + java.util.Arrays.toString(parameters));
             e.printStackTrace();
-            connection.rollback();
             throw new SQLException("Error executing query: " + e.getMessage(), e);
         }
     }
@@ -69,8 +74,19 @@ public class DatabaseConnector {
             System.err.println("SQL execution failed: " + sql);
             System.err.println("Parameters: " + java.util.Arrays.toString(parameters));
             e.printStackTrace();
-            connection.rollback();
             throw new SQLException("Error executing SQL: " + e.getMessage(), e);
+        }
+    }
+    
+    // Close the connection
+    public void close() {
+        try {
+            if (connection != null && !connection.isClosed()) {
+                connection.close();
+                System.out.println("Database connection closed");
+            }
+        } catch (SQLException e) {
+            System.err.println("Error closing connection: " + e.getMessage());
         }
     }
 }
