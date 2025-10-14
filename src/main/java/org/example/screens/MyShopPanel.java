@@ -1,5 +1,6 @@
 package org.example.screens;
 
+import org.example.DatabaseConnector;
 import org.example.ShopManager;
 import org.example.models.Prodcut;
 import org.example.models.Shop;
@@ -179,13 +180,13 @@ public class MyShopPanel extends JPanel {
     }
     
     private JPanel createProductRow(Prodcut product) {
-        JPanel rowPanel = new JPanel(new BorderLayout());
+        JPanel rowPanel = new JPanel(new BorderLayout(10, 0));
         rowPanel.setBackground(Color.WHITE);
         rowPanel.setBorder(BorderFactory.createCompoundBorder(
             BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
             BorderFactory.createEmptyBorder(15, 20, 15, 20)
         ));
-        rowPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
+        rowPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
         
         // Product info
         JPanel infoPanel = new JPanel();
@@ -195,37 +196,54 @@ public class MyShopPanel extends JPanel {
         JLabel nameLabel = new JLabel(product.getName());
         nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 16f));
         
-        JLabel priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
+        String description = product.getDescription();
+        if (description != null && !description.isEmpty()) {
+            JLabel descLabel = new JLabel(description.length() > 60 ? description.substring(0, 60) + "..." : description);
+            descLabel.setForeground(Color.GRAY);
+            descLabel.setFont(descLabel.getFont().deriveFont(Font.PLAIN, 12f));
+            infoPanel.add(nameLabel);
+            infoPanel.add(Box.createVerticalStrut(5));
+            infoPanel.add(descLabel);
+        } else {
+            infoPanel.add(nameLabel);
+            infoPanel.add(Box.createVerticalStrut(10));
+        }
+        
+        JLabel priceLabel = new JLabel(String.format("Price: $%.2f | Stock: %d", product.getPrice(), product.getStock()));
         priceLabel.setForeground(new Color(40, 167, 69));
         priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 14f));
         
-        JLabel stockLabel = new JLabel("Stock: " + product.getStock());
-        stockLabel.setForeground(Color.GRAY);
-        stockLabel.setFont(stockLabel.getFont().deriveFont(Font.PLAIN, 12f));
-        
-        infoPanel.add(nameLabel);
         infoPanel.add(Box.createVerticalStrut(5));
         infoPanel.add(priceLabel);
-        infoPanel.add(Box.createVerticalStrut(5));
-        infoPanel.add(stockLabel);
         
         // Action buttons
-        JPanel actionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel actionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         actionsPanel.setOpaque(false);
         
-        JButton deleteBtn = new JButton("Delete");
+        JButton editBtn = new JButton("✏️ Edit");
+        editBtn.setBackground(new Color(0, 123, 255));
+        editBtn.setForeground(Color.WHITE);
+        editBtn.setFont(editBtn.getFont().deriveFont(Font.BOLD, 12f));
+        editBtn.setFocusPainted(false);
+        editBtn.setBorderPainted(false);
+        editBtn.setOpaque(true);
+        editBtn.setPreferredSize(new Dimension(100, 35));
+        editBtn.addActionListener(e -> showEditProductDialog(product));
+        
+        JButton deleteBtn = new JButton("🗑️ Delete");
         deleteBtn.setBackground(new Color(220, 53, 69));
         deleteBtn.setForeground(Color.WHITE);
         deleteBtn.setFont(deleteBtn.getFont().deriveFont(Font.BOLD, 12f));
         deleteBtn.setFocusPainted(false);
         deleteBtn.setBorderPainted(false);
         deleteBtn.setOpaque(true);
-        deleteBtn.setPreferredSize(new Dimension(90, 35));
+        deleteBtn.setPreferredSize(new Dimension(100, 35));
         deleteBtn.addActionListener(e -> handleDeleteProduct(product));
         
+        actionsPanel.add(editBtn);
         actionsPanel.add(deleteBtn);
         
-        rowPanel.add(infoPanel, BorderLayout.WEST);
+        rowPanel.add(infoPanel, BorderLayout.CENTER);
         rowPanel.add(actionsPanel, BorderLayout.EAST);
         
         return rowPanel;
@@ -298,6 +316,151 @@ public class MyShopPanel extends JPanel {
         });
         
         dialog.add(addPanel);
+        dialog.setVisible(true);
+    }
+    
+    private void showEditProductDialog(Prodcut product) {
+        JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Edit Product", true);
+        dialog.setSize(600, 600);
+        dialog.setLocationRelativeTo(this);
+        
+        JPanel mainPanel = new JPanel();
+        mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
+        mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
+        
+        // Title
+        JLabel titleLabel = new JLabel("✏️ Edit Product");
+        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 24f));
+        titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        mainPanel.add(titleLabel);
+        mainPanel.add(Box.createVerticalStrut(20));
+        
+        // Form panel
+        JPanel formPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        
+        // Product Name
+        gbc.gridx = 0; gbc.gridy = 0; gbc.weightx = 0.3;
+        formPanel.add(new JLabel("Product Name:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.7;
+        JTextField nameField = new JTextField(product.getName(), 20);
+        nameField.setFont(nameField.getFont().deriveFont(14f));
+        formPanel.add(nameField, gbc);
+        
+        // Description
+        gbc.gridx = 0; gbc.gridy = 1; gbc.weightx = 0.3;
+        gbc.anchor = GridBagConstraints.NORTH;
+        formPanel.add(new JLabel("Description:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.7;
+        gbc.anchor = GridBagConstraints.CENTER;
+        JTextArea descArea = new JTextArea(product.getDescription() != null ? product.getDescription() : "", 3, 20);
+        descArea.setFont(descArea.getFont().deriveFont(14f));
+        descArea.setLineWrap(true);
+        descArea.setWrapStyleWord(true);
+        JScrollPane descScroll = new JScrollPane(descArea);
+        formPanel.add(descScroll, gbc);
+        
+        // Price
+        gbc.gridx = 0; gbc.gridy = 2; gbc.weightx = 0.3;
+        formPanel.add(new JLabel("Price ($):"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.7;
+        JTextField priceField = new JTextField(String.valueOf(product.getPrice()), 20);
+        priceField.setFont(priceField.getFont().deriveFont(14f));
+        formPanel.add(priceField, gbc);
+        
+        // Stock
+        gbc.gridx = 0; gbc.gridy = 3; gbc.weightx = 0.3;
+        formPanel.add(new JLabel("Stock Quantity:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.7;
+        JTextField stockField = new JTextField(String.valueOf(product.getStock()), 20);
+        stockField.setFont(stockField.getFont().deriveFont(14f));
+        formPanel.add(stockField, gbc);
+        
+        // Discount (future feature - placeholder)
+        gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0.3;
+        formPanel.add(new JLabel("Discount (%):"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.7;
+        JTextField discountField = new JTextField("0", 20);
+        discountField.setFont(discountField.getFont().deriveFont(14f));
+        formPanel.add(discountField, gbc);
+        
+        // Image URL
+        gbc.gridx = 0; gbc.gridy = 5; gbc.weightx = 0.3;
+        formPanel.add(new JLabel("Image URL:"), gbc);
+        gbc.gridx = 1; gbc.weightx = 0.7;
+        JTextField imageField = new JTextField(product.getImage() != null ? product.getImage() : "", 20);
+        imageField.setFont(imageField.getFont().deriveFont(14f));
+        formPanel.add(imageField, gbc);
+        
+        mainPanel.add(formPanel);
+        mainPanel.add(Box.createVerticalStrut(20));
+        
+        // Buttons panel
+        JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
+        
+        JButton saveBtn = new JButton("💾 Save Changes");
+        saveBtn.setFont(saveBtn.getFont().deriveFont(Font.BOLD, 14f));
+        saveBtn.setBackground(new Color(40, 167, 69));
+        saveBtn.setForeground(Color.WHITE);
+        saveBtn.setFocusPainted(false);
+        saveBtn.setBorderPainted(false);
+        saveBtn.setPreferredSize(new Dimension(160, 40));
+        saveBtn.addActionListener(e -> {
+            // Validate and update
+            try {
+                String name = nameField.getText().trim();
+                String desc = descArea.getText().trim();
+                double price = Double.parseDouble(priceField.getText().trim());
+                int stock = Integer.parseInt(stockField.getText().trim());
+                String image = imageField.getText().trim();
+                
+                if (name.isEmpty()) {
+                    JOptionPane.showMessageDialog(dialog, "Product name is required!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                if (price < 0 || stock < 0) {
+                    JOptionPane.showMessageDialog(dialog, "Price and stock must be positive!", "Error", JOptionPane.ERROR_MESSAGE);
+                    return;
+                }
+                
+                // Update product in database
+                DatabaseConnector connector = new DatabaseConnector();
+                connector.runCUD(
+                    "UPDATE products_tbl SET name = ?, description = ?, price = ?, stock = ?, image = ? WHERE id = ?",
+                    name, desc, price, stock, image.isEmpty() ? null : image, product.getId()
+                );
+                
+                JOptionPane.showMessageDialog(dialog, "Product updated successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                dialog.dispose();
+                buildShopOverview(); // Refresh
+                
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(dialog, "Invalid price or stock value!", "Error", JOptionPane.ERROR_MESSAGE);
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(dialog, "Failed to update product: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+                ex.printStackTrace();
+            }
+        });
+        
+        JButton cancelBtn = new JButton("Cancel");
+        cancelBtn.setFont(cancelBtn.getFont().deriveFont(Font.BOLD, 14f));
+        cancelBtn.setBackground(new Color(108, 117, 125));
+        cancelBtn.setForeground(Color.WHITE);
+        cancelBtn.setFocusPainted(false);
+        cancelBtn.setBorderPainted(false);
+        cancelBtn.setPreferredSize(new Dimension(100, 40));
+        cancelBtn.addActionListener(e -> dialog.dispose());
+        
+        buttonsPanel.add(saveBtn);
+        buttonsPanel.add(cancelBtn);
+        mainPanel.add(buttonsPanel);
+        
+        JScrollPane scrollPane = new JScrollPane(mainPanel);
+        scrollPane.setBorder(null);
+        dialog.add(scrollPane);
         dialog.setVisible(true);
     }
     
