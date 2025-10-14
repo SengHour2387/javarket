@@ -136,6 +136,28 @@ public class ShopManager {
         }
     }
     
+    // Toggle shop status (active/inactive)
+    public boolean toggleShopStatus(int shopId, String newStatus) {
+        try {
+            int result = connector.runCUD(
+                "UPDATE shop_tbl SET status = ? WHERE id = ?",
+                newStatus,
+                shopId
+            );
+            System.out.println("Shop " + shopId + " status updated to: " + newStatus);
+            return result > 0;
+        } catch (SQLException e) {
+            e.printStackTrace();
+            return false;
+        }
+    }
+    
+    // Quick toggle between active/inactive
+    public boolean toggleShopActiveStatus(int shopId, boolean setActive) {
+        String newStatus = setActive ? "active" : "inactive";
+        return toggleShopStatus(shopId, newStatus);
+    }
+    
     // Delete a single shop and all its products
     public boolean deleteShop(int shopId) {
         try {

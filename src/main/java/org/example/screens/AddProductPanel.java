@@ -23,13 +23,26 @@ public class AddProductPanel extends JPanel {
     private JTextField imageUrlField;
     private JButton addProductButton;
     
+    // Constructor with specific shop
+    public AddProductPanel(User currentUser, Shop shop, Runnable onProductAdded) {
+        this.currentUser = currentUser;
+        this.userShop = shop;
+        this.connector = new DatabaseConnector();
+        this.shopManager = new ShopManager();
+        this.onProductAdded = onProductAdded;
+        
+        setLayout(new BorderLayout());
+        initComponents();
+    }
+    
+    // Legacy constructor for backward compatibility
     public AddProductPanel(User currentUser, Runnable onProductAdded) {
         this.currentUser = currentUser;
         this.connector = new DatabaseConnector();
         this.shopManager = new ShopManager();
         this.onProductAdded = onProductAdded;
         
-        // Get user's shop
+        // Get user's shop (first shop)
         this.userShop = shopManager.getShopByOwnerId(currentUser.getId());
         
         setLayout(new BorderLayout());
@@ -217,10 +230,21 @@ public class AddProductPanel extends JPanel {
             
             // Get the last inserted product ID
             var rs = connector.runSelect("SELECT last_insert_rowid() as id");
-            if (rs.next() && userShop != null) {
+            if (rs.next()) {
                 int productId = rs.getInt("id");
-                // Link product to shop
-                shopManager.addProductToShop(userShop.getId(), productId);
+                
+                if (userShop != null) {
+                    System.out.println("✅ Linking product " + productId + " to shop " + userShop.getId() + " (" + userShop.getName() + ")");
+                    // Link product to shop
+                    boolean linked = shopManager.addProductToShop(userShop.getId(), productId);
+                    if (linked) {
+                        System.out.println("✅ Product successfully linked to shop!");
+                    } else {
+                        System.err.println("❌ Failed to link product to shop!");
+                    }
+                } else {
+                    System.err.println("❌ ERROR: userShop is null! Cannot link product to shop.");
+                }
             }
             
             JOptionPane.showMessageDialog(this,

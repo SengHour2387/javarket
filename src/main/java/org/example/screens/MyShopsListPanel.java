@@ -130,9 +130,13 @@ public class MyShopsListPanel extends JPanel {
         typeLabel.setFont(typeLabel.getFont().deriveFont(Font.PLAIN, 14f));
         typeLabel.setForeground(Color.GRAY);
         
-        JLabel statusLabel = new JLabel("Status: " + shop.getStatus());
-        statusLabel.setFont(statusLabel.getFont().deriveFont(Font.PLAIN, 12f));
-        statusLabel.setForeground(shop.getStatus().equals("active") ? new Color(40, 167, 69) : Color.ORANGE);
+        // Status with visual indicator
+        boolean isActive = shop.getStatus().equals("active");
+        String statusEmoji = isActive ? "🟢" : "🔴";
+        String statusText = isActive ? "OPEN" : "CLOSED";
+        JLabel statusLabel = new JLabel(statusEmoji + " " + statusText);
+        statusLabel.setFont(statusLabel.getFont().deriveFont(Font.BOLD, 14f));
+        statusLabel.setForeground(isActive ? new Color(40, 167, 69) : new Color(220, 53, 69));
         
         infoPanel.add(nameLabel);
         infoPanel.add(Box.createVerticalStrut(8));
@@ -143,6 +147,17 @@ public class MyShopsListPanel extends JPanel {
         // Buttons Panel
         JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         buttonsPanel.setOpaque(false);
+        
+        // Toggle Status Button
+        JButton toggleBtn = new JButton(isActive ? "Close Shop" : "Open Shop");
+        toggleBtn.setFont(toggleBtn.getFont().deriveFont(Font.BOLD, 12f));
+        toggleBtn.setBackground(isActive ? new Color(255, 193, 7) : new Color(40, 167, 69));
+        toggleBtn.setForeground(Color.WHITE);
+        toggleBtn.setFocusPainted(false);
+        toggleBtn.setBorderPainted(false);
+        toggleBtn.setOpaque(true);
+        toggleBtn.setPreferredSize(new Dimension(110, 35));
+        toggleBtn.addActionListener(e -> handleToggleStatus(shop, onShopSelected));
         
         JButton deleteBtn = new JButton("Delete");
         deleteBtn.setFont(deleteBtn.getFont().deriveFont(Font.BOLD, 12f));
@@ -168,6 +183,7 @@ public class MyShopsListPanel extends JPanel {
             }
         });
         
+        buttonsPanel.add(toggleBtn);
         buttonsPanel.add(deleteBtn);
         buttonsPanel.add(manageBtn);
         
@@ -179,6 +195,47 @@ public class MyShopsListPanel extends JPanel {
     
     public void refreshShops(java.util.function.Consumer<Shop> onShopSelected) {
         loadShops(onShopSelected);
+    }
+    
+    private void handleToggleStatus(Shop shop, java.util.function.Consumer<Shop> onShopSelected) {
+        boolean isCurrentlyActive = shop.getStatus().equals("active");
+        String newStatus = isCurrentlyActive ? "inactive" : "active";
+        String action = isCurrentlyActive ? "close" : "open";
+        
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            "Do you want to " + action + " '" + shop.getName() + "'?\n\n" +
+            (isCurrentlyActive ? 
+                "⚠️ Closing your shop will:\n" +
+                "• Make it invisible to customers\n" +
+                "• Stop accepting new orders\n" +
+                "• Show as 🔴 CLOSED" :
+                "✅ Opening your shop will:\n" +
+                "• Make it visible to customers\n" +
+                "• Start accepting orders\n" +
+                "• Show as 🟢 OPEN"),
+            "Toggle Shop Status",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+        if (result == JOptionPane.YES_OPTION) {
+            boolean success = shopManager.toggleShopStatus(shop.getId(), newStatus);
+            if (success) {
+                shop.setStatus(newStatus); // Update local object
+                JOptionPane.showMessageDialog(this,
+                    "Shop '" + shop.getName() + "' is now " + 
+                    (newStatus.equals("active") ? "🟢 OPEN" : "🔴 CLOSED") + "!",
+                    "Status Updated",
+                    JOptionPane.INFORMATION_MESSAGE);
+                refreshShops(onShopSelected);
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Failed to update shop status. Please try again.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
     
     private void handleDeleteShop(Shop shop, java.util.function.Consumer<Shop> onShopSelected) {

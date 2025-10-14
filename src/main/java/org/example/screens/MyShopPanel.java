@@ -100,11 +100,25 @@ public class MyShopPanel extends JPanel {
         headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
         headerPanel.setBackground(new Color(248, 249, 250));
         
-        JLabel shopNameLabel = new JLabel("🏪 " + currentShop.getName());
+        // Shop name with status indicator
+        boolean isActive = currentShop.getStatus().equals("active");
+        String statusEmoji = isActive ? "🟢" : "🔴";
+        JLabel shopNameLabel = new JLabel("🏪 " + currentShop.getName() + " " + statusEmoji);
         shopNameLabel.setFont(shopNameLabel.getFont().deriveFont(Font.BOLD, 28f));
         
-        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         buttonPanel.setOpaque(false);
+        
+        // Status Toggle Button
+        JButton toggleStatusBtn = new JButton(isActive ? "Close Shop" : "Open Shop");
+        toggleStatusBtn.setFont(toggleStatusBtn.getFont().deriveFont(Font.BOLD, 13f));
+        toggleStatusBtn.setBackground(isActive ? new Color(255, 193, 7) : new Color(40, 167, 69));
+        toggleStatusBtn.setForeground(Color.WHITE);
+        toggleStatusBtn.setFocusPainted(false);
+        toggleStatusBtn.setBorderPainted(false);
+        toggleStatusBtn.setOpaque(true);
+        toggleStatusBtn.setPreferredSize(new Dimension(130, 40));
+        toggleStatusBtn.addActionListener(e -> handleToggleShopStatus());
         
         JButton addProductBtn = new JButton("➕ Add Product");
         addProductBtn.setFont(addProductBtn.getFont().deriveFont(Font.BOLD, 14f));
@@ -114,8 +128,9 @@ public class MyShopPanel extends JPanel {
         addProductBtn.setBorderPainted(false);
         addProductBtn.setOpaque(true);
         addProductBtn.setPreferredSize(new Dimension(150, 40));
-        addProductBtn.addActionListener(e -> cardLayout.show(mainPanel, ADD_PRODUCT_CARD));
+        addProductBtn.addActionListener(e -> showAddProductDialog());
         
+        buttonPanel.add(toggleStatusBtn);
         buttonPanel.add(addProductBtn);
         
         headerPanel.add(shopNameLabel, BorderLayout.WEST);
@@ -133,6 +148,8 @@ public class MyShopPanel extends JPanel {
         
         // Load and display products
         List<Prodcut> products = shopManager.getShopProducts(currentShop.getId());
+        System.out.println("🔍 Loading products for shop " + currentShop.getId() + " (" + currentShop.getName() + ")");
+        System.out.println("📦 Found " + products.size() + " products");
         
         if (products.isEmpty()) {
             JLabel emptyLabel = new JLabel("No products yet. Click 'Add Product' to start selling!");
@@ -141,6 +158,7 @@ public class MyShopPanel extends JPanel {
             productsPanel.add(emptyLabel);
         } else {
             for (Prodcut product : products) {
+                System.out.println("  - " + product.getName() + " (ID: " + product.getId() + ")");
                 productsPanel.add(createProductRow(product));
                 productsPanel.add(Box.createVerticalStrut(10));
             }
@@ -263,6 +281,66 @@ public class MyShopPanel extends JPanel {
         // Go back to overview and refresh
         buildShopOverview();
         cardLayout.show(mainPanel, OVERVIEW_CARD);
+    }
+    
+    private void showAddProductDialog() {
+        // Create a dialog to show the add product panel
+        JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Add Product to " + currentShop.getName(), true);
+        dialog.setSize(600, 500);
+        dialog.setLocationRelativeTo(this);
+        
+        // Create add product panel with specific shop and callback to close dialog and refresh
+        AddProductPanel addPanel = new AddProductPanel(currentUser, currentShop, () -> {
+            System.out.println("🔄 Product added - closing dialog and refreshing shop overview...");
+            dialog.dispose();
+            buildShopOverview(); // Refresh to show new product
+            System.out.println("✅ Shop overview refreshed");
+        });
+        
+        dialog.add(addPanel);
+        dialog.setVisible(true);
+    }
+    
+    private void handleToggleShopStatus() {
+        boolean isCurrentlyActive = currentShop.getStatus().equals("active");
+        String newStatus = isCurrentlyActive ? "inactive" : "active";
+        String action = isCurrentlyActive ? "close" : "open";
+        
+        int result = JOptionPane.showConfirmDialog(
+            this,
+            "Do you want to " + action + " '" + currentShop.getName() + "'?\n\n" +
+            (isCurrentlyActive ? 
+                "⚠️ Closing your shop will:\n" +
+                "• Make it invisible to customers\n" +
+                "• Stop accepting new orders\n" +
+                "• Show as 🔴 CLOSED" :
+                "✅ Opening your shop will:\n" +
+                "• Make it visible to customers\n" +
+                "• Start accepting orders\n" +
+                "• Show as 🟢 OPEN"),
+            "Toggle Shop Status",
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.QUESTION_MESSAGE
+        );
+        
+        if (result == JOptionPane.YES_OPTION) {
+            boolean success = shopManager.toggleShopStatus(currentShop.getId(), newStatus);
+            if (success) {
+                currentShop.setStatus(newStatus); // Update local object
+                JOptionPane.showMessageDialog(this,
+                    "Shop '" + currentShop.getName() + "' is now " + 
+                    (newStatus.equals("active") ? "🟢 OPEN" : "🔴 CLOSED") + "!",
+                    "Status Updated",
+                    JOptionPane.INFORMATION_MESSAGE);
+                // Refresh the overview to show new status
+                buildShopOverview();
+            } else {
+                JOptionPane.showMessageDialog(this,
+                    "Failed to update shop status. Please try again.",
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+            }
+        }
     }
     
     public void updateTheme() {
