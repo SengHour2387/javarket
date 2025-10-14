@@ -95,8 +95,7 @@ public class AccountFrame extends javax.swing.JFrame {
         jLabel6 = new javax.swing.JLabel();
         AddShopBtn = new javax.swing.JButton();
 
-        // Do not close the whole app when closing Account window
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         UserNameLabel.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 24)); // NOI18N
         UserNameLabel.setText("Name");
@@ -113,6 +112,8 @@ public class AccountFrame extends javax.swing.JFrame {
         });
 
         ViewShopPanel.setLayout(new java.awt.CardLayout());
+
+        jScrollPane1.setBorder(null);
 
         MyShopeListView.setBorder(null);
         jScrollPane1.setViewportView(MyShopeListView);
@@ -131,7 +132,7 @@ public class AccountFrame extends javax.swing.JFrame {
             .addGroup(ShopDetailFormLayout.createSequentialGroup()
                 .addGap(15, 15, 15)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(158, Short.MAX_VALUE))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         ViewShopPanel.add(ShopDetailForm, "card3");
@@ -274,6 +275,8 @@ public class AccountFrame extends javax.swing.JFrame {
         if(controller.addShop(newShop)) {
             System.out.println("Opened a shop");
             clearShopInputForm();
+            CardLayout cardLayout = (CardLayout) ViewShopPanel.getLayout();
+            cardLayout.show(ViewShopPanel,"SHOPDETAILFORM");
         } else {
             System.out.println("Fail opening a shop");
         }
