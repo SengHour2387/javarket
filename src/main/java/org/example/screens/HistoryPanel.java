@@ -22,12 +22,14 @@ public class HistoryPanel extends JPanel {
     private DatabaseConnector connector;
     private AppController appController;
     private List<Order> orders;
-    
-    public HistoryPanel() {
+
+
+    public HistoryPanel(AppController appController) {
         super();
         setLayout(new BorderLayout());
-        connector = new DatabaseConnector();
         orders = new ArrayList<>();
+        this.appController = appController;
+        connector = appController.getConnector();
         try {
             connector.connect();
         } catch (SQLException e) {
@@ -35,11 +37,7 @@ public class HistoryPanel extends JPanel {
         }
         initComponents();
         loadOrderHistory();
-    }
 
-    public HistoryPanel(AppController appController) {
-        this();
-        this.appController = appController;
         if (this.appController != null) {
             this.connector = this.appController.getConnector();
         }

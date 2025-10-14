@@ -7,6 +7,9 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.SQLException;
+import java.util.Date;
+
 import com.formdev.flatlaf.FlatClientProperties;
 
 public class CartPanel extends JPanel {
@@ -17,9 +20,11 @@ public class CartPanel extends JPanel {
     private JButton checkoutButton;
     private JButton clearCartButton;
     private CartManager cartManager;
+    private AppController appController;
     
-    public CartPanel() {
+    public CartPanel( AppController appController ) {
         super();
+        this.appController = appController;
         setLayout(new BorderLayout());
         cartManager = CartManager.getInstance();
         initComponents();
@@ -249,6 +254,19 @@ public class CartPanel extends JPanel {
         
         if (result == JOptionPane.YES_OPTION) {
             // Here you would integrate with your order system
+            cartManager.getCartItems().forEach( p-> {
+                try {
+                    appController.getConnector().runCUD("INSERT INTO orders_tbl (product_id, buyer_id, quantity, total_price, status, created_at, updated_at)\n" +
+                            "VALUES (?, ?, ?, ?, ?,DATETIME('now'), DATETIME('now'))",
+                            p.getProduct().getId(),
+                            appController.getCurrentUser().getId(),
+                            p.getQuantity(),
+                            p.getTotalPrice(),
+                            "COMPLETED");
+                } catch (SQLException e) {
+                    System.out.println(e.getMessage());
+                }
+            } );
             JOptionPane.showMessageDialog(this, "Order placed successfully!", "Checkout Complete", JOptionPane.INFORMATION_MESSAGE);
             cartManager.clearCart();
             refreshCart();

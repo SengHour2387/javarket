@@ -6,8 +6,6 @@ package org.example.screens;
 
 import javax.swing.*;
 import java.awt.*;
-import com.formdev.flatlaf.FlatLightLaf;
-import com.formdev.flatlaf.FlatDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
@@ -31,6 +29,7 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame( AppController controller ) {
         this.controller = controller;
         initComponents();
+        init();
     }
 
     private void init() {
@@ -43,7 +42,7 @@ public class MainFrame extends javax.swing.JFrame {
         shopPanel = new ShopPanel();
         
         // Create cart panel
-        cartPanel = new CartPanel();
+        cartPanel = new CartPanel( controller );
         
         // Create history panel with controller to filter by current user
         historyPanel = new HistoryPanel(controller);
@@ -90,119 +89,94 @@ public class MainFrame extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        // Set up FlatLaf theme
-        try {
-            UIManager.setLookAndFeel(new FlatMacLightLaf());
-        } catch (Exception e) {
-            System.err.println("Failed to set FlatLaf theme: " + e.getMessage());
-        }
 
         Content = new javax.swing.JPanel();
         Drawer = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
         jButton4 = new javax.swing.JButton();
+        HistoryBtn = new javax.swing.JButton();
+        CartBtn = new javax.swing.JButton();
+        ShopBtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         themeBtn = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("JavaMarket - Modern E-commerce Platform");
-        setBackground(new java.awt.Color(248, 249, 250));
-        setSize(1200, 800);
-        setResizable(true);
+        setBackground(new java.awt.Color(51, 255, 51));
 
         Content.setLayout(new java.awt.CardLayout());
-        Content.setBackground(new Color(248, 249, 250));
-        Content.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
         getContentPane().add(Content, java.awt.BorderLayout.CENTER);
         Content.getAccessibleContext().setAccessibleName("");
         Content.getAccessibleContext().setAccessibleDescription("");
 
-        Drawer.setBackground(new Color(255, 255, 255));
-        Drawer.setBorder(BorderFactory.createCompoundBorder(
-            BorderFactory.createMatteBorder(0, 0, 0, 1, new Color(230, 230, 230)),
-            BorderFactory.createEmptyBorder(20, 20, 20, 20)
-        ));
-        Drawer.setMinimumSize(new java.awt.Dimension(200, 0));
-        Drawer.setPreferredSize(new java.awt.Dimension(200, 600));
+        Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
+        Drawer.setPreferredSize(new java.awt.Dimension(100, 600));
 
-        // Style navigation buttons
-        styleNavigationButton(jButton1, "🛍️ Shop");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        styleNavigationButton(jButton2, "🛒 Cart");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
-
-        styleNavigationButton(jButton3, "📋 History");
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
-            }
-        });
-
-        styleNavigationButton(jButton4, "👤 Account");
+        jButton4.setText("Account");
         jButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton4ActionPerformed(evt);
             }
         });
 
+        HistoryBtn.setText("History");
+        HistoryBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                HistoryBtnActionPerformed(evt);
+            }
+        });
+
+        CartBtn.setText("Cart");
+        CartBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CartBtnActionPerformed(evt);
+            }
+        });
+
+        ShopBtn.setText("Shop");
+        ShopBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ShopBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout DrawerLayout = new javax.swing.GroupLayout(Drawer);
         Drawer.setLayout(DrawerLayout);
         DrawerLayout.setHorizontalGroup(
-            DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+            DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, 170, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addContainerGap())
+                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(jButton4)
+                    .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(HistoryBtn)
+                        .addComponent(CartBtn)
+                        .addComponent(ShopBtn)))
+                .addContainerGap(215, Short.MAX_VALUE))
         );
         DrawerLayout.setVerticalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
-                .addGap(22, 22, 22)
-                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(14, 14, 14)
+                .addComponent(ShopBtn)
                 .addGap(12, 12, 12)
-                .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(CartBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jButton4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)                                
+                .addComponent(HistoryBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 451, Short.MAX_VALUE)
+                .addComponent(jButton4)
                 .addGap(17, 17, 17))
         );
 
-
         getContentPane().add(Drawer, java.awt.BorderLayout.WEST);
 
-        jPanel1.setBackground(new java.awt.Color(52, 58, 64));
-        jPanel1.setPreferredSize(new java.awt.Dimension(928, 60));
-        jPanel1.setBorder(BorderFactory.createEmptyBorder(10, 20, 10, 20));
+        jPanel1.setBackground(new java.awt.Color(113, 163, 255));
+        jPanel1.setPreferredSize(new java.awt.Dimension(928, 50));
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 28));
+        jLabel3.setFont(new java.awt.Font("Samsung Sharp Sans", 1, 24)); // NOI18N
         jLabel3.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel3.setText("🛍️ JavaMarket");
+        jLabel3.setText("JavarKet");
 
-        themeBtn.setText("🌙 Dark");
-        themeBtn.setBackground(new Color(108, 117, 125));
-        themeBtn.setForeground(Color.WHITE);
-        themeBtn.setFont(themeBtn.getFont().deriveFont(Font.BOLD, 12f));
-        themeBtn.setFocusPainted(false);
-        themeBtn.setBorderPainted(false);
-        themeBtn.setOpaque(true);
-        themeBtn.setPreferredSize(new Dimension(100, 35));
+        themeBtn.setText("Theme");
         themeBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 themeBtnActionPerformed(evt);
@@ -216,41 +190,26 @@ public class MainFrame extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(themeBtn, javax.swing.GroupLayout.PREFERRED_SIZE, 95, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(330, 330, 330)
-                .addComponent(jLabel3)
-                .addContainerGap(388, Short.MAX_VALUE))
+                .addGap(264, 264, 264)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 144, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(419, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
+                .addGap(3, 3, 3)
                 .addComponent(themeBtn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
         getContentPane().add(jPanel1, java.awt.BorderLayout.PAGE_START);
-        
-        // Initialize panels and show shop panel
-        init();
-        
+
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        showShopPanel();
-    }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        showCartPanel();
-    }//GEN-LAST:event_jButton2ActionPerformed
-
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
-        showHistoryPanel();
-    }//GEN-LAST:event_jButton3ActionPerformed
 
     private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
         try {
@@ -274,15 +233,15 @@ public class MainFrame extends javax.swing.JFrame {
                 themeBtn.setText("☀️ Light");
                 isDarkTheme = true;
             }
-            
+
             // Update all components in the frame
             SwingUtilities.updateComponentTreeUI(this);
-            
+
             // Update main frame background AFTER UI update using invokeLater
             SwingUtilities.invokeLater(() -> {
                 updateMainFrameBackground();
             });
-            
+
             // Update panels manually without resetting their styling
             if (shopPanel != null) {
                 shopPanel.updateTheme();
@@ -293,15 +252,28 @@ public class MainFrame extends javax.swing.JFrame {
             if (historyPanel != null) {
                 SwingUtilities.updateComponentTreeUI(historyPanel);
             }
-            
-            // Reapply custom styling that needs to be theme-aware
-            updateThemeAwareStyling();
-            
+
+
             pack();
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Failed to switch theme: " + e.getMessage(), "Theme Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_themeBtnActionPerformed
+
+    private void HistoryBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_HistoryBtnActionPerformed
+        // TODO add your handling code here:
+        showHistoryPanel();
+    }//GEN-LAST:event_HistoryBtnActionPerformed
+
+    private void CartBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CartBtnActionPerformed
+        // TODO add your handling code here:
+        showCartPanel();
+    }//GEN-LAST:event_CartBtnActionPerformed
+
+    private void ShopBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShopBtnActionPerformed
+        // TODO add your handling code here:
+        showShopPanel();
+    }//GEN-LAST:event_ShopBtnActionPerformed
     
     private void updateMainFrameBackground() {
         // Update the main frame background based on theme
@@ -334,7 +306,7 @@ public class MainFrame extends javax.swing.JFrame {
             }
             // Update the header panel background
             if (jPanel1 != null) {
-                jPanel1.setBackground(new Color(52, 58, 64));
+                jPanel1.setBackground(new Color(104, 181, 255));
             }
             
         }
@@ -355,89 +327,17 @@ public class MainFrame extends javax.swing.JFrame {
             jPanel1.repaint();
         }
     }
-    
-    private void updateThemeAwareStyling() {
-        // Update navigation buttons styling based on theme
-        if (jButton1 != null) updateNavigationButtonStyle(jButton1, "🛍️ Shop");
-        if (jButton2 != null) updateNavigationButtonStyle(jButton2, "🛒 Cart");
-        if (jButton3 != null) updateNavigationButtonStyle(jButton3, "📋 History");
-        if (jButton4 != null) updateNavigationButtonStyle(jButton4, "👤 Account");
-    }
-    
-    private void updateNavigationButtonStyle(JButton button, String text) {
-        if (text != null) button.setText(text);
-        button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
-        
-        if (isDarkTheme) {
-            button.setBackground(new Color(45, 45, 45));
-            button.setForeground(new Color(255, 255, 255));
-            button.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(60, 60, 60), 1),
-                BorderFactory.createEmptyBorder(10, 15, 10, 15)
-            ));
-        } else {
-            button.setBackground(new Color(248, 249, 250));
-            button.setForeground(new Color(52, 58, 64));
-            button.setBorder(BorderFactory.createCompoundBorder(
-                BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
-                BorderFactory.createEmptyBorder(10, 15, 10, 15)
-            ));
-        }
-        
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
-        button.setOpaque(true);
-        button.setPreferredSize(new Dimension(160, 45));
-        button.setMinimumSize(new Dimension(160, 45));
-        button.setMaximumSize(new Dimension(160, 45));
-    }
-    
-    private void styleNavigationButton(JButton button, String text) {
-        button.setText(text);
-        button.setFont(button.getFont().deriveFont(Font.BOLD, 14f));
-        button.setBackground(new Color(248, 249, 250));
-        button.setForeground(new Color(52, 58, 64));
-        button.setFocusPainted(false);
-        button.setBorderPainted(false);
-        button.setOpaque(true);
-        button.setPreferredSize(new Dimension(170, 46));
-        button.setMinimumSize(new Dimension(170, 46));
-        button.setMaximumSize(new Dimension(170, 46));
-        // FlatLaf rounded style for nav buttons
-        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
-                com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
-        button.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE,
-                "arc:18; focusWidth:0; innerFocusWidth:0; borderWidth:1; borderColor:#E6E6E6");
-        button.setBorder(BorderFactory.createEmptyBorder(10, 18, 10, 18));
-        
-        // Add hover effect
-        button.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                button.setBackground(new Color(0, 123, 255));
-                button.setForeground(Color.WHITE);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                if (isDarkTheme) {
-                    button.setBackground(new Color(55, 55, 55));
-                    button.setForeground(new Color(255, 255, 255));
-                } else {
-                    button.setBackground(new Color(248, 249, 250));
-                    button.setForeground(new Color(52, 58, 64));
-                }
-            }
-        });
-    }
 
     /**
      * @param args the command line arguments
      */
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton CartBtn;
     private javax.swing.JPanel Content;
     private javax.swing.JPanel Drawer;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
+    private javax.swing.JButton HistoryBtn;
+    private javax.swing.JButton ShopBtn;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;

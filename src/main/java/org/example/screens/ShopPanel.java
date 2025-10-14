@@ -21,7 +21,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import com.formdev.flatlaf.FlatClientProperties;
 
-// Custom responsive grid layout that adapts to container width
 class ResponsiveGridLayout implements LayoutManager2 {
     private int hgap, vgap;
     private int minColumns = 1;
@@ -44,17 +43,6 @@ class ResponsiveGridLayout implements LayoutManager2 {
         }
     }
 
-    // Build a simple product-image URL from product name using dummyimage service
-    private String inferImageUrl(Prodcut product) {
-        try {
-            String name = product.getName();
-            if (name == null || name.isBlank()) return null;
-            String text = URLEncoder.encode(name, StandardCharsets.UTF_8);
-            return "https://dummyimage.com/300x240/eeeeee/555555.png&text=" + text;
-        } catch (Exception e) {
-            return null;
-        }
-    }
 
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {}
@@ -99,8 +87,7 @@ class ResponsiveGridLayout implements LayoutManager2 {
         int availableWidth = parent.getWidth() - insets.left - insets.right;
         
         int columns = calculateColumns(availableWidth);
-        
-        // Keep cards at their designed width; reduce number of columns instead of shrinking cards
+
         int cardWidth = this.cardWidth;
         int cardHeight = this.cardHeight;
         int totalRowWidth = columns * cardWidth + (columns - 1) * hgap;
@@ -175,9 +162,8 @@ public class ShopPanel extends JPanel {
         setBackground(new Color(248, 249, 250));
         cartManager = CartManager.getInstance();
 
-        // Use responsive grid layout that adapts to container width
         productsGrid = new JPanel(new ResponsiveGridLayout(8, 8));
-        productsGrid.setBackground(new Color(248, 249, 250));
+        productsGrid.setBackground( null);
         productsGrid.setBorder(BorderFactory.createEmptyBorder(16, 16, 16, 16));
 
         scrollPane = new JScrollPane(productsGrid);
@@ -185,7 +171,7 @@ public class ShopPanel extends JPanel {
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
-        // Add component listener for responsive behavior
+
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
             public void componentResized(java.awt.event.ComponentEvent e) {
@@ -196,23 +182,8 @@ public class ShopPanel extends JPanel {
 
         add(scrollPane, BorderLayout.CENTER);
 
-        // Show loading state first, then load products asynchronously
         showLoadingState();
         loadProductsAsync();
-    }
-
-    private void loadProducts() {
-        // Synchronous load (kept for potential reuse) - not used on EDT anymore
-        SimpleProductManager manager = new SimpleProductManager();
-        List<Prodcut> products = manager.getAllProducts();
-        manager.close();
-
-        productsGrid.removeAll();
-        for (Prodcut product : products) {
-            productsGrid.add(createProductCard(product));
-        }
-        productsGrid.revalidate();
-        productsGrid.repaint();
     }
 
     private void showLoadingState() {
@@ -272,17 +243,18 @@ public class ShopPanel extends JPanel {
         JPanel card = new JPanel();
         card.setLayout(new BoxLayout(card, BoxLayout.Y_AXIS));
 
-        // FlatLaf rounded styling (Panel does not support borderColor via STYLE)
         if (isDark) {
             card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createLineBorder(new java.awt.Color(80,80,80), 1),
                     javax.swing.BorderFactory.createEmptyBorder(20,20,20,20)
             ));
+            card.setBorder( new JButton().getBorder());
         } else {
             card.setBorder(javax.swing.BorderFactory.createCompoundBorder(
                     javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230,230,230), 1),
                     javax.swing.BorderFactory.createEmptyBorder(20,20,20,20)
             ));
+            card.setBorder( new JButton().getBorder());
         }
         
         card.setPreferredSize(new Dimension(220, 320));
@@ -313,8 +285,7 @@ public class ShopPanel extends JPanel {
         productImg.setText("No Image");
         productImg.setForeground(Color.GRAY);
         productImg.setFont(productImg.getFont().deriveFont(10f));
-        
-        // Try to load image asynchronously with better error handling
+
         if (true) {
             SwingWorker<ImageIcon, Void> imgWorker = new SwingWorker<>() {
                 @Override
@@ -393,6 +364,7 @@ public class ShopPanel extends JPanel {
         descArea.setWrapStyleWord(true);
         descArea.setOpaque(false);
         descArea.setFont(descArea.getFont().deriveFont(11f));
+        descArea.setMaximumSize( new Dimension(150,80) );
         descArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (isDark) {
             descArea.setForeground(new Color(180, 180, 180)); // Light gray for dark theme
@@ -400,11 +372,10 @@ public class ShopPanel extends JPanel {
             descArea.setForeground(new Color(108, 117, 125));
         }
 
-        JButton addToCart = new JButton("🛒 Add to Cart");
-        addToCart.setFont(addToCart.getFont().deriveFont(Font.BOLD, 13f));
+        JButton addToCart = new JButton("Add to Cart");
+        addToCart.setFont(addToCart.getFont().deriveFont(Font.PLAIN, 13f));
         addToCart.setAlignmentX(Component.CENTER_ALIGNMENT);
-        
-        // FlatLaf rounded green button styling
+
         addToCart.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
                 com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE_ROUND_RECT);
         addToCart.setPreferredSize(new Dimension(160, 40));
@@ -547,24 +518,15 @@ public class ShopPanel extends JPanel {
     }
     
     public void updateTheme() {
-        
-        
-        // Update the main panel background
+
         if (UIManager.getLookAndFeel().getName().contains("Dark")) {
             setBackground(new Color(45, 45, 45));
-            
         } else {
             setBackground(new Color(248, 249, 250));
             
         }
-        
-        // Refresh all product cards to update their theme
         refreshProductCards();
-        
-        // Reapply button styling after theme change
-        reapplyButtonStyling();
-        
-        // Revalidate and repaint
+        UIManager.put("cart.Arc",24);
         revalidate();
         repaint();
     }
@@ -584,15 +546,16 @@ public class ShopPanel extends JPanel {
                         BorderFactory.createLineBorder(new Color(80, 80, 80), 1),
                         BorderFactory.createEmptyBorder(20, 20, 20, 20)
                     ));
+                    card.putClientProperty("cart.Arc",24);
                 } else {
                     card.setBackground(Color.WHITE);
                     card.setBorder(BorderFactory.createCompoundBorder(
                         BorderFactory.createLineBorder(new Color(230, 230, 230), 1),
                         BorderFactory.createEmptyBorder(20, 20, 20, 20)
                     ));
+                    card.putClientProperty("cart.Arc",24);
                 }
-                
-                // Update text colors in the card
+
                 updateCardTextColors(card, isDark);
             }
         }
@@ -629,35 +592,7 @@ public class ShopPanel extends JPanel {
             }
         }
     }
-    
-    private void reapplyButtonStyling() {
-        
-        
-        // Restyle all stored Add to Cart buttons with direct styling
-        for (JButton button : addToCartButtons) {
-            if (button != null && button.isVisible()) {
-                
-                
-                // Direct styling to ensure button is always green and visible
-                button.setBackground(new Color(40, 167, 69));
-                button.setForeground(Color.WHITE);
-                button.setFocusPainted(false);
-                button.setBorderPainted(false);
-                button.setOpaque(true);
-                button.setPreferredSize(new Dimension(160, 40));
-                button.setMinimumSize(new Dimension(160, 40));
-                button.setMaximumSize(new Dimension(160, 40));
-                
-                // Force repaint
-                button.revalidate();
-                button.repaint();
-            } 
-        }
-        
-        // Also force repaint of the entire panel
-        productsGrid.revalidate();
-        productsGrid.repaint();
-    }
+
 }
 
 
