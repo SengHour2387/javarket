@@ -62,8 +62,8 @@ public class MainFrame extends javax.swing.JFrame {
     
     private void addMyShopButton() {
         // Create My Shop button with consistent styling
-        JButton myShopBtn = new JButton("🏪 My Shop");
-        myShopBtn.setFont(myShopBtn.getFont().deriveFont(Font.BOLD, 14f));
+        JButton myShopBtn = new JButton("My Shop");
+        myShopBtn.setFont(myShopBtn.getFont().deriveFont(Font.PLAIN, 14f));
         myShopBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
         myShopBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, ShopBtn.getPreferredSize().height));
         myShopBtn.addActionListener(e -> showMyShopPanel());
@@ -115,14 +115,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void showShopPanel() {
         cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "SHOP");
+        shopPanel.reloadProducts(); // Always reload from DB
         Content.revalidate();
         Content.repaint();
     }
     
     private void showCartPanel() {
-        cartPanel.refreshCart();
+
         cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "CART");
+        cartPanel.refreshCart();
         Content.revalidate();
         Content.repaint();
     }
@@ -422,6 +424,15 @@ public class MainFrame extends javax.swing.JFrame {
         if (jPanel1 != null) {
             jPanel1.revalidate();
             jPanel1.repaint();
+        }
+    }
+
+    public void reloadAllShopPanels() {
+        if (shopPanel != null) {
+            shopPanel.reloadProducts();
+        }
+        if (myShopPanel != null) {
+            myShopPanel.reloadProducts();
         }
     }
 

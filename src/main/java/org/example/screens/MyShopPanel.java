@@ -1,14 +1,36 @@
 package org.example.screens;
 
+import java.awt.BorderLayout;
+import java.awt.CardLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 import org.example.DatabaseConnector;
 import org.example.ShopManager;
 import org.example.models.Prodcut;
 import org.example.models.Shop;
 import org.example.models.User;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
 
 public class MyShopPanel extends JPanel {
     private User currentUser;
@@ -39,13 +61,32 @@ public class MyShopPanel extends JPanel {
     private void initComponents() {
         cardLayout = new CardLayout();
         mainPanel = new JPanel(cardLayout);
-        
+
         // Create shops list panel (shows all user's shops)
         shopsListPanel = new MyShopsListPanel(currentUser, this::showShopRegistration, this::onShopSelected);
         mainPanel.add(shopsListPanel, SHOPS_LIST_CARD);
-        
+
         // Create shop registration panel
         shopRegistrationPanel = new ShopRegistrationPanel(currentUser, this::onShopCreated);
+
+        // Find the AddShopForm panel and add a Back button to it
+        JPanel addShopFormPanel = null;
+        for (Component comp : shopRegistrationPanel.getComponents()) {
+            if (comp instanceof JPanel && "ADDSHOPCARD".equals(comp.getAccessibleContext().getAccessibleName())) {
+                addShopFormPanel = (JPanel) comp;
+                break;
+            }
+        }
+        if (addShopFormPanel != null) {
+            JButton backBtn = new JButton("← Back");
+            backBtn.setFont(backBtn.getFont().deriveFont(Font.PLAIN, 14f));
+            backBtn.setFocusPainted(false);
+            backBtn.setBorderPainted(false);
+            backBtn.addActionListener(e -> cardLayout.show(mainPanel, SHOPS_LIST_CARD));
+            // Add at the top of the form
+            addShopFormPanel.add(backBtn, BorderLayout.NORTH);
+        }
+
         mainPanel.add(shopRegistrationPanel, REGISTRATION_CARD);
         
         // Create overview panel (will be populated when shop is selected)
@@ -306,15 +347,16 @@ public class MyShopPanel extends JPanel {
         JDialog dialog = new JDialog((java.awt.Frame) SwingUtilities.getWindowAncestor(this), "Add Product to " + currentShop.getName(), true);
         dialog.setSize(600, 500);
         dialog.setLocationRelativeTo(this);
-        
+
         // Create add product panel with specific shop and callback to close dialog and refresh
         AddProductPanel addPanel = new AddProductPanel(currentUser, currentShop, () -> {
-            System.out.println("🔄 Product added - closing dialog and refreshing shop overview...");
+            System.out.println("🔄 Product added - closing dialog and reloading all shop data...");
             dialog.dispose();
-            buildShopOverview(); // Refresh to show new product
-            System.out.println("✅ Shop overview refreshed");
+            shopManager = new ShopManager(); // Ensure fresh manager
+            checkShopStatus(); // Reload everything from DB, just like first load
+            System.out.println("✅ Shop data fully reloaded");
         });
-        
+
         dialog.add(addPanel);
         dialog.setVisible(true);
     }
@@ -523,6 +565,22 @@ public class MyShopPanel extends JPanel {
         
         revalidate();
         repaint();
+    }
+    
+    public void reloadProducts() {
+        // Refresh currentShop from database if selected
+        if (currentShop != null) {
+            // Re-fetch shop from DB to get latest info
+            Shop updatedShop = shopManager.getShopById(currentShop.getId());
+            if (updatedShop != null) {
+                currentShop = updatedShop;
+            }
+            buildShopOverview();
+        }
+        // Always refresh shops list panel as well
+        if (shopsListPanel != null) {
+            shopsListPanel.refreshShops(this::onShopSelected);
+        }
     }
 }
 

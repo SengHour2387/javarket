@@ -531,7 +531,7 @@ public class ShopPanel extends JPanel {
         repaint();
     }
     
-    private void refreshProductCards() {
+    public void refreshProductCards() {
         // Recreate all product cards with new theme
         Component[] components = productsGrid.getComponents();
         for (Component component : components) {
@@ -568,14 +568,14 @@ public class ShopPanel extends JPanel {
                 JLabel label = (JLabel) component;
                 String text = label.getText();
                 if (text != null && text.startsWith("$")) {
-                    // Price label
+
                     if (isDark) {
                         label.setForeground(new Color(76, 175, 80));
                     } else {
                         label.setForeground(new Color(40, 167, 69));
                     }
                 } else if (text != null && !text.startsWith("🛒")) {
-                    // Name label (not button)
+
                     if (isDark) {
                         label.setForeground(Color.WHITE);
                     } else {
@@ -591,6 +591,11 @@ public class ShopPanel extends JPanel {
                 }
             }
         }
+    }
+
+    public void reloadProducts() {
+        showLoadingState();
+        loadProductsAsync();
     }
 
 }
