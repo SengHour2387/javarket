@@ -47,8 +47,9 @@ public class MainFrame extends javax.swing.JFrame {
         Drawer.add(HistoryBtn);
         
         // Add "My Shop" button to drawer
-        addMyShopButton();
-        
+//        addMyShopButton();
+        Drawer.add(Box.createVerticalStrut(12));
+        Drawer.add(MineBtn);
         // Add spacer
         Drawer.add(Box.createVerticalStrut(12));
         Drawer.add(jButton4); // Account button
@@ -58,38 +59,6 @@ public class MainFrame extends javax.swing.JFrame {
         
         loadPanels();
         showShopPanel();
-    }
-    
-    private void addMyShopButton() {
-        // Create My Shop button with consistent styling
-        JButton myShopBtn = new JButton("🏪 My Shop");
-        myShopBtn.setFont(myShopBtn.getFont().deriveFont(Font.BOLD, 14f));
-        myShopBtn.setAlignmentX(Component.LEFT_ALIGNMENT);
-        myShopBtn.setMaximumSize(new Dimension(Integer.MAX_VALUE, ShopBtn.getPreferredSize().height));
-        myShopBtn.addActionListener(e -> showMyShopPanel());
-        
-        // Apply FlatLaf styling to match other buttons
-        myShopBtn.putClientProperty("FlatLaf.style", "arc: 12");
-        myShopBtn.setFocusPainted(false);
-        myShopBtn.setBorderPainted(false);
-        myShopBtn.setContentAreaFilled(true);
-        myShopBtn.setOpaque(true);
-        
-        // Set colors to match drawer theme
-        boolean isDark = UIManager.getLookAndFeel().getName().contains("Dark");
-        if (isDark) {
-            myShopBtn.setBackground(new Color(60, 60, 60));
-            myShopBtn.setForeground(Color.WHITE);
-        } else {
-            myShopBtn.setBackground(new Color(240, 240, 240));
-            myShopBtn.setForeground(Color.BLACK);
-        }
-        
-        // Add to drawer with spacing (BoxLayout respects order)
-        Drawer.add(Box.createVerticalStrut(12));
-        Drawer.add(myShopBtn);
-        
-        System.out.println("✅ My Shop button added to drawer");
     }
 
     private void loadPanels() {
@@ -115,14 +84,16 @@ public class MainFrame extends javax.swing.JFrame {
     private void showShopPanel() {
         cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "SHOP");
+        shopPanel.reloadProducts(); // Always reload from DB
         Content.revalidate();
         Content.repaint();
     }
     
     private void showCartPanel() {
-        cartPanel.refreshCart();
+
         cardLayout = (CardLayout) Content.getLayout();
         cardLayout.show(Content, "CART");
+        cartPanel.refreshCart();
         Content.revalidate();
         Content.repaint();
     }
@@ -185,6 +156,7 @@ public class MainFrame extends javax.swing.JFrame {
         HistoryBtn = new javax.swing.JButton();
         CartBtn = new javax.swing.JButton();
         ShopBtn = new javax.swing.JButton();
+        MineBtn = new javax.swing.JButton();
         jPanel1 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         themeBtn = new javax.swing.JButton();
@@ -198,6 +170,7 @@ public class MainFrame extends javax.swing.JFrame {
         Content.getAccessibleContext().setAccessibleDescription("");
 
         Drawer.setMinimumSize(new java.awt.Dimension(300, 0));
+        Drawer.setMixingCutoutShape(MineBtn.getVisibleRect());
         Drawer.setPreferredSize(new java.awt.Dimension(100, 600));
 
         jButton4.setText("Account");
@@ -228,19 +201,31 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        MineBtn.setText("Mine");
+        MineBtn.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                MineBtnActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout DrawerLayout = new javax.swing.GroupLayout(Drawer);
         Drawer.setLayout(DrawerLayout);
         DrawerLayout.setHorizontalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(DrawerLayout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addComponent(jButton4)
-                    .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(HistoryBtn)
-                        .addComponent(CartBtn)
-                        .addComponent(ShopBtn)))
-                .addContainerGap(215, Short.MAX_VALUE))
+                .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addComponent(jButton4)
+                        .addGroup(DrawerLayout.createSequentialGroup()
+                            .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(CartBtn)
+                                .addComponent(ShopBtn))
+                            .addGap(10, 10, 10)))
+                    .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(MineBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(HistoryBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap(212, Short.MAX_VALUE))
         );
         DrawerLayout.setVerticalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -250,8 +235,10 @@ public class MainFrame extends javax.swing.JFrame {
                 .addGap(12, 12, 12)
                 .addComponent(CartBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(MineBtn)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(HistoryBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 451, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(17, 17, 17))
         );
@@ -365,6 +352,11 @@ public class MainFrame extends javax.swing.JFrame {
         // TODO add your handling code here:
         showShopPanel();
     }//GEN-LAST:event_ShopBtnActionPerformed
+
+    private void MineBtnActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MineBtnActionPerformed
+        // TODO add your handling code here:
+        showMyShopPanel();
+    }//GEN-LAST:event_MineBtnActionPerformed
     
     private void updateMainFrameBackground() {
         // Update the main frame background based on theme
@@ -434,6 +426,7 @@ public class MainFrame extends javax.swing.JFrame {
     private javax.swing.JPanel Content;
     private javax.swing.JPanel Drawer;
     private javax.swing.JButton HistoryBtn;
+    private javax.swing.JButton MineBtn;
     private javax.swing.JButton ShopBtn;
     private javax.swing.JButton jButton4;
     private javax.swing.JLabel jLabel3;

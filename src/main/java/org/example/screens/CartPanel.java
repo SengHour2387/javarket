@@ -111,7 +111,6 @@ public class CartPanel extends JPanel {
     
     private void loadCartItems() {
         cartItemsPanel.removeAll();
-        
         if (cartManager.isEmpty()) {
             // Add empty cart message
             JLabel emptyCartLabel = new JLabel("Your cart is empty");
