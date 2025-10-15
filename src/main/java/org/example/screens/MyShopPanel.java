@@ -78,8 +78,8 @@ public class MyShopPanel extends JPanel {
             }
         }
         if (addShopFormPanel != null) {
-            JButton backBtn = new JButton("← Back");
-            backBtn.setFont(backBtn.getFont().deriveFont(Font.PLAIN, 14f));
+            JButton backBtn = new JButton("Back");
+            backBtn.setFont(backBtn.getFont().deriveFont(14f));
             backBtn.setFocusPainted(false);
             backBtn.setBorderPainted(false);
             backBtn.addActionListener(e -> cardLayout.show(mainPanel, SHOPS_LIST_CARD));
@@ -126,8 +126,8 @@ public class MyShopPanel extends JPanel {
         // Back button + Header
         JPanel topPanel = new JPanel(new BorderLayout());
         
-        JButton backBtn = new JButton("← Back to My Shops");
-        backBtn.setFont(backBtn.getFont().deriveFont(Font.PLAIN, 14f));
+        JButton backBtn = new JButton("Back to My Shops");
+        backBtn.setFont(backBtn.getFont().deriveFont(14f));
         backBtn.setFocusPainted(false);
         backBtn.setBorderPainted(false);
         backBtn.addActionListener(e -> {
@@ -144,16 +144,16 @@ public class MyShopPanel extends JPanel {
         
         // Shop name with status indicator
         boolean isActive = currentShop.getStatus().equals("active");
-        String statusEmoji = isActive ? "🟢" : "🔴";
-        JLabel shopNameLabel = new JLabel("🏪 " + currentShop.getName() + " " + statusEmoji);
-        shopNameLabel.setFont(shopNameLabel.getFont().deriveFont(Font.BOLD, 28f));
+        String statusEmoji = ""; // Remove emoji
+        JLabel shopNameLabel = new JLabel(currentShop.getName() + " " + statusEmoji);
+        shopNameLabel.setFont(shopNameLabel.getFont().deriveFont(28f));
         
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         buttonPanel.setOpaque(false);
         
         // Status Toggle Button
         JButton toggleStatusBtn = new JButton(isActive ? "Close Shop" : "Open Shop");
-        toggleStatusBtn.setFont(toggleStatusBtn.getFont().deriveFont(Font.BOLD, 13f));
+        toggleStatusBtn.setFont(toggleStatusBtn.getFont().deriveFont(13f));
         toggleStatusBtn.setBackground(isActive ? new Color(255, 193, 7) : new Color(40, 167, 69));
         toggleStatusBtn.setForeground(Color.WHITE);
         toggleStatusBtn.setFocusPainted(false);
@@ -162,8 +162,8 @@ public class MyShopPanel extends JPanel {
         toggleStatusBtn.setPreferredSize(new Dimension(130, 40));
         toggleStatusBtn.addActionListener(e -> handleToggleShopStatus());
         
-        JButton addProductBtn = new JButton("➕ Add Product");
-        addProductBtn.setFont(addProductBtn.getFont().deriveFont(Font.BOLD, 14f));
+        JButton addProductBtn = new JButton("Add Product");
+        addProductBtn.setFont(addProductBtn.getFont().deriveFont(14f));
         addProductBtn.setBackground(new Color(40, 167, 69));
         addProductBtn.setForeground(Color.WHITE);
         addProductBtn.setFocusPainted(false);
@@ -184,7 +184,7 @@ public class MyShopPanel extends JPanel {
         productsPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
         
         JLabel productsTitle = new JLabel("Your Products");
-        productsTitle.setFont(productsTitle.getFont().deriveFont(Font.BOLD, 20f));
+        productsTitle.setFont(productsTitle.getFont().deriveFont(20f));
         productsPanel.add(productsTitle);
         productsPanel.add(Box.createVerticalStrut(20));
         
@@ -235,13 +235,13 @@ public class MyShopPanel extends JPanel {
         infoPanel.setOpaque(false);
         
         JLabel nameLabel = new JLabel(product.getName());
-        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 16f));
+        nameLabel.setFont(nameLabel.getFont().deriveFont(16f));
         
         String description = product.getDescription();
         if (description != null && !description.isEmpty()) {
             JLabel descLabel = new JLabel(description.length() > 60 ? description.substring(0, 60) + "..." : description);
+            descLabel.setFont(descLabel.getFont().deriveFont(12f));
             descLabel.setForeground(Color.GRAY);
-            descLabel.setFont(descLabel.getFont().deriveFont(Font.PLAIN, 12f));
             infoPanel.add(nameLabel);
             infoPanel.add(Box.createVerticalStrut(5));
             infoPanel.add(descLabel);
@@ -251,8 +251,8 @@ public class MyShopPanel extends JPanel {
         }
         
         JLabel priceLabel = new JLabel(String.format("Price: $%.2f | Stock: %d", product.getPrice(), product.getStock()));
+        priceLabel.setFont(priceLabel.getFont().deriveFont(14f));
         priceLabel.setForeground(new Color(40, 167, 69));
-        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 14f));
         
         infoPanel.add(Box.createVerticalStrut(5));
         infoPanel.add(priceLabel);
@@ -261,20 +261,20 @@ public class MyShopPanel extends JPanel {
         JPanel actionsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         actionsPanel.setOpaque(false);
         
-        JButton editBtn = new JButton("✏️ Edit");
+        JButton editBtn = new JButton("Edit");
+        editBtn.setFont(editBtn.getFont().deriveFont(12f));
         editBtn.setBackground(new Color(0, 123, 255));
         editBtn.setForeground(Color.WHITE);
-        editBtn.setFont(editBtn.getFont().deriveFont(Font.BOLD, 12f));
         editBtn.setFocusPainted(false);
         editBtn.setBorderPainted(false);
         editBtn.setOpaque(true);
         editBtn.setPreferredSize(new Dimension(100, 35));
         editBtn.addActionListener(e -> showEditProductDialog(product));
         
-        JButton deleteBtn = new JButton("🗑️ Delete");
+        JButton deleteBtn = new JButton("Delete");
+        deleteBtn.setFont(deleteBtn.getFont().deriveFont(12f));
         deleteBtn.setBackground(new Color(220, 53, 69));
         deleteBtn.setForeground(Color.WHITE);
-        deleteBtn.setFont(deleteBtn.getFont().deriveFont(Font.BOLD, 12f));
         deleteBtn.setFocusPainted(false);
         deleteBtn.setBorderPainted(false);
         deleteBtn.setOpaque(true);
@@ -371,8 +371,8 @@ public class MyShopPanel extends JPanel {
         mainPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
         
         // Title
-        JLabel titleLabel = new JLabel("✏️ Edit Product");
-        titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 24f));
+        JLabel titleLabel = new JLabel("Edit Product");
+        titleLabel.setFont(titleLabel.getFont().deriveFont(24f));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         mainPanel.add(titleLabel);
         mainPanel.add(Box.createVerticalStrut(20));
@@ -442,8 +442,8 @@ public class MyShopPanel extends JPanel {
         // Buttons panel
         JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 10, 0));
         
-        JButton saveBtn = new JButton("💾 Save Changes");
-        saveBtn.setFont(saveBtn.getFont().deriveFont(Font.BOLD, 14f));
+        JButton saveBtn = new JButton("Save Changes");
+        saveBtn.setFont(saveBtn.getFont().deriveFont(14f));
         saveBtn.setBackground(new Color(40, 167, 69));
         saveBtn.setForeground(Color.WHITE);
         saveBtn.setFocusPainted(false);
@@ -488,7 +488,7 @@ public class MyShopPanel extends JPanel {
         });
         
         JButton cancelBtn = new JButton("Cancel");
-        cancelBtn.setFont(cancelBtn.getFont().deriveFont(Font.BOLD, 14f));
+        cancelBtn.setFont(cancelBtn.getFont().deriveFont(14f));
         cancelBtn.setBackground(new Color(108, 117, 125));
         cancelBtn.setForeground(Color.WHITE);
         cancelBtn.setFocusPainted(false);
@@ -510,34 +510,31 @@ public class MyShopPanel extends JPanel {
         boolean isCurrentlyActive = currentShop.getStatus().equals("active");
         String newStatus = isCurrentlyActive ? "inactive" : "active";
         String action = isCurrentlyActive ? "close" : "open";
-        
         int result = JOptionPane.showConfirmDialog(
             this,
             "Do you want to " + action + " '" + currentShop.getName() + "'?\n\n" +
-            (isCurrentlyActive ? 
-                "⚠️ Closing your shop will:\n" +
+            (isCurrentlyActive ?
+                "Closing your shop will:\n" +
                 "• Make it invisible to customers\n" +
                 "• Stop accepting new orders\n" +
-                "• Show as 🔴 CLOSED" :
-                "✅ Opening your shop will:\n" +
+                "• Show as CLOSED" :
+                "Opening your shop will:\n" +
                 "• Make it visible to customers\n" +
                 "• Start accepting orders\n" +
-                "• Show as 🟢 OPEN"),
+                "• Show as OPEN"),
             "Toggle Shop Status",
             JOptionPane.YES_NO_OPTION,
             JOptionPane.QUESTION_MESSAGE
         );
-        
         if (result == JOptionPane.YES_OPTION) {
             boolean success = shopManager.toggleShopStatus(currentShop.getId(), newStatus);
             if (success) {
-                currentShop.setStatus(newStatus); // Update local object
+                currentShop.setStatus(newStatus);
                 JOptionPane.showMessageDialog(this,
-                    "Shop '" + currentShop.getName() + "' is now " + 
-                    (newStatus.equals("active") ? "🟢 OPEN" : "🔴 CLOSED") + "!",
+                    "Shop '" + currentShop.getName() + "' is now " +
+                    (newStatus.equals("active") ? "OPEN" : "CLOSED") + "!",
                     "Status Updated",
                     JOptionPane.INFORMATION_MESSAGE);
-                // Refresh the overview to show new status
                 buildShopOverview();
             } else {
                 JOptionPane.showMessageDialog(this,

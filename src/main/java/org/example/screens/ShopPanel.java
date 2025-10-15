@@ -267,7 +267,6 @@ public class ShopPanel extends JPanel {
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel nameLabel = new JLabel(product.getName());
-        nameLabel.setFont(nameLabel.getFont().deriveFont(Font.BOLD, 16f));
         nameLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (isDark) {
             nameLabel.setForeground(Color.WHITE);
@@ -345,7 +344,6 @@ public class ShopPanel extends JPanel {
         productImg.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         JLabel priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
-        priceLabel.setFont(priceLabel.getFont().deriveFont(Font.BOLD, 18f));
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (isDark) {
             priceLabel.setForeground(new Color(76, 175, 80)); // Lighter green for dark theme
@@ -373,7 +371,7 @@ public class ShopPanel extends JPanel {
         }
 
         JButton addToCart = new JButton("Add to Cart");
-        addToCart.setFont(addToCart.getFont().deriveFont(Font.PLAIN, 13f));
+        addToCart.setFont(addToCart.getFont().deriveFont(13f));
         addToCart.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         addToCart.putClientProperty(com.formdev.flatlaf.FlatClientProperties.BUTTON_TYPE,
