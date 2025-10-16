@@ -11,12 +11,7 @@ public class Main {
         DatabaseConnector connector = new DatabaseConnector();
         AuthenController authenController = new AuthenController(connector);
 
-
-        AuthenScreen authenScreen = new AuthenScreen(authenController, new AuthRunner() {
-            @Override
-            public void run() {
-            }
-        });
+        AuthenScreen authenScreen = new AuthenScreen(authenController);
 
         authenScreen.setVisible(true);
         

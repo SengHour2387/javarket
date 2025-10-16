@@ -23,16 +23,14 @@ public class AuthenScreen extends javax.swing.JFrame {
     
     private static final java.util.logging.Logger logger = java.util.logging.Logger.getLogger(AuthenScreen.class.getName());
     private final AuthenController controller;
-    private final AuthRunner authRunner;
 
     @Override
     public void frameInit() {
         super.frameInit();
     }
 
-    public AuthenScreen(AuthenController controller, AuthRunner authRunner)  {
+    public AuthenScreen(AuthenController controller)  {
         this.controller = controller;
-        this.authRunner = authRunner;
         initComponents();
     }
 

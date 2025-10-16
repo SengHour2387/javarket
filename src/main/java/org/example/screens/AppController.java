@@ -3,7 +3,6 @@ package org.example.screens;
 import java.sql.SQLException;
 
 import org.example.DatabaseConnector;
-import org.example.models.Prodcut;
 import org.example.models.User;
 
 public class AppController {
@@ -28,74 +27,6 @@ public class AppController {
 
     public DatabaseConnector getConnector() {
         return connector;
-    }
-
-    public boolean addProduct(Prodcut product) {
-        try {
-            String sql = "INSERT INTO products_tbl (name, description, price, image, stock, category_id, seller_id) VALUES (?, ?, ?, ?, ?, ?, ?)";
-            int rowsAffected = connector.runCUD(sql, 
-                product.getName(), 
-                product.getDescription(), 
-                product.getPrice(), 
-                product.getImage(),
-                product.getStock(), 
-                product.getCategory_id(), 
-                product.getSeller_id()
-            );
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            System.err.println("Error adding product: " + e.getMessage());
-            return false;
-        }
-    }
-    public boolean updateProduct(Prodcut product) {
-        try {
-            String sql = "UPDATE products_tbl SET name = ?, description = ?, price = ?, image = ?, stock = ?, category_id = ?, seller_id = ? WHERE id = ?";
-            int rowsAffected = connector.runCUD(
-                sql,
-                product.getName(),
-                product.getDescription(),
-                product.getPrice(),
-                product.getImage(),
-                product.getStock(),
-                product.getCategory_id(),
-                product.getSeller_id(),
-                product.getId()
-            );
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            System.err.println("Error updating product: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean addOrder(int productId, int buyerId, int quantity, double totalPrice) {
-        try {
-            String sql = "INSERT INTO orders_tbl (product_id, buyer_id, quantity, total_price, status, created_at) VALUES (?, ?, ?, ?, ?, CURRENT_TIMESTAMP)";
-            int rowsAffected = connector.runCUD(
-                sql,
-                productId,
-                buyerId,
-                quantity,
-                totalPrice,
-                "PENDING"
-            );
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            System.err.println("Error adding order: " + e.getMessage());
-            return false;
-        }
-    }
-
-    public boolean updateOrder(int orderId, String status) {
-        try {
-            String sql = "UPDATE orders_tbl SET status = ?, updated_at = CURRENT_TIMESTAMP WHERE id = ?";
-            int rowsAffected = connector.runCUD(sql, status, orderId);
-            return rowsAffected > 0;
-        } catch (SQLException e) {
-            System.err.println("Error updating order: " + e.getMessage());
-            return false;
-        }
     }
 
 

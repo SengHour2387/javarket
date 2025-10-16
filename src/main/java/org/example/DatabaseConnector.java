@@ -47,7 +47,7 @@ public class DatabaseConnector {
         }
     }
 
-    // for Read ( just read from database )
+    /// for Read ( just read from database )///
     public ResultSet runSelect(String sql, Object...parameters) throws SQLException {
         connect();
         try {
@@ -63,7 +63,7 @@ public class DatabaseConnector {
         }
     }
 
-    // for Create Update Delete ( database makes changes )
+    //// for Create Update Delete ( database makes changes )
     public int runCUD(String sql, Object...parameters) throws SQLException {
         connect();
         try(
@@ -81,8 +81,7 @@ public class DatabaseConnector {
             throw new SQLException("Error executing SQL: " + e.getMessage(), e);
         }
     }
-    
-    // Close the connection
+
     public void close() {
         try {
             if (connection != null && !connection.isClosed()) {

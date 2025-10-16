@@ -4,14 +4,14 @@
  */
 package org.example.screens;
 
-import org.example.DatabaseConnector;
-import org.example.models.User;
-import org.example.models.UserShop;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.example.DatabaseConnector;
+import org.example.models.User;
+import org.example.models.UserShop;
 
 /**
  *

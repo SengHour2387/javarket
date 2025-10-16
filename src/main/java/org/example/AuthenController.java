@@ -56,7 +56,6 @@ public class AuthenController {
                 String storedHash = resultSet.getString("hash_pass");
                 String userName = resultSet.getString("user_name");
                 
-                
                 boolean passwordMatches = PasswordHasher.checkPassword(password, storedHash);
                 
                 if (passwordMatches) {
