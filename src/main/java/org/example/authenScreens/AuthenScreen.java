@@ -73,7 +73,7 @@ public class AuthenScreen extends javax.swing.JFrame {
 
         LoginLabel.setFont(new java.awt.Font("Segoe UI", Font.BOLD, 32));
         LoginLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        LoginLabel.setText("🛍️ Welcome to JavaMarket");
+        LoginLabel.setText("Welcome to Javarket");
         LoginLabel.setForeground(new Color(52, 58, 64));
 
         EmailField.setBorder(LoginBtn.getBorder());
