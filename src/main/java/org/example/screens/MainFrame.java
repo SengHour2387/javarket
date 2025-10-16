@@ -6,6 +6,8 @@ package org.example.screens;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Objects;
+
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 
@@ -180,6 +182,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        Image hisImage =  new ImageIcon(Objects.requireNonNull(getClass().getResource("/org/example/screens/Icons/shopping-basket_5993918.png"))).getImage();
+        ImageIcon hisIcon = new ImageIcon(hisImage.getScaledInstance(20,20,Image.SCALE_SMOOTH));
+
+        HistoryBtn.setIcon(hisIcon);
         HistoryBtn.setText("History");
         HistoryBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -187,13 +193,21 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        Image cartImage =  new ImageIcon(Objects.requireNonNull(getClass().getResource("/org/example/screens/Icons/history_17002066.png"))).getImage();
+        ImageIcon cartIcon = new ImageIcon(cartImage.getScaledInstance(20,20,Image.SCALE_SMOOTH));
+
         CartBtn.setText("Cart");
+        CartBtn.setIcon(cartIcon);
         CartBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 CartBtnActionPerformed(evt);
             }
         });
 
+        Image shopImage =  new ImageIcon(Objects.requireNonNull(getClass().getResource("/org/example/screens/Icons/shop.png"))).getImage();
+        ImageIcon shopIcon =  new ImageIcon(shopImage.getScaledInstance(20,20,Image.SCALE_SMOOTH));
+
+        ShopBtn.setIcon(shopIcon); // NOI18N
         ShopBtn.setText("Shop");
         ShopBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -201,7 +215,10 @@ public class MainFrame extends javax.swing.JFrame {
             }
         });
 
+        Image storeImage = new ImageIcon(Objects.requireNonNull(getClass().getResource("/org/example/screens/Icons/store_869432.png"))).getImage();
+        ImageIcon storeIcon = new ImageIcon(storeImage.getScaledInstance(20,20,Image.SCALE_SMOOTH));
         MineBtn.setText("Mine");
+        MineBtn.setIcon(storeIcon);
         MineBtn.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 MineBtnActionPerformed(evt);
@@ -225,7 +242,7 @@ public class MainFrame extends javax.swing.JFrame {
                     .addGroup(DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                         .addComponent(MineBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(HistoryBtn, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-                .addContainerGap(212, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         DrawerLayout.setVerticalGroup(
             DrawerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,7 +255,7 @@ public class MainFrame extends javax.swing.JFrame {
                 .addComponent(MineBtn)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(HistoryBtn)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 418, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton4)
                 .addGap(17, 17, 17))
         );
@@ -302,11 +319,11 @@ public class MainFrame extends javax.swing.JFrame {
         try {
             if (isDarkTheme) {
                 UIManager.setLookAndFeel(new FlatMacLightLaf());
-                themeBtn.setText("🌙 Dark");
+                themeBtn.setText("Dark");
                 isDarkTheme = false;
             } else {
                 UIManager.setLookAndFeel(new FlatMacDarkLaf());
-                themeBtn.setText("☀️ Light");
+                themeBtn.setText("Light");
                 isDarkTheme = true;
             }
 
