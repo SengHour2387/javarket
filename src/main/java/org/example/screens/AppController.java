@@ -1,10 +1,10 @@
 package org.example.screens;
 
-import org.example.DatabaseConnector;
-import org.example.models.User;
-import org.example.models.Prodcut;
-
 import java.sql.SQLException;
+
+import org.example.DatabaseConnector;
+import org.example.models.Prodcut;
+import org.example.models.User;
 
 public class AppController {
 

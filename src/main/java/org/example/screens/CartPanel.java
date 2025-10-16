@@ -32,7 +32,7 @@ public class CartPanel extends JPanel {
     }
     
     private void initComponents() {
-        // Header panel
+   
         JPanel headerPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         headerPanel.setBackground(new Color(248, 249, 250));
         headerPanel.setBorder(BorderFactory.createEmptyBorder(15, 20, 15, 20));
@@ -41,7 +41,7 @@ public class CartPanel extends JPanel {
         titleLabel.setForeground(new Color(52, 58, 64));
         headerPanel.add(titleLabel);
         
-        // Cart items panel
+     
         cartItemsPanel = new JPanel();
         cartItemsPanel.setLayout(new BoxLayout(cartItemsPanel, BoxLayout.Y_AXIS));
         cartItemsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -50,7 +50,7 @@ public class CartPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         
-        // Bottom panel with total and buttons
+ 
         JPanel bottomPanel = new JPanel(new BorderLayout());
         bottomPanel.setBackground(new Color(255, 255, 255));
         bottomPanel.setBorder(BorderFactory.createCompoundBorder(
@@ -58,7 +58,7 @@ public class CartPanel extends JPanel {
             BorderFactory.createEmptyBorder(20, 20, 20, 20)
         ));
         
-        // Total and buttons panel
+ 
         JPanel totalPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         totalPanel.setBackground(new Color(255, 255, 255));
         totalLabel = new JLabel("Total: $0.00");
@@ -103,7 +103,7 @@ public class CartPanel extends JPanel {
         
         bottomPanel.add(totalPanel, BorderLayout.CENTER);
         
-        // Add components to main panel
+ 
         add(headerPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -112,14 +112,14 @@ public class CartPanel extends JPanel {
     private void loadCartItems() {
         cartItemsPanel.removeAll();
         if (cartManager.isEmpty()) {
-            // Add empty cart message
+ 
             JLabel emptyCartLabel = new JLabel("Your cart is empty");
             emptyCartLabel.setFont(emptyCartLabel.getFont().deriveFont(Font.ITALIC, 14f));
             emptyCartLabel.setHorizontalAlignment(SwingConstants.CENTER);
             emptyCartLabel.setForeground(Color.GRAY);
             cartItemsPanel.add(emptyCartLabel);
         } else {
-            // Add cart items
+ 
             for (CartManager.CartItem item : cartManager.getCartItems()) {
                 cartItemsPanel.add(createCartItemPanel(item));
                 cartItemsPanel.add(Box.createVerticalStrut(5));
@@ -148,7 +148,7 @@ public class CartPanel extends JPanel {
         ));
         itemPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
-        // Product info panel
+ 
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         
@@ -164,7 +164,7 @@ public class CartPanel extends JPanel {
         infoPanel.add(Box.createVerticalStrut(2));
         infoPanel.add(priceLabel);
         
-        // Quantity and controls panel
+ 
         JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         
         JButton minusButton = new JButton("-");
@@ -252,7 +252,7 @@ public class CartPanel extends JPanel {
         );
         
         if (result == JOptionPane.YES_OPTION) {
-            // Here you would integrate with your order system
+ 
             cartManager.getCartItems().forEach( p-> {
                 try {
                     appController.getConnector().runCUD("INSERT INTO orders_tbl (product_id, buyer_id, quantity, total_price, status, created_at, updated_at)\n" +
@@ -287,23 +287,23 @@ public class CartPanel extends JPanel {
     }
     
     public void updateTheme() {
-        // Update the main panel background
+ 
         if (UIManager.getLookAndFeel().getName().contains("Dark")) {
             setBackground(new Color(45, 45, 45));
         } else {
             setBackground(new Color(248, 249, 250));
         }
         
-        // Reapply button styling after theme change
+ 
         reapplyButtonStyling();
         
-        // Revalidate and repaint
+ 
         revalidate();
         repaint();
     }
     
     private void reapplyButtonStyling() {
-        // Restyle main buttons
+ 
         if (checkoutButton != null) {
             checkoutButton.setBackground(new Color(40, 167, 69));
             checkoutButton.setForeground(Color.WHITE);
@@ -320,7 +320,7 @@ public class CartPanel extends JPanel {
             clearCartButton.setOpaque(true);
         }
         
-        // Restyle buttons in cart items
+ 
         Component[] components = cartItemsPanel.getComponents();
         for (Component component : components) {
             if (component instanceof JPanel) {

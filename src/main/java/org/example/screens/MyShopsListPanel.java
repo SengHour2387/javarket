@@ -1,12 +1,26 @@
 package org.example.screens;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.Font;
+import java.util.List;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.UIManager;
+
 import org.example.ShopManager;
 import org.example.models.Shop;
 import org.example.models.User;
-
-import javax.swing.*;
-import java.awt.*;
-import java.util.List;
 
 public class MyShopsListPanel extends JPanel {
     private User currentUser;
@@ -24,7 +38,7 @@ public class MyShopsListPanel extends JPanel {
     }
     
     private void initComponents(Runnable onShopCreated, java.util.function.Consumer<Shop> onShopSelected) {
-        // Header Panel
+  
         JPanel headerPanel = new JPanel(new BorderLayout());
         headerPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
         headerPanel.setBackground(new Color(248, 249, 250));
@@ -65,7 +79,7 @@ public class MyShopsListPanel extends JPanel {
         headerPanel.add(titleLabel, BorderLayout.WEST);
         headerPanel.add(buttonPanel, BorderLayout.EAST);
         
-        // Shops List Panel
+  
         shopsListPanel = new JPanel();
         shopsListPanel.setLayout(new BoxLayout(shopsListPanel, BoxLayout.Y_AXIS));
         shopsListPanel.setBorder(BorderFactory.createEmptyBorder(20, 30, 20, 30));
@@ -118,7 +132,7 @@ public class MyShopsListPanel extends JPanel {
         ));
         cardPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 120));
         
-        // Shop Info
+   
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         infoPanel.setOpaque(false);
@@ -129,8 +143,7 @@ public class MyShopsListPanel extends JPanel {
         JLabel typeLabel = new JLabel("Type: " + (shop.getType() != null ? shop.getType() : "N/A"));
         typeLabel.setFont(typeLabel.getFont().deriveFont(Font.PLAIN, 14f));
         typeLabel.setForeground(Color.GRAY);
-        
-        // Status with visual indicator
+
         boolean isActive = shop.getStatus().equals("active");
         String statusEmoji = isActive ? "🟢" : "🔴";
         String statusText = isActive ? "OPEN" : "CLOSED";
@@ -144,11 +157,11 @@ public class MyShopsListPanel extends JPanel {
         infoPanel.add(Box.createVerticalStrut(5));
         infoPanel.add(statusLabel);
         
-        // Buttons Panel
+  
         JPanel buttonsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT, 10, 0));
         buttonsPanel.setOpaque(false);
         
-        // Toggle Status Button
+      
         JButton toggleBtn = new JButton(isActive ? "Close Shop" : "Open Shop");
         toggleBtn.setFont(toggleBtn.getFont().deriveFont(Font.BOLD, 12f));
         toggleBtn.setBackground(isActive ? new Color(255, 193, 7) : new Color(40, 167, 69));
@@ -222,7 +235,7 @@ public class MyShopsListPanel extends JPanel {
         if (result == JOptionPane.YES_OPTION) {
             boolean success = shopManager.toggleShopStatus(shop.getId(), newStatus);
             if (success) {
-                shop.setStatus(newStatus); // Update local object
+                shop.setStatus(newStatus); 
                 JOptionPane.showMessageDialog(this,
                     "Shop '" + shop.getName() + "' is now " + 
                     (newStatus.equals("active") ? "🟢 OPEN" : "🔴 CLOSED") + "!",
@@ -239,7 +252,7 @@ public class MyShopsListPanel extends JPanel {
     }
     
     private void handleDeleteShop(Shop shop, java.util.function.Consumer<Shop> onShopSelected) {
-        // Show warning dialog
+       
         int result = JOptionPane.showConfirmDialog(
             this,
             "⚠️ Are you sure you want to delete '" + shop.getName() + "'?\n\n" +
@@ -254,7 +267,7 @@ public class MyShopsListPanel extends JPanel {
         );
         
         if (result == JOptionPane.YES_OPTION) {
-            // Confirm again with a more serious warning
+     
             int confirmResult = JOptionPane.showConfirmDialog(
                 this,
                 "🚨 FINAL WARNING 🚨\n\n" +
@@ -295,7 +308,7 @@ public class MyShopsListPanel extends JPanel {
             return;
         }
         
-        // Show warning dialog
+ 
         int result = JOptionPane.showConfirmDialog(
             this,
             "⚠️ DANGER: Clear All Shops ⚠️\n\n" +
@@ -311,7 +324,7 @@ public class MyShopsListPanel extends JPanel {
         );
         
         if (result == JOptionPane.YES_OPTION) {
-            // Final confirmation
+ 
             int confirmResult = JOptionPane.showConfirmDialog(
                 this,
                 "🚨 FINAL WARNING 🚨\n\n" +

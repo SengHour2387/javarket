@@ -25,8 +25,7 @@ public class Shop {
         this.email = email;
         this.status = status;
     }
-    
-    // Getters and Setters
+
     public int getId() {
         return id;
     }

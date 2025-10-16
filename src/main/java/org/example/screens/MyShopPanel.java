@@ -420,7 +420,7 @@ public class MyShopPanel extends JPanel {
         stockField.setFont(stockField.getFont().deriveFont(14f));
         formPanel.add(stockField, gbc);
         
-        // Discount (future feature - placeholder)
+        // Discount 
         gbc.gridx = 0; gbc.gridy = 4; gbc.weightx = 0.3;
         formPanel.add(new JLabel("Discount (%):"), gbc);
         gbc.gridx = 1; gbc.weightx = 0.7;
@@ -565,16 +565,16 @@ public class MyShopPanel extends JPanel {
     }
     
     public void reloadProducts() {
-        // Refresh currentShop from database if selected
+      
         if (currentShop != null) {
-            // Re-fetch shop from DB to get latest info
+         
             Shop updatedShop = shopManager.getShopById(currentShop.getId());
             if (updatedShop != null) {
                 currentShop = updatedShop;
             }
             buildShopOverview();
         }
-        // Always refresh shops list panel as well
+    
         if (shopsListPanel != null) {
             shopsListPanel.refreshShops(this::onShopSelected);
         }

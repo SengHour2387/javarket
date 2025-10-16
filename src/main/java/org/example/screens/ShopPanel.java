@@ -25,7 +25,6 @@ class ResponsiveGridLayout implements LayoutManager2 {
     private int hgap, vgap;
     private int minColumns = 1;
     private int maxColumns = 6;
-    // Match the actual card size used below to avoid clipping and misalignment
     private int cardWidth = 220;
     private int cardHeight = 320;
 
@@ -42,7 +41,6 @@ class ResponsiveGridLayout implements LayoutManager2 {
             return false;
         }
     }
-
 
     @Override
     public void addLayoutComponent(Component comp, Object constraints) {}
@@ -115,7 +113,7 @@ class ResponsiveGridLayout implements LayoutManager2 {
         int availableWidth = parent.getWidth() - insets.left - insets.right;
         
         if (availableWidth <= 0) {
-            availableWidth = 800; // Default width for calculation
+            availableWidth = 800;
         }
         
         int columns = calculateColumns(availableWidth);
@@ -136,7 +134,6 @@ public class ShopPanel extends JPanel {
     private final JLabel loadingLabel = new JLabel("Loading products…", SwingConstants.CENTER);
     private java.util.List<JButton> addToCartButtons = new java.util.ArrayList<>();
 
-    // Helpers for remote product images
     private boolean isValidUrl(String s) {
         try {
             new URL(s);
@@ -170,7 +167,6 @@ public class ShopPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
-
 
         addComponentListener(new java.awt.event.ComponentAdapter() {
             @Override
@@ -211,7 +207,7 @@ public class ShopPanel extends JPanel {
                 try {
                     List<Prodcut> products = get();
                     productsGrid.removeAll();
-                    addToCartButtons.clear(); // Clear old button references
+                    addToCartButtons.clear();
                     for (Prodcut product : products) {
                         productsGrid.add(createProductCard(product));
                     }
@@ -262,7 +258,6 @@ public class ShopPanel extends JPanel {
         card.setMinimumSize(new Dimension(220, 320));
         card.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        // Image (optional)
         JLabel imageLabel = createImageLabel(product.getImage());
         imageLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 
@@ -273,7 +268,6 @@ public class ShopPanel extends JPanel {
         } else {
             nameLabel.setForeground(new Color(52, 58, 64));
         }
-
 
         JLabel productImg = new JLabel();
         productImg.setPreferredSize(new Dimension(100, 80));
@@ -346,12 +340,11 @@ public class ShopPanel extends JPanel {
         JLabel priceLabel = new JLabel(String.format("$%.2f", product.getPrice()));
         priceLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (isDark) {
-            priceLabel.setForeground(new Color(76, 175, 80)); // Lighter green for dark theme
+            priceLabel.setForeground(new Color(76, 175, 80));
         } else {
             priceLabel.setForeground(new Color(40, 167, 69));
         }
 
-        // Truncate description for smaller cards
         String description = product.getDescription();
         if (description.length() > 60) {
             description = description.substring(0, 57) + "...";
@@ -365,7 +358,7 @@ public class ShopPanel extends JPanel {
         descArea.setMaximumSize( new Dimension(150,80) );
         descArea.setAlignmentX(Component.CENTER_ALIGNMENT);
         if (isDark) {
-            descArea.setForeground(new Color(180, 180, 180)); // Light gray for dark theme
+            descArea.setForeground(new Color(180, 180, 180));
         } else {
             descArea.setForeground(new Color(108, 117, 125));
         }
@@ -381,7 +374,6 @@ public class ShopPanel extends JPanel {
         addToCart.setMaximumSize(new Dimension(160, 40));
         addToCart.setBorder(BorderFactory.createEmptyBorder(8, 16, 8, 16));
         
-        // Add action listener to the button
         addToCart.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -389,7 +381,6 @@ public class ShopPanel extends JPanel {
             }
         });
 
-        // Store button reference for theme updates
         addToCartButtons.add(addToCart);
 
         card.add(nameLabel);
@@ -431,18 +422,15 @@ public class ShopPanel extends JPanel {
             protected ImageIcon doInBackground() {
                 try {
                     ImageIcon icon = null;
-                    // Try URL
                     try {
                         URL url = new URL(path);
                         BufferedImage image = ImageIO.read(url);
                         icon = new ImageIcon(image);
                     } catch (Exception e) {
-                        // Try file
                         File f = new File(path);
                         if (f.exists()) {
                             icon = new ImageIcon(path);
                         } else {
-                            // Try classpath
                             URL res = getClass().getResource(path.startsWith("/") ? path : "/" + path);
                             if (res != null) {
                                 icon = new ImageIcon(res);
@@ -477,7 +465,6 @@ public class ShopPanel extends JPanel {
     }
     
     private void addToCart(Prodcut product) {
-        // Ask for quantity
         String quantityStr = JOptionPane.showInputDialog(
             this,
             "Enter quantity for " + product.getName() + ":",
@@ -530,14 +517,12 @@ public class ShopPanel extends JPanel {
     }
     
     public void refreshProductCards() {
-        // Recreate all product cards with new theme
         Component[] components = productsGrid.getComponents();
         for (Component component : components) {
             if (component instanceof JPanel) {
                 JPanel card = (JPanel) component;
                 boolean isDark = UIManager.getLookAndFeel().getName().contains("Dark");
                 
-                // Update card background
                 if (isDark) {
                     card.setBackground(new Color(60, 60, 60));
                     card.setBorder(BorderFactory.createCompoundBorder(

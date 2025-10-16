@@ -22,7 +22,6 @@ public class Prodcut {
         this.seller_id = seller_id;
     }
 
-    // Constructor for creating new products (without ID)
     public Prodcut(String name, String description, double price, String image, int stock, int category_id, int seller_id) {
         this.name = name;
         this.description = description;

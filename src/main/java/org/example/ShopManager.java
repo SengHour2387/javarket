@@ -1,12 +1,12 @@
 package org.example;
 
-import org.example.models.Shop;
-import org.example.models.Prodcut;
-
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.example.models.Prodcut;
+import org.example.models.Shop;
 
 public class ShopManager {
     private DatabaseConnector connector;
@@ -15,7 +15,7 @@ public class ShopManager {
         this.connector = new DatabaseConnector();
     }
     
-    // Check if user has a shop
+
     public boolean userHasShop(int userId) {
         try {
             ResultSet rs = connector.runSelect(
@@ -31,7 +31,7 @@ public class ShopManager {
         return false;
     }
     
-    // Get shop by owner ID (returns first shop - for backward compatibility)
+    // Get shop by owner ID
     public Shop getShopByOwnerId(int ownerId) {
         try {
             ResultSet rs = connector.runSelect(
@@ -47,7 +47,7 @@ public class ShopManager {
         return null;
     }
     
-    // Get all shops by owner ID (supports multiple shops)
+    // Get all shops
     public List<Shop> getAllShopsByOwnerId(int ownerId) {
         List<Shop> shops = new ArrayList<>();
         try {
@@ -64,7 +64,7 @@ public class ShopManager {
         return shops;
     }
     
-    // Get shop count for user
+    // Get shop count
     public int getShopCount(int ownerId) {
         try {
             ResultSet rs = connector.runSelect(
@@ -96,7 +96,7 @@ public class ShopManager {
         return null;
     }
     
-    // Create a new shop
+    //// / /// Create a new shop
     public boolean createShop(Shop shop) {
         try {
             int result = connector.runCUD(
@@ -116,7 +116,7 @@ public class ShopManager {
         }
     }
     
-    // Update shop
+      ///// Update shop
     public boolean updateShop(Shop shop) {
         try {
             int result = connector.runCUD(
@@ -136,7 +136,7 @@ public class ShopManager {
         }
     }
     
-    // Toggle shop status (active/inactive)
+    //// Toggle shop status (active/inactive)
     public boolean toggleShopStatus(int shopId, String newStatus) {
         try {
             int result = connector.runCUD(
@@ -158,13 +158,13 @@ public class ShopManager {
         return toggleShopStatus(shopId, newStatus);
     }
     
-    // Delete a single shop and all its products
+    //// Delete a single shop and all its products
     public boolean deleteShop(int shopId) {
         try {
-            // First, delete all products associated with this shop
+            ////// First, delete all products associated with this shop
             connector.runCUD("DELETE FROM shop_product_pair WHERE shop_id = ?", shopId);
             
-            // Then delete the shop
+            //// Then delete the shop
             int result = connector.runCUD("DELETE FROM shop_tbl WHERE id = ?", shopId);
             
             System.out.println("Shop deleted: " + shopId);
@@ -175,7 +175,7 @@ public class ShopManager {
         }
     }
     
-    // Delete all shops for a user
+    ///// Delete all shops for a user//
     public boolean deleteAllShops(int ownerId) {
         try {
             // Get all shop IDs for this owner
@@ -184,7 +184,7 @@ public class ShopManager {
                 ownerId
             );
             
-            // Delete products for each shop
+            ///// Delete products for each shop
             while (rs.next()) {
                 int shopId = rs.getInt("id");
                 connector.runCUD("DELETE FROM shop_product_pair WHERE shop_id = ?", shopId);
@@ -201,7 +201,7 @@ public class ShopManager {
         }
     }
     
-    // Add product to shop
+    // ////Add product to shop///
     public boolean addProductToShop(int shopId, int productId) {
         try {
             int result = connector.runCUD(
@@ -216,7 +216,7 @@ public class ShopManager {
         }
     }
     
-    // Get all products for a shop
+    //// Get all products for a shop///
     public List<Prodcut> getShopProducts(int shopId) {
         List<Prodcut> products = new ArrayList<>();
         try {
@@ -235,7 +235,7 @@ public class ShopManager {
         return products;
     }
     
-    // Remove product from shop
+    ///// Remove product from shop
     public boolean removeProductFromShop(int shopId, int productId) {
         try {
             int result = connector.runCUD(
@@ -250,7 +250,6 @@ public class ShopManager {
         }
     }
     
-    // Helper method to extract Shop from ResultSet
     private Shop extractShopFromResultSet(ResultSet rs) throws SQLException {
         Shop shop = new Shop();
         shop.setId(rs.getInt("id"));
@@ -264,7 +263,6 @@ public class ShopManager {
         return shop;
     }
     
-    // Helper method to extract Product from ResultSet
     private Prodcut extractProductFromResultSet(ResultSet rs) throws SQLException {
         return new Prodcut(
             rs.getInt("id"),
@@ -276,10 +274,6 @@ public class ShopManager {
             rs.getInt("category_id"),
             rs.getInt("seller_id")
         );
-    }
-    
-    public void close() {
-        // Close any resources if needed
     }
 }
 

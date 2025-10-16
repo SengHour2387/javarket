@@ -4,12 +4,15 @@
  */
 package org.example;
 
+import java.awt.Point;
+import java.sql.SQLException;
+
+import javax.swing.JDialog;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 import org.example.models.User;
 import org.example.tools.PasswordHasher;
-
-import javax.swing.*;
-import java.awt.*;
-import java.sql.SQLException;
 
 /**
  *
@@ -42,18 +45,18 @@ public class AuthenController {
             if (email == null || email.isBlank() || password == null || password.isBlank()) {
                 return false;
             }
-            // Query the database for user with the given email
+            
             var resultSet = connector.runSelect(
                 "SELECT id, user_name, email, hash_pass, pfp FROM users_tbl WHERE email = ?",
                 email
             );
             
             if (resultSet.next()) {
-                // Get the stored hashed password
+                 
                 String storedHash = resultSet.getString("hash_pass");
                 String userName = resultSet.getString("user_name");
                 
-                // Check if the provided password matches the stored hash
+                
                 boolean passwordMatches = PasswordHasher.checkPassword(password, storedHash);
                 
                 if (passwordMatches) {
@@ -83,14 +86,14 @@ public class AuthenController {
 
     public boolean signUp(User newUser,JPanel parent) {
         try {
-            // Hash the password before storing
+            
             String hashedPassword = newUser.getHash_pass();
             
             int run = connector.runCUD("INSERT INTO users_tbl (user_name, email, hash_pass, pfp)\n" +
                             "VALUES (?, ?, ?, ?);",
                     newUser.getUser_name(),
                     newUser.getEmail(),
-                    hashedPassword, // Store hashed password instead of plain text
+                    hashedPassword,
                     newUser.getPfp()
             );
             return run>0;

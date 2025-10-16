@@ -1,11 +1,29 @@
 package org.example.screens;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
+import javax.swing.UIManager;
+
 import org.example.ShopManager;
 import org.example.models.Shop;
 import org.example.models.User;
-
-import javax.swing.*;
-import java.awt.*;
 
 public class ShopRegistrationPanel extends JPanel {
     private User currentUser;
@@ -29,12 +47,12 @@ public class ShopRegistrationPanel extends JPanel {
     }
     
     private void initComponents() {
-        // Main content panel
+       
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
         
-        // Title
+ 
         JLabel titleLabel = new JLabel("🏪 Create Your Shop");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 28f));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -48,13 +66,13 @@ public class ShopRegistrationPanel extends JPanel {
         contentPanel.add(subtitleLabel);
         contentPanel.add(Box.createVerticalStrut(30));
         
-        // Form panel
+ 
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        // Shop Name
+ 
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.3;
@@ -66,7 +84,7 @@ public class ShopRegistrationPanel extends JPanel {
         shopNameField.setFont(shopNameField.getFont().deriveFont(14f));
         formPanel.add(shopNameField, gbc);
         
-        // Shop Type
+ 
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.3;
@@ -78,7 +96,7 @@ public class ShopRegistrationPanel extends JPanel {
         shopTypeField.setFont(shopTypeField.getFont().deriveFont(14f));
         formPanel.add(shopTypeField, gbc);
         
-        // Address
+ 
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.3;
@@ -90,7 +108,7 @@ public class ShopRegistrationPanel extends JPanel {
         addressField.setFont(addressField.getFont().deriveFont(14f));
         formPanel.add(addressField, gbc);
         
-        // Phone
+ 
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.weightx = 0.3;
@@ -101,8 +119,7 @@ public class ShopRegistrationPanel extends JPanel {
         phoneField = new JTextField(20);
         phoneField.setFont(phoneField.getFont().deriveFont(14f));
         formPanel.add(phoneField, gbc);
-        
-        // Email
+ 
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.weightx = 0.3;
@@ -117,7 +134,7 @@ public class ShopRegistrationPanel extends JPanel {
         contentPanel.add(formPanel);
         contentPanel.add(Box.createVerticalStrut(30));
         
-        // Create button
+
         createShopButton = new JButton("Create Shop");
         createShopButton.setFont(createShopButton.getFont().deriveFont(Font.BOLD, 16f));
         createShopButton.setBackground(new Color(40, 167, 69));
@@ -131,8 +148,7 @@ public class ShopRegistrationPanel extends JPanel {
         createShopButton.addActionListener(e -> handleCreateShop());
         
         contentPanel.add(createShopButton);
-        
-        // Wrap in scroll pane
+ 
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -142,7 +158,7 @@ public class ShopRegistrationPanel extends JPanel {
     }
     
     private void handleCreateShop() {
-        // Validate inputs
+ 
         String shopName = shopNameField.getText().trim();
         if (shopName.isEmpty()) {
             JOptionPane.showMessageDialog(this,
@@ -152,7 +168,7 @@ public class ShopRegistrationPanel extends JPanel {
             return;
         }
         
-        // Create shop object
+ 
         Shop shop = new Shop();
         shop.setName(shopName);
         shop.setOwnerId(currentUser.getId());
@@ -162,20 +178,18 @@ public class ShopRegistrationPanel extends JPanel {
         shop.setEmail(emailField.getText().trim());
         shop.setStatus("active");
         
-        // Save to database
+ 
         boolean success = shopManager.createShop(shop);
         
         if (success) {
-            // Clear form first
+ 
             clearForm();
-            
-            // Show success message
+ 
             JOptionPane.showMessageDialog(this,
                 "Shop created successfully!",
                 "Success",
                 JOptionPane.INFORMATION_MESSAGE);
-            
-            // Notify parent to refresh and switch view
+ 
             if (onShopCreated != null) {
                 SwingUtilities.invokeLater(() -> onShopCreated.run());
             }

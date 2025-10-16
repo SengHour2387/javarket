@@ -1,8 +1,9 @@
 package org.example;
 
-import org.example.models.Prodcut;
 import java.util.ArrayList;
 import java.util.List;
+
+import org.example.models.Prodcut;
 
 public class CartManager {
     private List<CartItem> cartItems;
@@ -20,7 +21,7 @@ public class CartManager {
     }
     
     public void addToCart(Prodcut product, int quantity) {
-        // Check if product already exists in cart
+        
         for (CartItem item : cartItems) {
             if (item.getProduct().getId() == product.getId()) {
                 item.setQuantity(item.getQuantity() + quantity);
@@ -28,7 +29,7 @@ public class CartManager {
             }
         }
         
-        // Add new item to cart
+        
         cartItems.add(new CartItem(product, quantity));
     }
     
@@ -73,7 +74,7 @@ public class CartManager {
         return cartItems.isEmpty();
     }
     
-    // Inner class for cart items
+
     public static class CartItem {
         private Prodcut product;
         private int quantity;

@@ -8,7 +8,7 @@ public class Order {
     private int quantity;
     private double totalPrice;
     private String status;
-    private String createdAt; // store as String to match typical SQLite text datetime
+    private String createdAt;
     private String updatedAt;
 
     public Order(int id, int productId, int buyerId, int quantity, double totalPrice, String status, String createdAt, String updatedAt) {

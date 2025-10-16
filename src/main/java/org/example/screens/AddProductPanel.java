@@ -1,13 +1,31 @@
 package org.example.screens;
 
+import java.awt.BorderLayout;
+import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.Insets;
+import java.sql.SQLException;
+
+import javax.swing.BorderFactory;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.UIManager;
+
 import org.example.DatabaseConnector;
 import org.example.ShopManager;
 import org.example.models.Shop;
 import org.example.models.User;
-
-import javax.swing.*;
-import java.awt.*;
-import java.sql.SQLException;
 
 public class AddProductPanel extends JPanel {
     private User currentUser;
@@ -23,7 +41,7 @@ public class AddProductPanel extends JPanel {
     private JTextField imageUrlField;
     private JButton addProductButton;
     
-    // Constructor with specific shop
+ 
     public AddProductPanel(User currentUser, Shop shop, Runnable onProductAdded) {
         this.currentUser = currentUser;
         this.userShop = shop;
@@ -35,14 +53,14 @@ public class AddProductPanel extends JPanel {
         initComponents();
     }
     
-    // Legacy constructor for backward compatibility
+   
     public AddProductPanel(User currentUser, Runnable onProductAdded) {
         this.currentUser = currentUser;
         this.connector = new DatabaseConnector();
         this.shopManager = new ShopManager();
         this.onProductAdded = onProductAdded;
         
-        // Get user's shop (first shop)
+        
         this.userShop = shopManager.getShopByOwnerId(currentUser.getId());
         
         setLayout(new BorderLayout());
@@ -50,12 +68,12 @@ public class AddProductPanel extends JPanel {
     }
     
     private void initComponents() {
-        // Main content panel
+      
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new BoxLayout(contentPanel, BoxLayout.Y_AXIS));
         contentPanel.setBorder(BorderFactory.createEmptyBorder(40, 60, 40, 60));
         
-        // Title
+    
         JLabel titleLabel = new JLabel("➕ Add New Product");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 28f));
         titleLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -72,13 +90,13 @@ public class AddProductPanel extends JPanel {
         
         contentPanel.add(Box.createVerticalStrut(30));
         
-        // Form panel
+        
         JPanel formPanel = new JPanel(new GridBagLayout());
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(10, 10, 10, 10);
         gbc.fill = GridBagConstraints.HORIZONTAL;
         
-        // Product Name
+      
         gbc.gridx = 0;
         gbc.gridy = 0;
         gbc.weightx = 0.3;
@@ -90,7 +108,7 @@ public class AddProductPanel extends JPanel {
         productNameField.setFont(productNameField.getFont().deriveFont(14f));
         formPanel.add(productNameField, gbc);
         
-        // Description
+        
         gbc.gridx = 0;
         gbc.gridy = 1;
         gbc.weightx = 0.3;
@@ -107,7 +125,7 @@ public class AddProductPanel extends JPanel {
         JScrollPane descScroll = new JScrollPane(descriptionArea);
         formPanel.add(descScroll, gbc);
         
-        // Price
+       
         gbc.gridx = 0;
         gbc.gridy = 2;
         gbc.weightx = 0.3;
@@ -119,7 +137,7 @@ public class AddProductPanel extends JPanel {
         priceField.setFont(priceField.getFont().deriveFont(14f));
         formPanel.add(priceField, gbc);
         
-        // Stock
+        
         gbc.gridx = 0;
         gbc.gridy = 3;
         gbc.weightx = 0.3;
@@ -131,7 +149,7 @@ public class AddProductPanel extends JPanel {
         stockField.setFont(stockField.getFont().deriveFont(14f));
         formPanel.add(stockField, gbc);
         
-        // Image URL
+       
         gbc.gridx = 0;
         gbc.gridy = 4;
         gbc.weightx = 0.3;
@@ -146,7 +164,7 @@ public class AddProductPanel extends JPanel {
         contentPanel.add(formPanel);
         contentPanel.add(Box.createVerticalStrut(30));
         
-        // Add Product button
+      
         addProductButton = new JButton("Add Product");
         addProductButton.setFont(addProductButton.getFont().deriveFont(Font.BOLD, 16f));
         addProductButton.setBackground(new Color(40, 167, 69));
@@ -161,7 +179,7 @@ public class AddProductPanel extends JPanel {
         
         contentPanel.add(addProductButton);
         
-        // Wrap in scroll pane
+
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -171,7 +189,7 @@ public class AddProductPanel extends JPanel {
     }
     
     private void handleAddProduct() {
-        // Validate inputs
+     
         String productName = productNameField.getText().trim();
         String priceText = priceField.getText().trim();
         String stockText = stockField.getText().trim();
@@ -212,12 +230,12 @@ public class AddProductPanel extends JPanel {
             return;
         }
         
-        // Add product to database
+
         try {
             String description = descriptionArea.getText().trim();
             String imageUrl = imageUrlField.getText().trim();
             
-            // Insert product
+           
             connector.runCUD(
                 "INSERT INTO products_tbl (name, description, price, image, stock, seller_id) VALUES (?, ?, ?, ?, ?, ?)",
                 productName,
@@ -228,14 +246,14 @@ public class AddProductPanel extends JPanel {
                 currentUser.getId()
             );
             
-            // Get the last inserted product ID
+            
             var rs = connector.runSelect("SELECT last_insert_rowid() as id");
             if (rs.next()) {
                 int productId = rs.getInt("id");
                 
                 if (userShop != null) {
                     System.out.println("✅ Linking product " + productId + " to shop " + userShop.getId() + " (" + userShop.getName() + ")");
-                    // Link product to shop
+                   
                     boolean linked = shopManager.addProductToShop(userShop.getId(), productId);
                     if (linked) {
                         System.out.println("✅ Product successfully linked to shop!");
@@ -252,10 +270,10 @@ public class AddProductPanel extends JPanel {
                 "Success",
                 JOptionPane.INFORMATION_MESSAGE);
             
-            // Clear form
+
             clearForm();
             
-            // Notify parent
+       
             if (onProductAdded != null) {
                 onProductAdded.run();
             }

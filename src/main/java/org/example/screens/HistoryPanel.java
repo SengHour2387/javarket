@@ -44,13 +44,11 @@ public class HistoryPanel extends JPanel {
     }
     
     private void initComponents() {
-        // Header panel with title and controls
         JPanel headerPanel = new JPanel(new BorderLayout());
         
         JLabel titleLabel = new JLabel("Order History");
         titleLabel.setFont(titleLabel.getFont().deriveFont(Font.BOLD, 18f));
         
-        // Filter and refresh controls
         JPanel controlsPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
         
         JLabel filterLabel = new JLabel("Filter:");
@@ -76,7 +74,6 @@ public class HistoryPanel extends JPanel {
         headerPanel.add(titleLabel, BorderLayout.WEST);
         headerPanel.add(controlsPanel, BorderLayout.EAST);
         
-        // History items panel
         historyItemsPanel = new JPanel();
         historyItemsPanel.setLayout(new BoxLayout(historyItemsPanel, BoxLayout.Y_AXIS));
         historyItemsPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
@@ -85,7 +82,6 @@ public class HistoryPanel extends JPanel {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         
-        // Bottom panel with statistics
         JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         bottomPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         
@@ -95,7 +91,6 @@ public class HistoryPanel extends JPanel {
         
         bottomPanel.add(totalOrdersLabel);
         
-        // Add components to main panel
         add(headerPanel, BorderLayout.NORTH);
         add(scrollPane, BorderLayout.CENTER);
         add(bottomPanel, BorderLayout.SOUTH);
@@ -106,7 +101,6 @@ public class HistoryPanel extends JPanel {
         historyItemsPanel.removeAll();
         
         try {
-            // Require a logged-in user for accurate per-user history
             if (appController == null || appController.getCurrentUser() == null || appController.getCurrentUser().getId() <= 0) {
                 JLabel loginLabel = new JLabel("Sign in to view your order history");
                 loginLabel.setFont(loginLabel.getFont().deriveFont(Font.ITALIC, 14f));
@@ -161,7 +155,6 @@ public class HistoryPanel extends JPanel {
         } catch (SQLException e) {
             JOptionPane.showMessageDialog(this, "Error loading order history: " + e.getMessage(), "Database Error", JOptionPane.ERROR_MESSAGE);
             
-            // Show empty state on error
             JLabel errorLabel = new JLabel("Error loading order history");
             errorLabel.setFont(errorLabel.getFont().deriveFont(Font.ITALIC, 14f));
             errorLabel.setHorizontalAlignment(SwingConstants.CENTER);
@@ -191,7 +184,6 @@ public class HistoryPanel extends JPanel {
         ));
         itemPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 100));
         
-        // Left side - Order info
         JPanel infoPanel = new JPanel();
         infoPanel.setLayout(new BoxLayout(infoPanel, BoxLayout.Y_AXIS));
         
@@ -212,7 +204,6 @@ public class HistoryPanel extends JPanel {
         infoPanel.add(Box.createVerticalStrut(2));
         infoPanel.add(dateLabel);
         
-        // Right side - Status and total
         JPanel statusPanel = new JPanel();
         statusPanel.setLayout(new BoxLayout(statusPanel, BoxLayout.Y_AXIS));
         statusPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
@@ -226,7 +217,6 @@ public class HistoryPanel extends JPanel {
         statusLabel.setFont(statusLabel.getFont().deriveFont(Font.BOLD, 12f));
         statusLabel.setAlignmentX(Component.RIGHT_ALIGNMENT);
         
-        // Set status color based on status
         switch (status.toLowerCase()) {
             case "completed":
                 statusLabel.setForeground(new Color(20, 120, 60));
@@ -306,7 +296,6 @@ public class HistoryPanel extends JPanel {
         
         if (result == JOptionPane.YES_OPTION) {
             try {
-                // Delete all orders from database
                 connector.runCUD("DELETE FROM orders_tbl");
                 loadOrderHistory();
                 JOptionPane.showMessageDialog(this, "Order history cleared successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
